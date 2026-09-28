@@ -191,16 +191,16 @@
 .movement__text::before {
   content: "";
   position: absolute;
-  inset: -2.5rem max(-3.5rem, -1 * var(--gutter) - 2rem);
+  inset: -3rem max(-6rem, -1 * var(--gutter) - 2rem);
   z-index: -1;
-  border-radius: 2.5rem;
+  border-radius: 4rem;
   background: var(--scrim);
-  filter: blur(18px);
+  filter: blur(42px);
   opacity: 0;
   transition: opacity var(--t-3) var(--ease);
 }
 :root[data-scenes="on"] body.has-scene .movement__text::before {
-  opacity: 1;
+  opacity: 0.55;
 }
 
 .stanza {
@@ -209,7 +209,8 @@
 .line {
   position: relative;
   display: block;
-  padding-left: calc(var(--indent, 0) * 0.5em);
+  /* A source space is about a quarter em in EB Garamond; cap deep indents so they never force a wrap. */
+  padding-left: min(calc(var(--indent, 0) * 0.27em), 55%);
   transition: background-color var(--t-3) var(--ease);
 }
 .lt {
@@ -241,7 +242,7 @@
   right: calc(100% + 1.1rem - var(--step-x, 9em));
 }
 .line[style*="--indent"] .ln {
-  right: calc(100% + 1.1rem - var(--indent, 0) * 0.5em);
+  right: calc(100% + 1.1rem - min(var(--indent, 0) * 0.27em, 55%));
 }
 .line--numbered .ln {
   opacity: 0.9;
@@ -291,7 +292,7 @@
   /* Placed by hint (sample text or an unresolved lemma): mark, don't underline the whole line. */
   text-decoration-line: none;
 }
-.anchor--approx[role="button"]::after {
+.anchor--approx[href]::after {
   content: "";
   display: inline-block;
   width: 0.36em;
@@ -302,15 +303,19 @@
   border: 1px solid var(--accent);
   opacity: 0.8;
 }
-.anchor--approx[role="button"]:hover,
+.anchor--approx[href]:hover,
 .anchor--approx.is-active {
   text-decoration-line: underline;
   text-decoration-style: dotted;
 }
-.anchor[role="button"] {
+.anchor[href] {
+  color: inherit;
   cursor: pointer;
 }
-.anchor[role="button"]:hover,
+.anchor:not([href]) {
+  color: inherit;
+}
+.anchor[href]:hover,
 .anchor.is-hover {
   text-decoration-color: var(--accent);
   background: color-mix(in srgb, var(--accent-glow) 16%, transparent);
@@ -423,6 +428,13 @@
 .note__loc {
   font-size: 0.8rem;
   color: var(--ink-faint);
+  text-decoration: none;
+  justify-self: start;
+}
+.note__loc:hover {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
 }
 .note__lemma {
   font-family: var(--font-poem-stack);

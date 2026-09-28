@@ -70,19 +70,18 @@ export function initReader(root: HTMLElement): () => void {
     n.el.querySelector(".note__toggle")?.setAttribute("aria-expanded", "false");
   }
 
-  /** Upgrade anchors with visible notes to disclosure buttons; strip the rest. */
+  /** Anchors with visible notes are links that open their notes; the rest become plain text. */
   const syncAnchors = () => {
     for (const a of anchors) {
       const ids = a.dataset.notes!.split(" ").filter(visible);
       if (ids.length) {
-        a.setAttribute("role", "button");
-        a.tabIndex = 0;
+        a.setAttribute("href", `#n-${ids[0]}`);
         a.setAttribute("aria-expanded", a.classList.contains("is-active") ? "true" : "false");
         a.setAttribute("aria-controls", ids.map((id) => `n-${id}`).join(" "));
         a.setAttribute("aria-description", ids.length > 1 ? `${ids.length} notes` : "note");
       } else {
-        a.removeAttribute("role");
-        a.removeAttribute("tabindex");
+        // An <a> without href is not a link: screen readers get clean text.
+        a.removeAttribute("href");
         a.removeAttribute("aria-expanded");
         a.removeAttribute("aria-controls");
         a.removeAttribute("aria-description");
@@ -107,7 +106,7 @@ export function initReader(root: HTMLElement): () => void {
       notes.get(id)?.el.querySelector(".note__toggle")?.setAttribute("aria-expanded", String(on));
       for (const a of anchorsFor.get(id) ?? []) {
         a.classList.toggle("is-active", on);
-        if (a.hasAttribute("role")) a.setAttribute("aria-expanded", String(on));
+        if (a.hasAttribute("href")) a.setAttribute("aria-expanded", String(on));
       }
     }
   };
@@ -173,6 +172,7 @@ export function initReader(root: HTMLElement): () => void {
         return;
       }
       asides.forEach(layoutAside);
+      root.dispatchEvent(new CustomEvent("sp:layout", { bubbles: true }));
     });
   }
 
@@ -259,9 +259,10 @@ export function initReader(root: HTMLElement): () => void {
   // ------------------------------------------------------------------ events
   on(root, "click", (e: MouseEvent) => {
     const t = e.target as HTMLElement;
-    const a = t.closest<HTMLElement>(".anchor[role=button]");
+    const a = t.closest<HTMLElement>(".anchor[href]");
     if (a) {
       e.preventDefault();
+      e.stopPropagation();
       openNotes(a.dataset.notes!.split(" "), { pin: true, from: a, focus: e.detail === 0 });
       return;
     }
@@ -302,20 +303,12 @@ export function initReader(root: HTMLElement): () => void {
     }
   });
 
-  on(root, "keydown", (e: KeyboardEvent) => {
-    const a = (e.target as HTMLElement).closest<HTMLElement>(".anchor[role=button]");
-    if (a && (e.key === "Enter" || e.key === " ")) {
-      e.preventDefault();
-      openNotes(a.dataset.notes!.split(" "), { pin: true, from: a, focus: true });
-    }
-  });
-
   // Hover opens (desktop, fine pointer); leaving closes unless pinned.
   let hoverTimer = 0;
   on(root, "pointerover", (e: PointerEvent) => {
     if (e.pointerType !== "mouse") return;
     const t = e.target as HTMLElement;
-    const a = t.closest<HTMLElement>(".anchor[role=button]");
+    const a = t.closest<HTMLElement>(".anchor[href]");
     if (a) {
       const ids = a.dataset.notes!.split(" ").filter(visible);
       ids.forEach((id) => notes.get(id)?.el.classList.add("is-hover"));
@@ -347,7 +340,7 @@ export function initReader(root: HTMLElement): () => void {
       if (!openIds.includes(li.dataset.note!)) rangeLines(li.dataset.note!).forEach((l) => l.classList.remove("is-range-active"));
     }
     const related = e.relatedTarget as HTMLElement | null;
-    const stillInside = related && (related.closest(".anchor[role=button]") || related.closest("li.note.is-open"));
+    const stillInside = related && (related.closest(".anchor[href]") || related.closest("li.note.is-open"));
     if (!pinned && openIds.length && !stillInside) {
       window.clearTimeout(closeTimer);
       closeTimer = window.setTimeout(() => {
@@ -484,12 +477,16 @@ export function initReader(root: HTMLElement): () => void {
       if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
       const a = (e.target as HTMLElement).closest<HTMLAnchorElement>("a[href]");
       if (!a) return;
+      // In-page fragments (note anchors, related-note links) are handled by the reader itself.
+      if (a.getAttribute("href")!.startsWith("#")) return;
       const u = new URL(a.href, location.href);
       if (u.origin !== location.origin) return;
       const m = new RegExp(`/${quartetId}(?:/([1-5]))?/?$`).exec(u.pathname);
       if (!m) return;
       e.preventDefault();
       e.stopPropagation();
+      // A link inside the note sheet leads back to the text: get the sheet out of the way.
+      if (sheet.contains(a)) sheet.close(false);
       const mv = m[1] ? Number(m[1]) : 0;
       const target = mv ? root.querySelector<HTMLElement>(`#m${mv}-h`) : root.querySelector<HTMLElement>("#title");
       const lineNo = /^#(\d+)/.exec(u.hash)?.[1];
@@ -516,7 +513,7 @@ export function initReader(root: HTMLElement): () => void {
     target?.scrollIntoView({ behavior: reducedMotion() ? "auto" : "smooth", block: "start" });
   };
   const anchorJump = (dir: 1 | -1) => {
-    const live = anchors.filter((a) => a.hasAttribute("role"));
+    const live = anchors.filter((a) => a.hasAttribute("href"));
     if (!live.length) return;
     const cur = document.activeElement as HTMLElement;
     let i = live.indexOf(cur);

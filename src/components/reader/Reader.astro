@@ -50,7 +50,7 @@ const noteCount = local.size;
               {p.lines.map((l, i) => (
                 <>
                   {i > 0 && <br />}
-                  <span style={l.indent ? `padding-left:${l.indent * 0.5}em` : undefined}>{l.text}</span>
+                  <span style={l.indent ? `padding-left:${Math.min(l.indent * 0.27, 12)}em` : undefined}>{l.text}</span>
                 </>
               ))}
             </p>
@@ -109,6 +109,8 @@ const noteCount = local.size;
                   data-line={l.id}
                   data-n={l.n}
                   data-ranges={l.inRanges.length ? l.inRanges.join(" ") : undefined}
+                  data-cue-start={l.cueStart.length ? l.cueStart.join(" ") : undefined}
+                  data-cue-end={l.cueEnd.length ? l.cueEnd.join(" ") : undefined}
                   style={l.indent ? `--indent:${l.indent}` : undefined}
                 >
                   <a class="ln" href={`#${idFor(m.n, l.n)}`} tabindex="-1" aria-hidden="true" data-pagefind-ignore>

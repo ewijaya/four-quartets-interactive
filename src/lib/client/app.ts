@@ -6,6 +6,7 @@
 import { applyPrefs, effectiveTheme, getPrefs, onPrefs, setPref } from "./prefs";
 import { initHeader } from "./header";
 import { initShortcuts } from "./keyboard";
+import { initStage } from "./stage-lite";
 import type { Density } from "../model";
 
 type Teardown = () => void;
@@ -63,7 +64,7 @@ function bindChrome(): Teardown {
 
 async function onPageLoad() {
   applyPrefs();
-  teardowns.push(bindChrome(), initHeader(), initShortcuts());
+  teardowns.push(bindChrome(), initHeader(), initShortcuts(), initStage());
 
   const reader = document.querySelector<HTMLElement>("[data-reader]");
   if (reader) {

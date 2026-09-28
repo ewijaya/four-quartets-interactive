@@ -146,6 +146,8 @@ export interface Resolution {
   /** Exact lemma matches found (0 = unresolved). */
   matches: number;
   problem?: string;
+  /** Set when the lemma matched only approximately (edit distance), e.g. an edition's variant spelling. */
+  fuzzy?: { distance: number; window: string };
 }
 
 export interface LemmaTarget {
@@ -189,7 +191,40 @@ export function resolveLemma(q: QuartetText, t: LemmaTarget): Resolution {
     const spans = spansFor(s, pick[0], pick[1]);
     return { resolved: { kind: "lemma", lines: spans.map((x) => x.line), spans, approximate: false }, matches: all.length };
   }
+  // Editions differ in small ways (a hyphen, a plural, a misprint): accept a close match.
+  if (!problem) {
+    const fz = fuzzyWindow(s, needle, t.hint);
+    if (fz) {
+      const spans = spansFor(s, fz.start, fz.end);
+      return {
+        resolved: { kind: "lemma", lines: spans.map((x) => x.line), spans, approximate: false },
+        matches: 1,
+        fuzzy: { distance: fz.distance, window: s.text.slice(fz.start, fz.end) },
+      };
+    }
+  }
   return { resolved: fallback(q, t.movement, t.hint ?? t.lineStart), matches: 0, problem: problem ?? "lemma not found" };
+}
+
+/** Best same-length word window within a small edit distance of the lemma (≥ 3 words only). */
+function fuzzyWindow(s: Stream, needle: string, hint?: number): { start: number; end: number; distance: number } | null {
+  const k = needle.split(" ").length;
+  if (k < 3) return null;
+  const limit = Math.min(2, Math.max(1, Math.floor(needle.length / 12)));
+  const words: Array<{ at: number; end: number }> = [];
+  const re = /\S+/g;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(s.text))) words.push({ at: m.index, end: m.index + m[0].length });
+  let best: { start: number; end: number; distance: number } | null = null;
+  for (let i = 0; i + k <= words.length; i++) {
+    const start = words[i]!.at;
+    const end = words[i + k - 1]!.end;
+    const d = levenshtein(needle, s.text.slice(start, end));
+    if (d > limit) continue;
+    const near = (x: { start: number }) => (hint ? Math.abs(s.lines[s.lineOf[x.start]!]!.n - hint) : 0);
+    if (!best || d < best.distance || (d === best.distance && near({ start }) < near(best))) best = { start, end, distance: d };
+  }
+  return best;
 }
 
 function fallback(q: QuartetText, m: MovementN, hint?: number): ResolvedAnchor {

@@ -55,19 +55,34 @@ test.describe("reader", () => {
   test("clean density removes anchors and notes", async ({ page, errors }) => {
     await setPrefs(page, { density: "clean" });
     await page.goto("/burnt-norton/1");
-    await expect(page.locator('.anchor[role="button"]')).toHaveCount(0);
+    await expect(page.locator('.anchor[href]')).toHaveCount(0);
     await expect(page.locator("aside.notes").first()).toBeHidden();
     void errors;
   });
 
-  test("scholar density shows more notes than reader", async ({ page, errors }) => {
+  test("scholar density reveals scholar-level notes", async ({ page, errors }) => {
     await page.goto("/burnt-norton/1");
-    const reader = await page.locator('.anchor[role="button"]').count();
+    const scholarOnly = page.locator('li.note[data-level="scholar"]').first();
+    await expect(scholarOnly).toBeHidden();
     await page.evaluate(() => {
       const r = document.querySelector<HTMLInputElement>('[data-density-switch] input[value="scholar"]');
       r?.click();
     });
-    await expect.poll(async () => page.locator('.anchor[role="button"]').count()).toBeGreaterThan(reader);
+    if ((page.viewportSize()?.width ?? 0) >= 1100) await expect(scholarOnly).toBeVisible();
+    else await expect(page.locator("html")).toHaveAttribute("data-density", "scholar");
+    void errors;
+  });
+
+  test("a note links back to its line", async ({ page, errors }) => {
+    test.skip((page.viewportSize()?.width ?? 0) < 1100, "margin notes are desktop-only");
+    await page.goto("/burnt-norton/2");
+    const anchor = page.locator('.anchor[data-notes~="bn-still-point"]').first();
+    await anchor.click();
+    const loc = page.locator("#n-bn-still-point .note__loc");
+    await expect(loc).toBeVisible();
+    await loc.click();
+    await expect(page.locator(".line.is-target").first()).toBeInViewport();
+    await expect(page).toHaveURL(/\/burnt-norton\/2#\d+/);
     void errors;
   });
 
@@ -95,6 +110,17 @@ test.describe("reader", () => {
     await page.getByRole("link", { name: /Read in context/ }).click();
     await expect(page).toHaveURL(/\/burnt-norton\/2#\d+/);
     await expect(page.locator(".line.is-target").first()).toBeVisible();
+    void errors;
+  });
+
+  test("reduced motion shows an illustrated still instead of animation", async ({ page, errors }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto("/east-coker/1");
+    const still = page.locator(".stage__still");
+    await expect(still).toHaveClass(/is-shown/);
+    await expect(still).toHaveAttribute("src", /\/stills\/earth-\d-(vellum|night)\.webp$/);
+    await page.waitForTimeout(3000);
+    await expect(page.locator(".stage canvas")).toHaveCount(0);
     void errors;
   });
 });

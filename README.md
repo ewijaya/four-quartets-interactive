@@ -18,7 +18,7 @@ Built in phases (see [docs/PLAN.md](docs/PLAN.md); screenshots and reviews in
 - [x] 0 — Plan
 - [x] 1 — Scaffold, data model, sample text, importer, reader with margin notes
 - [x] 2 — Burnt Norton annotation corpus, anchor resolver and report
-- [ ] 3 — Elemental scenes and tile transitions
+- [x] 3 — Elemental scenes and tile transitions
 - [ ] 4 — Still Point home, Movement Map, Time Spiral, Motif Tracer
 - [ ] 5 — Atlas, soundscape, search, notes
 - [ ] 6 — Polish, audits, remaining annotations

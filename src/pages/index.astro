@@ -2,69 +2,99 @@
 import Base from "../layouts/Base.astro";
 import Emblem from "../components/chrome/Emblem.astro";
 import { QUARTETS } from "../data/quartets";
-import { quartetUrl } from "../lib/url";
+import { RINGS } from "../lib/stage/scenes/home-geometry";
+import { quartetUrl, url } from "../lib/url";
+import "../styles/home.css";
+
+const explore = [
+  { href: url("/map"), label: "Movement Map", sub: "the whole sequence at a glance" },
+  { href: url("/spiral"), label: "Time Spiral", sub: "all of time visible at once" },
+  { href: url("/motifs"), label: "Motif Tracer", sub: "rose, fire, dance, bell…" },
+  { href: url("/atlas"), label: "Atlas", sub: "places and sources" },
+];
 ---
 
-<Base title="Four Quartets" scene="home" bodyClass="is-home">
-  <section class="home">
-    <h1 class="home__title">Four Quartets</h1>
-    <nav aria-label="Choose a quartet" class="home__nav">
+<Base
+  title="Four Quartets"
+  description="An interactive, annotated reading of T. S. Eliot's Four Quartets — four elemental orbits around a still point; notes, scenes, sound and maps for slow reading."
+  scene="home"
+  bodyClass="is-home"
+>
+  <section class="home" data-home data-no-text-band aria-labelledby="home-title">
+    <header class="home__head">
+      <p class="eyebrow">T. S. Eliot <span aria-hidden="true">·</span> 1936–1942</p>
+      <h1 class="home__title" id="home-title">Four Quartets</h1>
+      <p class="home__lede">An annotated reading edition, in four elements around a still point.</p>
+    </header>
+
+    <nav class="home__orbits" aria-label="The four quartets">
       <ol>
         {
-          QUARTETS.map((q) => (
-            <li data-element={q.element}>
-              <a href={quartetUrl(q.id)}>
-                <Emblem element={q.element} size={22} />
-                <span class="t">{q.title}</span>
-                <span class="m">{q.year} · {q.element}</span>
+          QUARTETS.map((q, i) => (
+            <li class={`orbit orbit--${i}`} data-element={q.element}>
+              <a href={quartetUrl(q.id)} data-orbit={RINGS.findIndex((r) => r.quartet === q.id)}>
+                <span class="orbit__num" aria-hidden="true">
+                  {q.ordinal}
+                </span>
+                <Emblem element={q.element} size={24} class="orbit__emblem" />
+                <span class="orbit__title">{q.title}</span>
+                <span class="orbit__meta">
+                  {q.year} <span aria-hidden="true">·</span> {q.element}
+                </span>
               </a>
             </li>
           ))
         }
       </ol>
     </nav>
+
+    <p class="home__hint" aria-hidden="true">Point to an orbit, or choose a quartet</p>
+
+    <nav class="home__explore" aria-label="Explore the sequence">
+      <ul>
+        {
+          explore.map((e) => (
+            <li>
+              <a href={e.href}>
+                <span class="t">{e.label}</span>
+                <span class="s">{e.sub}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </section>
+
+  <section class="home-intro" aria-labelledby="intro-title">
+    <div class="home-intro__inner">
+      <h2 id="intro-title">The sequence</h2>
+      <p>
+        Eliot wrote the four quartets between 1935 and 1942. Each takes its name from a place — a manor garden in Gloucestershire, a Somerset
+        village, rocks off the Massachusetts coast, the site of a seventeenth-century religious community in Huntingdonshire — and each is ruled by one of the four
+        elements: air, earth, water, fire. All four follow the same five-part pattern, so that the second movement of one answers the second
+        movement of the others.
+      </p>
+      <p>
+        This edition sets the poem at the centre and gathers around it notes on sources, places and themes; slow scenes for each element; a
+        map of the whole sequence; and a quiet soundscape you can turn on. Read straight through, or begin anywhere.
+      </p>
+      <p><a class="btn" href={url("/about")}>How to read this edition</a></p>
+    </div>
   </section>
 </Base>
 
-<style>
-  .home {
-    min-height: 100svh;
-    display: grid;
-    place-content: center;
-    gap: 2rem;
-    text-align: center;
-    padding: 6rem 1rem;
-  }
-  .home__title {
-    font-size: clamp(3rem, 2rem + 5vw, 6rem);
-    font-weight: 300;
-  }
-  .home__nav ol {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    gap: 0.5rem;
-  }
-  .home__nav a {
-    display: grid;
-    justify-items: center;
-    gap: 0.2rem;
-    padding: 0.75rem 1.5rem;
-    color: var(--ink);
-    text-decoration: none;
-  }
-  .home__nav .emblem {
-    color: var(--accent);
-  }
-  .home__nav .t {
-    font-family: var(--font-display-stack);
-    font-size: 1.9rem;
-  }
-  .home__nav .m {
-    font-size: 0.8rem;
-    color: var(--ink-faint);
-    font-variant-caps: all-small-caps;
-    letter-spacing: 0.14em;
-  }
-</style>
+<script>
+  import { initHome } from "../lib/client/home";
+  let off: (() => void) | null = null;
+  document.addEventListener("astro:page-load", () => {
+    off?.();
+    off = null;
+    const root = document.querySelector<HTMLElement>("[data-home]");
+    if (root) off = initHome(root);
+  });
+  document.addEventListener("astro:before-swap", () => {
+    off?.();
+    off = null;
+  });
+</script>

@@ -4,7 +4,8 @@
  */
 import { getCollection, type CollectionEntry } from "astro:content";
 import { loadText } from "./text/load";
-import { resolveAnchor } from "./anchors/resolve";
+import { resolveAnchor, resolveLemma, type LemmaTarget } from "./anchors/resolve";
+import { CUES } from "../data/cues";
 import { renderSegments, segmentLine, type LineMark } from "./anchors/segment";
 import { toMeta } from "./annotations/schema";
 import type { AnnotationMeta, Line, MovementN, QuartetCode, QuartetText, ResolvedAnchor, TextSource } from "./model";
@@ -33,6 +34,9 @@ export interface LineVM {
   startsNotes: string[];
   /** Range notes covering this line. */
   inRanges: string[];
+  /** Scene cues that begin / end on this line. */
+  cueStart: string[];
+  cueEnd: string[];
 }
 
 export interface MovementVM {
@@ -114,6 +118,26 @@ export async function buildQuartetView(code: QuartetCode): Promise<QuartetView> 
     if (first) starts.set(first, [...(starts.get(first) ?? []), n.meta.id]);
   }
 
+  // Scene cues → the lines where they begin and end.
+  const cueStart = new Map<string, string[]>();
+  const cueEnd = new Map<string, string[]>();
+  const firstLineOf = (t: LemmaTarget) => resolveLemma(text, t).resolved.lines[0];
+  for (const c of CUES.filter((x) => x.quartet === code)) {
+    const t: LemmaTarget = { movement: c.movement, lemma: c.lemma };
+    if (c.hint !== undefined) t.hint = c.hint;
+    if (c.occurrence !== undefined) t.occurrence = c.occurrence;
+    const startLine = firstLineOf(t);
+    if (!startLine) continue;
+    cueStart.set(startLine, [...(cueStart.get(startLine) ?? []), c.event]);
+    if (c.until) {
+      const u: LemmaTarget = { movement: c.movement, lemma: c.until.lemma };
+      if (c.until.hint !== undefined) u.hint = c.until.hint;
+      if (c.until.occurrence !== undefined) u.occurrence = c.until.occurrence;
+      const endLine = firstLineOf(u);
+      if (endLine) cueEnd.set(endLine, [...(cueEnd.get(endLine) ?? []), c.event]);
+    }
+  }
+
   const lineVM = (l: Line): LineVM => ({
     id: l.id,
     n: l.n,
@@ -123,6 +147,8 @@ export async function buildQuartetView(code: QuartetCode): Promise<QuartetView> 
     step: !!l.step,
     startsNotes: starts.get(l.id) ?? [],
     inRanges: ranges.get(l.id) ?? [],
+    cueStart: cueStart.get(l.id) ?? [],
+    cueEnd: cueEnd.get(l.id) ?? [],
   });
 
   const frontMatter: QuartetView["frontMatter"] = [];

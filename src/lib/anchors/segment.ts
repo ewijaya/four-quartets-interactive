@@ -56,8 +56,10 @@ export const escapeHtml = (s: string) =>
   s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
 /**
- * Render segments. Annotated segments become <span class="anchor"> with data attributes;
- * client code upgrades visible ones to disclosure buttons.
+ * Render segments. Annotated segments become hyperlinks to their notes
+ * (<a class="anchor" href="#n-…">), which work without JavaScript by jumping to the
+ * endnote; client code turns them into disclosures that open the note in place, and
+ * removes the link at densities where the note is hidden.
  */
 export function renderSegments(segs: Segment[]): string {
   return segs
@@ -65,7 +67,7 @@ export function renderSegments(segs: Segment[]): string {
       const t = escapeHtml(s.text);
       if (!s.ids.length) return t;
       const cls = `anchor${s.approximate ? " anchor--approx" : ""}`;
-      return `<span class="${cls}" data-notes="${s.ids.join(" ")}" data-level="${s.level}">${t}</span>`;
+      return `<a class="${cls}" href="#n-${s.ids[0]}" data-notes="${s.ids.join(" ")}" data-level="${s.level}">${t}</a>`;
     })
     .join("");
 }

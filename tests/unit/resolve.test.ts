@@ -65,6 +65,17 @@ describe("resolveLemma", () => {
     expect(r.resolved.lines).toEqual(["EC.1.2"]);
   });
 
+  it("accepts a close variant spelling and reports it", () => {
+    const r = resolveLemma(q, { movement: 1, lemma: "nothing that was givven can" });
+    expect(r.matches).toBe(1);
+    expect(r.fuzzy?.distance).toBe(1);
+    expect(r.resolved.lines).toEqual(["EC.1.4"]);
+  });
+
+  it("does not fuzzy-match short lemmas", () => {
+    expect(resolveLemma(q, { movement: 1, lemma: "a rise" }).matches).toBe(0);
+  });
+
   it("suggests near windows", () => {
     const s = suggest(q, 1, "the lantern swung");
     expect(s[0]!.window).toBe("the lantern swings");
@@ -95,6 +106,6 @@ describe("segmentLine", () => {
 
   it("escapes text and emits anchor spans", () => {
     const html = renderSegments(segmentLine("a < b & c", [{ id: "n1", start: 4, end: 5, approximate: true, level: "reader" }]));
-    expect(html).toBe('a &lt; <span class="anchor anchor--approx" data-notes="n1" data-level="reader">b</span> &amp; c');
+    expect(html).toBe('a &lt; <a class="anchor anchor--approx" href="#n-n1" data-notes="n1" data-level="reader">b</a> &amp; c');
   });
 });

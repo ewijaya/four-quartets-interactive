@@ -11,13 +11,15 @@ export default defineConfig({
   use: {
     baseURL: `http://localhost:${PORT}`,
     trace: "retain-on-failure",
+    // Real GPU where available (macOS: ANGLE/Metal); falls back to SwiftShader elsewhere.
+    launchOptions: { args: ["--use-angle=metal", "--enable-gpu", "--ignore-gpu-blocklist"] },
   },
   webServer: {
     // Always the sample text: tests are public artefacts too.
-    command: `STILLPOINT_TEXT=sample npx astro preview --port ${PORT} --ignore-lock`,
+    command: `STILLPOINT_TEXT=sample npx astro build && STILLPOINT_TEXT=sample npx astro preview --port ${PORT} --ignore-lock`,
     url: `http://localhost:${PORT}`,
     reuseExistingServer: false,
-    timeout: 60_000,
+    timeout: 180_000,
   },
   projects: [
     { name: "desktop", use: { ...devices["Desktop Chrome"], viewport: { width: 1440, height: 900 } } },

@@ -18,17 +18,17 @@ BN.1 line 7 — placeholder
 BN.1 line 8 — placeholder
 BN.1 line 9 — placeholder
 BN.1 line 10 — placeholder
-
 BN.1 line 11 — placeholder
 BN.1 line 12 — placeholder
 BN.1 line 13 — placeholder
-%% step
-                        BN.1 line 14 — placeholder
+BN.1 line 14 — placeholder
 BN.1 line 15 — placeholder
-BN.1 line 16 — placeholder
+%% step
+                        BN.1 line 16 — placeholder
 BN.1 line 17 — placeholder
 BN.1 line 18 — placeholder
-BN.1 line 19 — placeholder
+%% step
+                        BN.1 line 19 — placeholder
 BN.1 line 20 — placeholder
 BN.1 line 21 — placeholder
 BN.1 line 22 — placeholder
@@ -40,8 +40,7 @@ BN.1 line 27 — placeholder
 BN.1 line 28 — placeholder
 BN.1 line 29 — placeholder
 BN.1 line 30 — placeholder
-%% step
-                        BN.1 line 31 — placeholder
+BN.1 line 31 — placeholder
 BN.1 line 32 — placeholder
 BN.1 line 33 — placeholder
 BN.1 line 34 — placeholder
@@ -57,6 +56,8 @@ BN.1 line 43 — placeholder
 BN.1 line 44 — placeholder
 BN.1 line 45 — placeholder
 BN.1 line 46 — placeholder
+BN.1 line 47 — placeholder
+BN.1 line 48 — placeholder
 
 II
 
@@ -72,7 +73,7 @@ BN.2 line 9 — placeholder
 BN.2 line 10 — placeholder
 BN.2 line 11 — placeholder
 BN.2 line 12 — placeholder
-    BN.2 line 13 — placeholder
+BN.2 line 13 — placeholder
 BN.2 line 14 — placeholder
 BN.2 line 15 — placeholder
 
@@ -93,18 +94,19 @@ BN.2 line 29 — placeholder
 BN.2 line 30 — placeholder
 BN.2 line 31 — placeholder
 BN.2 line 32 — placeholder
-
 BN.2 line 33 — placeholder
 BN.2 line 34 — placeholder
 BN.2 line 35 — placeholder
 BN.2 line 36 — placeholder
-BN.2 line 37 — placeholder
+%% step
+                        BN.2 line 37 — placeholder
 BN.2 line 38 — placeholder
 BN.2 line 39 — placeholder
 BN.2 line 40 — placeholder
 BN.2 line 41 — placeholder
 BN.2 line 42 — placeholder
 BN.2 line 43 — placeholder
+BN.2 line 44 — placeholder
 
 III
 
@@ -116,8 +118,7 @@ BN.3 line 5 — placeholder
 BN.3 line 6 — placeholder
 BN.3 line 7 — placeholder
 BN.3 line 8 — placeholder
-%% step
-                        BN.3 line 9 — placeholder
+BN.3 line 9 — placeholder
 BN.3 line 10 — placeholder
 BN.3 line 11 — placeholder
 BN.3 line 12 — placeholder
@@ -133,11 +134,11 @@ BN.3 line 21 — placeholder
 BN.3 line 22 — placeholder
 BN.3 line 23 — placeholder
 BN.3 line 24 — placeholder
-BN.3 line 25 — placeholder
-BN.3 line 26 — placeholder
 
-      BN.3 line 27 — placeholder
-      BN.3 line 28 — placeholder
+      BN.3 line 25 — placeholder
+BN.3 line 26 — placeholder
+BN.3 line 27 — placeholder
+BN.3 line 28 — placeholder
 BN.3 line 29 — placeholder
 BN.3 line 30 — placeholder
 BN.3 line 31 — placeholder
@@ -147,20 +148,15 @@ BN.3 line 34 — placeholder
 BN.3 line 35 — placeholder
 BN.3 line 36 — placeholder
 BN.3 line 37 — placeholder
-BN.3 line 38 — placeholder
-BN.3 line 39 — placeholder
-BN.3 line 40 — placeholder
-BN.3 line 41 — placeholder
-BN.3 line 42 — placeholder
 
 IV
 
 BN.4 line 1 — placeholder
-    BN.4 line 2 — placeholder
+BN.4 line 2 — placeholder
 BN.4 line 3 — placeholder
 BN.4 line 4 — placeholder
-        BN.4 line 5 — placeholder
-        BN.4 line 6 — placeholder
+BN.4 line 5 — placeholder
+BN.4 line 6 — placeholder
 BN.4 line 7 — placeholder
 BN.4 line 8 — placeholder
 BN.4 line 9 — placeholder
@@ -179,8 +175,7 @@ BN.5 line 8 — placeholder
 BN.5 line 9 — placeholder
 BN.5 line 10 — placeholder
 BN.5 line 11 — placeholder
-%% step
-                        BN.5 line 12 — placeholder
+BN.5 line 12 — placeholder
 BN.5 line 13 — placeholder
 BN.5 line 14 — placeholder
 BN.5 line 15 — placeholder
@@ -190,8 +185,8 @@ BN.5 line 18 — placeholder
 BN.5 line 19 — placeholder
 BN.5 line 20 — placeholder
 BN.5 line 21 — placeholder
-BN.5 line 22 — placeholder
 
+      BN.5 line 22 — placeholder
 BN.5 line 23 — placeholder
 BN.5 line 24 — placeholder
 BN.5 line 25 — placeholder
@@ -208,5 +203,4 @@ BN.5 line 35 — placeholder
 BN.5 line 36 — placeholder
 BN.5 line 37 — placeholder
 BN.5 line 38 — placeholder
-BN.5 line 39 — placeholder
 

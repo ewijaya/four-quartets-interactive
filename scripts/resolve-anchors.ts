@@ -26,6 +26,8 @@ const byCode = new Map(bundle.quartets.map((q) => [q.code, q]));
 
 interface Row {
   kind: "annotation" | "motif" | "cue";
+  /** An occurrence was given explicitly, so multiple matches are not ambiguous. */
+  explicit?: boolean;
   id: string;
   quartet: QuartetCode;
   movement: number;
@@ -48,7 +50,7 @@ for (const f of files) {
   const q = byCode.get(a.anchor.quartet);
   if (!q) continue;
   const res = resolveAnchor(q, a.anchor);
-  rows.push({ kind: "annotation", id: a.id, quartet: a.anchor.quartet, movement: a.anchor.movement, lemma: a.anchor.lemma ?? "", file: f.file, res });
+  rows.push({ kind: "annotation", id: a.id, quartet: a.anchor.quartet, movement: a.anchor.movement, lemma: a.anchor.lemma ?? "", file: f.file, res, explicit: a.anchor.occurrence !== undefined });
   for (const r of a.related) if (!ids.has(r)) problems.push(`\`${a.id}\`: related note \`${r}\` does not exist (yet)`);
   for (const c of a.sources) if (!BIB_BY_ID[c.ref] && !SOURCE_BY_ID[c.ref]) problems.push(`\`${a.id}\`: unknown citation ref \`${c.ref}\``);
   if (a.anchor.lemma && wordCount(a.anchor.lemma) > 6) problems.push(`\`${a.id}\`: lemma longer than six words`);
@@ -58,7 +60,7 @@ const lemmaRow = (kind: Row["kind"], id: string, q: QuartetText, m: MovementN, l
   const t: Parameters<typeof resolveLemma>[1] = { movement: m, lemma };
   if (hint !== undefined) t.hint = hint;
   if (occurrence !== undefined) t.occurrence = occurrence;
-  rows.push({ kind, id, quartet: q.code, movement: m, lemma, file, res: resolveLemma(q, t) });
+  rows.push({ kind, id, quartet: q.code, movement: m, lemma, file, res: resolveLemma(q, t), explicit: occurrence !== undefined });
 };
 
 for (const motif of MOTIFS) {
@@ -77,7 +79,8 @@ for (const cue of CUES) {
 
 const lemmaRows = rows.filter((r) => r.lemma);
 const unresolved = lemmaRows.filter((r) => r.res.matches === 0);
-const ambiguous = lemmaRows.filter((r) => r.res.matches > 1);
+const ambiguous = lemmaRows.filter((r) => r.res.matches > 1 && !r.explicit);
+const fuzzy = lemmaRows.filter((r) => r.res.fuzzy);
 const rangeProblems = rows.filter((r) => !r.lemma && r.res.problem);
 
 const where = (r: Row) => `${r.quartet} ${r.movement ? ROMAN[r.movement] : "—"}`;
@@ -105,6 +108,7 @@ md.push(
   `| Resolved exactly | ${lemmaRows.length - unresolved.length} |`,
   `| **Unresolved** | **${unresolved.length}** |`,
   `| Ambiguous (matched more than once, disambiguated by hint) | ${ambiguous.length} |`,
+  `| Matched a variant spelling (check the edition) | ${fuzzy.length} |`,
   `| Range / schema / reference problems | ${rangeProblems.length + problems.length} |`,
   "",
 );
@@ -127,6 +131,14 @@ if (!ambiguous.length) md.push("None.", "");
 else {
   md.push("These lemmas occur more than once in their movement. The match nearest the `hint` was used; add `occurrence:` to make it explicit.", "", "| Anchor | Where | Lemma | Matches | Chosen |", "|---|---|---|---|---|");
   for (const r of ambiguous) md.push(`| \`${r.id}\` | ${where(r)} | “${r.lemma}” | ${r.res.matches} | ${r.res.resolved.lines[0] ?? "—"} |`);
+  md.push("");
+}
+
+md.push("## Variant spellings", "");
+if (!fuzzy.length) md.push("None.", "");
+else {
+  md.push("Matched within a small edit distance — usually a hyphen, plural or misprint in the imported copy. The note is attached; check which reading is right.", "", "| Anchor | Where | Lemma | Text reads | Δ |", "|---|---|---|---|---|");
+  for (const r of fuzzy) md.push(`| \`${r.id}\` | ${where(r)} | “${r.lemma}” | “${clip(r.res.fuzzy!.window)}” | ${r.res.fuzzy!.distance} |`);
   md.push("");
 }
 

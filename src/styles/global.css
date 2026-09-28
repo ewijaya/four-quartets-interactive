@@ -21,7 +21,9 @@ body {
   margin: 0;
   min-height: 100dvh;
   overflow-x: clip;
-  background: var(--bg);
+  /* Transparent: the paper colour lives on <html> (the viewport), so the fixed scene
+     layer (negative z-index) is not painted over by the body's own background. */
+  background: transparent;
   color: var(--ink);
   font-family: var(--font-ui-stack);
   font-size: var(--ui-size);
@@ -29,9 +31,10 @@ body {
   font-kerning: normal;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  transition:
-    background-color var(--t-2) var(--ease),
-    color var(--t-2) var(--ease);
+  transition: color var(--t-2) var(--ease);
+}
+html {
+  transition: background-color var(--t-2) var(--ease);
 }
 
 /* Paper grain (Vellum) / faint dust (Night): static, cheap, never animated. */
@@ -39,10 +42,14 @@ body::before {
   content: "";
   position: fixed;
   inset: 0;
-  z-index: -2;
+  z-index: -1;
   pointer-events: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .27 0 0 0 0 .16 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
     radial-gradient(120% 90% at 50% 0%, transparent 55%, rgb(120 90 40 / 0.07));
+}
+/* Over a live scene: grain only (scenes carry their own vignette), and lighter. */
+body.has-scene::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .27 0 0 0 0 .16 0 0 0 .045 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 :root[data-theme="night"] body::before {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='1' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .8 0 0 0 0 .82 0 0 0 0 .9 0 0 0 .05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),

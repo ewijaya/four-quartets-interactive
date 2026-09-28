@@ -9,6 +9,7 @@
  *   { n: 12, step: [5] }         → line 5 of the stanza is a stepped (dropped) line
  */
 import type { QuartetId } from "../model";
+import derived from "../../../content/text-sample/shape.json";
 
 export interface StanzaShape {
   n: number;
@@ -85,6 +86,21 @@ export const SAMPLE_SHAPE: QuartetShape[] = [
     ],
   },
 ];
+
+/**
+ * When content/text-sample/shape.json exists (npm run derive-shape, from an
+ * imported copy), its stanza structure replaces the approximations above, so the
+ * placeholder text mirrors the printed poem line for line.
+ */
+type DerivedShape = Record<string, { front: number; movements: MovementShape[] }>;
+for (const q of SAMPLE_SHAPE) {
+  const d = (derived as DerivedShape)[q.id];
+  if (!d || d.movements.length !== 5) continue;
+  q.movements = d.movements as QuartetShape["movements"];
+  if (d.front > 0) {
+    q.front = [Array.from({ length: d.front }, (_, i) => `${q.code} front matter ${i + 1} — placeholder`)];
+  }
+}
 
 const ROMAN = ["I", "II", "III", "IV", "V"];
 

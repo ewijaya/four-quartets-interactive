@@ -52,7 +52,7 @@ export const SHOTS: Shot[] = [
     name: "bn-2-note-open",
     path: "/burnt-norton/2",
     act: async (page) => {
-      const a = page.locator('.anchor[role="button"]').first();
+      const a = page.locator('.anchor[href]').first();
       await a.scrollIntoViewIfNeeded();
       await a.click();
       await settle(page, 1200);
@@ -81,6 +81,26 @@ export const SHOTS: Shot[] = [
       }
     },
   },
+  {
+    name: "bn-2-tiles",
+    path: "/burnt-norton/2",
+    viewports: ["desktop"],
+    act: async (page) => {
+      await page.locator(".movement-heading.is-tiling").waitFor({ timeout: 12000 }).catch(() => {});
+      await settle(page, 2100);
+    },
+  },
+  { name: "ec-1-dance", path: "/east-coker/1", act: async (page) => {
+      await page.locator('[data-cue-start~="dance"]').first().scrollIntoViewIfNeeded();
+      await page.mouse.wheel(0, 200);
+      await settle(page, 3500);
+    } },
+  { name: "ds-1", path: "/the-dry-salvages/1" },
+  { name: "lg-5-rose", path: "/little-gidding/5", act: async (page) => {
+      await page.locator('[data-cue-start~="rose"]').first().scrollIntoViewIfNeeded();
+      await page.mouse.wheel(0, 300);
+      await settle(page, 4000);
+    } },
   { name: "notes-index", path: "/notes" },
   { name: "note-page", path: "/notes/bn-sunlight-pool" },
   { name: "sources", path: "/sources" },
@@ -164,6 +184,9 @@ async function main() {
           page.on("pageerror", (e) => problems.push(`[${shot.name} ${vpName} ${theme}] pageerror: ${e.message}`));
           await page.goto(ORIGIN + shot.path, { waitUntil: "networkidle" });
           await page.evaluate(() => document.fonts.ready);
+          // Scenes load on idle and fade in: wait for the live canvas where there is one.
+          await page.locator(".stage canvas.is-live").waitFor({ state: "attached", timeout: 9000 }).catch(() => {});
+          await settle(page, 1800);
           if (shot.wait) await settle(page, shot.wait);
           if (shot.act) await shot.act(page, vpName);
           await settle(page, 300);

@@ -21,7 +21,9 @@
     "shoot": "tsx scripts/shoot.ts",
     "stills": "tsx scripts/render-stills.ts",
     "lighthouse": "tsx scripts/lighthouse.ts",
-    "contrast": "tsx scripts/check-contrast.ts"
+    "contrast": "tsx scripts/check-contrast.ts",
+    "derive-shape": "tsx scripts/derive-shape.ts",
+    "sync-hints": "tsx scripts/sync-hints.ts"
   },
   "dependencies": {
     "@astrojs/mdx": "^8.0.2",

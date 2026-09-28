@@ -17,7 +17,7 @@ checked against the source. Verify, add a page/section `locator`, and set `statu
 
 ## Lyndall Gordon, *T. S. Eliot: An Imperfect Life* (1998)
 
-3 use(s): `bn-burnt-norton`, `bn-drained-pool`, `bn-rose-garden`
+4 use(s): `bn-burnt-norton`, `bn-drained-pool`, `bn-might-have-been`, `bn-rose-garden`
 
 ## St John of the Cross, *The Ascent of Mount Carmel; The Dark Night*
 
