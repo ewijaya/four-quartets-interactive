@@ -34,6 +34,7 @@ for (const path of SCENES) {
     test.setTimeout(60_000);
     await setPrefs(page, { theme: "night", scenes: true });
     await page.goto(path);
+    await page.mouse.move(40, 300); // engage: live scenes load on first interaction
     await page.locator(".stage canvas.is-live").waitFor({ state: "attached", timeout: 30_000 });
     await page.waitForTimeout(2000);
     const cdp = await page.context().newCDPSession(page);

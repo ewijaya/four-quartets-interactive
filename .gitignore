@@ -15,6 +15,7 @@ node_modules/
 test-results/
 playwright-report/
 reports/lighthouse/*.html
+reports/lighthouse/*.json
 reports/private/
 
 # logs & os

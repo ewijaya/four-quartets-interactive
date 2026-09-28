@@ -145,14 +145,12 @@ class AirScene implements StageScene {
   private moteMat!: ShaderMaterial;
   private motes!: Points;
   private targets = { shimmer: 0, shaft: 0, glint: 0 };
-  private night = false;
 
   paper(night: boolean) {
     return night ? 0x0b0d15 : 0xf4eee1;
   }
 
   init(env: SceneEnv) {
-    this.night = env.night;
     const uniforms = { ...this.u, ...this.palette.uniforms };
     this.scene.add(backgroundMesh(BG, uniforms));
 
@@ -197,7 +195,6 @@ class AirScene implements StageScene {
   }
 
   setNight(night: boolean) {
-    this.night = night;
     this.palette.apply(night);
     this.u.uNight.value = night ? 1 : 0;
     this.moteMat.blending = night ? AdditiveBlending : NormalBlending;

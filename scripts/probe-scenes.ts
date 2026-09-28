@@ -13,6 +13,7 @@ const theme = process.argv[5] ?? "vellum";
     page.on("console", (m) => { if (m.type() === "error" || m.type() === "warning") logs.push(`${m.type()}: ${m.text()}`); });
     page.on("pageerror", (e) => logs.push("pageerror: " + e.message));
     await page.goto(origin + p, { waitUntil: "networkidle" });
+    await page.mouse.move(40, 300);
     await page.waitForTimeout(6000);
     const info = await page.evaluate(() => {
       const c = document.querySelector<HTMLCanvasElement>(".stage canvas");

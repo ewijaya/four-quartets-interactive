@@ -7,7 +7,7 @@ export type Uniforms = Record<string, IUniform>;
 /** Frame-rate independent exponential approach (no allocation). */
 export const damp = (cur: number, target: number, dt: number, tau: number) => cur + (target - cur) * (1 - Math.exp(-dt / Math.max(1e-4, tau)));
 
-export function commonUniforms(): Uniforms {
+export function commonUniforms() {
   return {
     uTime: { value: 0 },
     uRes: { value: new Vector2(1, 1) },
@@ -19,12 +19,14 @@ export function commonUniforms(): Uniforms {
   };
 }
 
-export function writeCommon(u: Uniforms, t: number, r: Reading) {
-  u.uTime!.value = t;
-  u.uMovement!.value = r.movement;
-  u.uProgress!.value = r.progress;
-  u.uGlobal!.value = r.global;
-  u.uScroll!.value = r.scroll;
+export type CommonUniforms = ReturnType<typeof commonUniforms>;
+
+export function writeCommon(u: CommonUniforms, t: number, r: Reading) {
+  u.uTime.value = t;
+  u.uMovement.value = r.movement;
+  u.uProgress.value = r.progress;
+  u.uGlobal.value = r.global;
+  u.uScroll.value = r.scroll;
 }
 
 /** A full-screen quad drawn first (background painting in the fragment shader). */

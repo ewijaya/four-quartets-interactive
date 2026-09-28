@@ -223,9 +223,11 @@
 }
 .ln {
   position: absolute;
-  right: calc(100% + 1.1rem);
-  top: 0.32em;
+  right: calc(100% + 0.6rem);
+  top: 0.1em;
   min-width: 2rem;
+  min-height: 1.6rem;
+  padding: 0.2rem 0.5rem 0 0;
   text-align: right;
   font-family: var(--font-ui-stack);
   font-size: 0.72rem;
@@ -430,6 +432,8 @@
   color: var(--ink-faint);
   text-decoration: none;
   justify-self: start;
+  min-height: 1.5rem;
+  padding-block: 0.2rem;
 }
 .note__loc:hover {
   color: var(--ink);
@@ -522,9 +526,18 @@
     grid-column: auto;
     text-align: left;
   }
-  .js .movement .notes .notes__title,
   .notes__disclosure {
     display: none;
+  }
+  /* Kept for the heading outline, hidden from sight in the margin layout. */
+  .js .movement .notes .notes__title {
+    position: absolute !important;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    margin: 0;
   }
   .js .movement .notes {
     visibility: hidden;

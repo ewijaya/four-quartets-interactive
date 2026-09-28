@@ -216,7 +216,8 @@ async function main() {
           page.on("pageerror", (e) => problems.push(`[${shot.name} ${vpName} ${theme}] pageerror: ${e.message}`));
           await page.goto(ORIGIN + shot.path, { waitUntil: "networkidle" });
           await page.evaluate(() => document.fonts.ready);
-          // Scenes load on idle and fade in: wait for the live canvas where there is one.
+          await page.mouse.move(40, 300); // live scenes load on first interaction
+          // Scenes load on engagement and fade in: wait for the live canvas where there is one.
           await page.locator(".stage canvas.is-live").waitFor({ state: "attached", timeout: 9000 }).catch(() => {});
           await settle(page, 1800);
           if (shot.wait) await settle(page, shot.wait);

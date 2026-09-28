@@ -33,6 +33,14 @@ function hash(s: string) {
   return h >>> 0;
 }
 
+/** rough.js writes 15-digit coordinates; a tenth of a unit is invisible at card size. */
+const compact = (d: string) =>
+  d
+    .replace(/-?\d*\.?\d+(?:e-?\d+)?/g, (n) => String(Math.round(Number(n) * 10) / 10))
+    .replace(/,\s*/g, " ")
+    .replace(/\s*([MLC])\s*/g, "$1")
+    .trim();
+
 /** Tone tokens stand in for colours; the page maps them to theme variables. */
 export function sketchPaths(key: string): SketchPath[] {
   const gen = rough.generator();
@@ -43,7 +51,7 @@ export function sketchPaths(key: string): SketchPath[] {
     o({ fill: color, fillStyle: "hachure", hachureGap: gap, hachureAngle: -41, fillWeight: 0.7, ...extra });
   const add = (d: Drawable) => {
     for (const p of gen.toPaths(d)) {
-      out.push({ d: p.d, stroke: (p.stroke as Tone) ?? "none", fill: ((p.fill as Tone) || "none") as Tone, width: p.strokeWidth });
+      out.push({ d: compact(p.d), stroke: (p.stroke as Tone) ?? "none", fill: ((p.fill as Tone) || "none") as Tone, width: p.strokeWidth });
     }
   };
   const P = new Primitives(gen, add, o, fill, k);

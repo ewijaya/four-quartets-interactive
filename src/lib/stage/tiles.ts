@@ -98,8 +98,6 @@ export class TileLayer {
   private texture: CanvasTexture | null = null;
   private heading: HTMLElement | null = null;
   private elapsed = 0;
-  private width = 1;
-  private height = 1;
   private night = false;
   private resolve: (() => void) | null = null;
   private readonly origin = new Vector2();
@@ -108,8 +106,6 @@ export class TileLayer {
   private emblemOffset = { x: 0, y: 0 };
 
   resize(w: number, h: number) {
-    this.width = w;
-    this.height = h;
     this.res.set(w, h);
   }
 

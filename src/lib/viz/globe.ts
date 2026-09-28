@@ -9,7 +9,6 @@ import { select } from "d3-selection";
 import { drag } from "d3-drag";
 import { feature } from "topojson-client";
 import type { GeometryObject, Topology } from "topojson-specification";
-import land110 from "world-atlas/land-110m.json";
 
 interface AtlasData {
   places: Array<{ id: string; name: string; lat: number; lng: number; kind: string; precision: string; element: string | null }>;
@@ -26,12 +25,28 @@ const LABEL: Record<string, [dx: number, dy: number, anchor: "start" | "end"]> =
 };
 
 export function initAtlas(root: HTMLElement): () => void {
+  // Build the globe after first paint; the map data loads asynchronously.
+  let off: (() => void) | null = null;
+  let cancelled = false;
+  const w = window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number };
+  const start = () =>
+    void import("world-atlas/land-110m.json").then((m) => {
+      if (!cancelled) off = setupGlobe(root, m.default as unknown as Topology);
+    });
+  if (w.requestIdleCallback) w.requestIdleCallback(start, { timeout: 1500 });
+  else window.setTimeout(start, 200);
+  return () => {
+    cancelled = true;
+    off?.();
+  };
+}
+
+function setupGlobe(root: HTMLElement, topo: Topology): () => void {
   const data = JSON.parse(root.querySelector("[data-atlas-data]")!.textContent!) as AtlasData;
   const host = root.querySelector<HTMLElement>("[data-globe]")!;
   const cards = [...root.querySelectorAll<HTMLElement>("[data-card]")];
   const buttons = [...root.querySelectorAll<HTMLAnchorElement>("[data-place]")];
   const byId = new Map(data.places.map((p) => [p.id, p]));
-  const topo = land110 as unknown as Topology;
   const land = feature(topo, topo.objects.land as GeometryObject);
 
   let size = Math.min(620, host.clientWidth || 560);
@@ -125,14 +140,22 @@ export function initAtlas(root: HTMLElement): () => void {
     };
     raf = requestAnimationFrame(step);
   }
+  // A slow idle drift: ≤ 30 fps, only while visible, and only for the first 20 s.
+  let driftStart = 0;
+  let visible = true;
   const drift = (now: number) => {
     if (!autoRotate) return;
-    const dt = lastT ? Math.min(0.05, (now - lastT) / 1000) : 0;
+    driftStart ||= now;
+    if (now - driftStart > 20_000) return;
+    raf = requestAnimationFrame(drift);
+    if (!visible || now - lastT < 33) return;
+    const dt = lastT ? Math.min(0.1, (now - lastT) / 1000) : 0;
     lastT = now;
     rotation = [rotation[0] + dt * 3, rotation[1]];
     render();
-    raf = requestAnimationFrame(drift);
   };
+  const io = new IntersectionObserver(([e]) => (visible = !!e?.isIntersecting));
+  io.observe(host);
 
   function choose(id: string, scroll: boolean) {
     const p = byId.get(id);
@@ -184,6 +207,7 @@ export function initAtlas(root: HTMLElement): () => void {
   return () => {
     cancelAnimationFrame(raf);
     ro.disconnect();
+    io.disconnect();
     buttons.forEach((b) => b.removeEventListener("click", onButton));
     host.replaceChildren();
   };

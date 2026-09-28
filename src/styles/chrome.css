@@ -329,9 +329,11 @@ kbd {
   .wordmark__text {
     display: none;
   }
+  /* Centred in the space between the wordmark and the header tools, not the viewport,
+     so the pips never cover the search button on narrow phones. */
   .movement-pips {
     top: calc(var(--header-h) / 2);
-    left: 50%;
+    left: calc(50% - 3.2rem);
     transform: translate(-50%, -50%);
     z-index: 51;
     transition: opacity var(--t-1) var(--ease);
@@ -676,6 +678,11 @@ kbd {
 @media (max-width: 519px) {
   .site-header__tools [data-sound-toggle] {
     display: none !important;
+  }
+}
+@media (max-width: 379px) {
+  .movement-pips a {
+    padding-inline: 0.42rem;
   }
 }
 .search__form input::-webkit-search-cancel-button {

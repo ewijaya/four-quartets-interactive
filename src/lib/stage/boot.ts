@@ -15,7 +15,11 @@ function ensureStage(): Stage | null {
   if (!host || !Stage.supported()) return null;
   const params = new URLSearchParams(location.search);
   const still = params.has("still") ? { time: Number(params.get("t") ?? 18) } : null;
-  stage = new Stage(host, { night: effectiveTheme() === "night", still });
+  try {
+    stage = new Stage(host, { night: effectiveTheme() === "night", still });
+  } catch {
+    return null; // WebGL2 unavailable after all: the still stays
+  }
   if (params.has("debug")) (window as unknown as { __stage?: Stage }).__stage = stage;
   return stage;
 }

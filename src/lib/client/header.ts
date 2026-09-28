@@ -44,7 +44,7 @@ export function initHeader(): () => void {
     if (open) header.removeAttribute("data-hidden");
     if (!open && restoreFocus) menuBtn.focus();
   };
-  const onMenuClick = () => setMenu(menu?.hidden ?? false);
+  const onMenuClick = () => setMenu(menu?.hidden === true);
   menuBtn?.addEventListener("click", onMenuClick);
   const onKey = (e: KeyboardEvent) => {
     if (e.key === "Escape" && menu && !menu.hidden) {

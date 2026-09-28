@@ -434,6 +434,9 @@
   overflow-x: auto;
   scrollbar-width: thin;
 }
+.tracer__svg {
+  min-height: 300px;
+}
 .tracer__svg svg {
   display: block;
 }

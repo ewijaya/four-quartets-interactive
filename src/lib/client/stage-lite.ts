@@ -17,13 +17,10 @@ let boot: Boot | null = null;
 let bootLoading: Promise<Boot> | null = null;
 let webgl: boolean | null = null;
 
+/** Cheap capability check (creating a probe context costs a frame on phones); the
+ *  renderer's own failure is the real test and falls back to the still. */
 function hasWebGL2(): boolean {
-  if (webgl !== null) return webgl;
-  try {
-    webgl = !!document.createElement("canvas").getContext("webgl2");
-  } catch {
-    webgl = false;
-  }
+  webgl ??= typeof WebGL2RenderingContext !== "undefined";
   return webgl;
 }
 
@@ -41,10 +38,31 @@ function loadBoot(): Promise<Boot> {
   return bootLoading;
 }
 
-const idle = (fn: () => void, timeout = 2500) => {
-  const w = window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number };
-  if (w.requestIdleCallback) w.requestIdleCallback(fn, { timeout });
-  else window.setTimeout(fn, 600);
+/**
+ * Load the live scene when the reader engages (scroll, pointer, touch, key) or after a
+ * few quiet seconds — never in the critical first moments. The poster still shows
+ * meanwhile, so nothing looks empty.
+ */
+let engaged = false;
+const whenEngaged = (fn: () => void, fallbackMs = 7000) => {
+  // Still capture (scripts/render-stills.ts) renders immediately.
+  if (engaged || new URLSearchParams(location.search).has("still")) return void requestAnimationFrame(() => fn());
+  // Input events only: `scroll` also fires for the reader's own jump to the movement on load.
+  const events = ["pointerdown", "pointermove", "wheel", "touchstart", "keydown"] as const;
+  let done = false;
+  let timer = 0;
+  const go = () => {
+    if (done) return;
+    done = true;
+    engaged = true;
+    window.clearTimeout(timer);
+    events.forEach((e) => window.removeEventListener(e, go));
+    const w = window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number };
+    if (w.requestIdleCallback) w.requestIdleCallback(fn, { timeout: 800 });
+    else window.setTimeout(fn, 100);
+  };
+  events.forEach((e) => window.addEventListener(e, go, { passive: true, once: true }));
+  timer = window.setTimeout(go, fallbackMs);
 };
 
 export function stillFor(scene: string, movement: number): string | null {
@@ -84,7 +102,7 @@ export function initStage(): () => void {
     if (mode === "live" && scene !== "none") {
       // Poster first; the live canvas fades in over it.
       showStill(true);
-      idle(() => {
+      whenEngaged(() => {
         if (disposed) return;
         void loadBoot().then((b) => {
           if (disposed) return;

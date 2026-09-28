@@ -59,6 +59,7 @@
     "@types/node": "^26.6.3",
     "@types/three": "^0.186.0",
     "@types/topojson-client": "^3.1.5",
+    "lighthouse": "^13.5.0",
     "pagefind": "^1.5.2",
     "sharp": "^0.35.5",
     "tsx": "^4.23.15",

@@ -25,6 +25,7 @@ for (const theme of ["vellum", "night"] as const) {
       test.setTimeout(60_000);
       await setPrefs(page, { theme, scenes: true, density: "reader" });
       await page.goto(path);
+    await page.mouse.move(40, 300); // engage: live scenes load on first interaction
       await page.locator(".stage canvas.is-live").waitFor({ state: "attached", timeout: 30_000 });
       await page.waitForTimeout(2500);
       // Cues can brighten a scene: let the first movement's play out a little further.

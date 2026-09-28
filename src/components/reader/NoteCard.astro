@@ -19,7 +19,7 @@ const { note, local = new Set<string>(), headingLevel = 4, standalone = false } 
 const { Content } = await render(note.entry);
 const m = note.meta;
 const r = note.resolved;
-const H = `h${headingLevel}`;
+const H = headingLevel === 3 ? "h3" : "h4";
 
 const loc =
   r.kind === "quartet"

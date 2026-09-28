@@ -37,6 +37,7 @@ test.describe("explore", () => {
   test("time spiral renders and its movement list is operable", async ({ page, errors }) => {
     await setPrefs(page, { scenes: true });
     await page.goto("/spiral");
+    await page.mouse.move(40, 300); // engage: live scenes load on first interaction
     await page.locator(".stage canvas.is-live").waitFor({ state: "attached", timeout: 30_000 });
     const btn = page.locator("[data-fly]").first();
     await btn.click();

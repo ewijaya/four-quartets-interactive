@@ -111,12 +111,7 @@ export class Stage {
   onLost: (() => void) | null = null;
 
   static supported(): boolean {
-    try {
-      const c = document.createElement("canvas");
-      return !!c.getContext("webgl2");
-    } catch {
-      return false;
-    }
+    return typeof WebGL2RenderingContext !== "undefined";
   }
 
   constructor(host: HTMLElement, opts: StageOptions) {
@@ -186,6 +181,8 @@ export class Stage {
     this.fadeTarget = 0;
     const mod = await SCENES[key]!();
     if (this.loading !== key) return;
+    // Yield so module evaluation and scene construction are separate tasks.
+    await new Promise((r) => setTimeout(r, 0));
     const next = mod.createScene();
     await next.init({ renderer: this.renderer, width: this.width, height: this.height, night: this.night, tier: this.tier, still: !!this.still });
     if (this.loading !== key) {

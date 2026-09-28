@@ -3,7 +3,7 @@
  * add a personal note), bookmark ribbons, personal notes shown under their lines,
  * and the `b` / `n` shortcuts for the line being read.
  */
-import { addNote, deleteNote, getStore, isBookmarked, notesFor, onStore, toggleBookmark, updateNote } from "./storage";
+import { addNote, deleteNote, getStore, isBookmarked, onStore, toggleBookmark, updateNote } from "./storage";
 import { registerShortcut } from "./keyboard";
 import { announce } from "./a11y";
 

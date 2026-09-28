@@ -122,7 +122,6 @@ class SpiralScene implements StageScene {
   private canvas!: HTMLCanvasElement;
   private width = 1;
   private height = 1;
-  private hovered: { kind: "note" | "motif"; i: number } | null = null;
   private layers = { notes: true, motifs: true };
 
   paper(night: boolean) {
@@ -385,7 +384,6 @@ class SpiralScene implements StageScene {
 
   private onMove = (e: PointerEvent) => {
     const h = this.pick(e);
-    this.hovered = h;
     this.canvas.style.cursor = h ? "pointer" : "grab";
   };
 
