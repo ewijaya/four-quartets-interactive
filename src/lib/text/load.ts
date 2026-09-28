@@ -3,10 +3,12 @@
  * otherwise the committed sample. Environment:
  *   STILLPOINT_TEXT   = auto | sample | private   (default auto)
  *   STILLPOINT_PUBLIC = 1  → always sample; importing private text is an error
+ *   STILLPOINT_TEXT_KEY = hex key for the encrypted bundle when no local copy exists
  */
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import type { QuartetCode, QuartetText, TextBundle } from "../model";
+import { HOSTED_JSON, openText } from "./hosted";
 
 export const PRIVATE_JSON = "content/text-private/quartets.json";
 export const SAMPLE_JSON = "content/text-sample/quartets.json";
@@ -21,9 +23,10 @@ export function textMode(): "sample" | "private" {
     return "sample";
   }
   if (want === "sample") return "sample";
-  const hasPrivate = existsSync(join(process.cwd(), PRIVATE_JSON));
+  const hasPrivate = existsSync(join(process.cwd(), PRIVATE_JSON)) ||
+    (!!process.env.STILLPOINT_TEXT_KEY && existsSync(join(process.cwd(), HOSTED_JSON)));
   if (want === "private" && !hasPrivate) {
-    throw new Error(`STILLPOINT_TEXT=private but ${PRIVATE_JSON} is missing. Run \`npm run import-text\` first.`);
+    throw new Error(`STILLPOINT_TEXT=private requires ${PRIVATE_JSON} or the encrypted bundle and STILLPOINT_TEXT_KEY.`);
   }
   return hasPrivate ? "private" : "sample";
 }
@@ -32,8 +35,15 @@ export function loadText(): TextBundle {
   if (cached) return cached;
   const mode = textMode();
   const file = join(process.cwd(), mode === "private" ? PRIVATE_JSON : SAMPLE_JSON);
-  if (!existsSync(file)) throw new Error(`Text bundle not found: ${file}. Run \`npm run make-sample\`.`);
-  cached = JSON.parse(readFileSync(file, "utf8")) as TextBundle;
+  if (mode === "private" && !existsSync(file)) {
+    cached = JSON.parse(openText(
+      readFileSync(join(process.cwd(), HOSTED_JSON), "utf8"),
+      process.env.STILLPOINT_TEXT_KEY ?? "",
+    )) as TextBundle;
+  } else {
+    if (!existsSync(file)) throw new Error(`Text bundle not found: ${file}. Run \`npm run make-sample\`.`);
+    cached = JSON.parse(readFileSync(file, "utf8")) as TextBundle;
+  }
   cached.source = mode;
   return cached;
 }

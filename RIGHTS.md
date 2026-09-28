@@ -1,12 +1,12 @@
 # Rights
 
-## The poem is not distributed with this repository
+## Readable poem text is not distributed with this repository
 
 *Four Quartets* is the work of T. S. Eliot (1888–1965). Its text is protected by
 copyright, held by the Eliot estate and administered by his publishers (Faber and
-Faber in the UK). **No part of the poem's text is included in this repository or in
-any build produced from a fresh checkout by default.** The hosted edition is an
-explicit deployment of a locally imported copy; its text is not committed to Git.
+Faber in the UK). **Readable poem text is not included in this repository or in
+any build produced from a fresh checkout by default.** An encrypted bundle is
+committed for hosted builds; its decryption key is a Cloudflare production secret.
 
 Instead:
 
@@ -44,11 +44,14 @@ occasionally quoted briefly.
 
 ## Hosted edition
 
-`npm run deploy` deliberately publishes the imported text to Cloudflare Pages.
-It requires the local text bundle, builds both HTML and search from it, and uploads
-the result directly. `STILLPOINT_PUBLISH_TEXT=1` records this intentional choice
-in the build check; it does not override `STILLPOINT_PUBLIC=1`.
-Automatic production Git builds are disabled because they only have sample text.
+Production pushes to `main` deliberately publish the imported text to Cloudflare
+Pages. The build decrypts `content/text-hosted/quartets.enc.json` using the secret
+`STILLPOINT_TEXT_KEY`; the key and readable text stay out of Git. Missing or invalid
+keys fail the build. Preview builds use sample text.
+`npm run pack:hosted` refreshes the encrypted bundle after a local import, using
+the Git-ignored `.env.hosted` key. `npm run deploy` remains available for direct
+uploads. `STILLPOINT_PUBLISH_TEXT=1` records intentional publication in the build
+check; it does not override `STILLPOINT_PUBLIC=1`.
 This deployment choice does not change the copyright status of the poem.
 
 ## Copyright status (orientation only — not legal advice)

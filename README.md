@@ -4,9 +4,9 @@ A reading edition of T. S. Eliot's *Four Quartets*: the poem at the centre, with
 margin notes, elemental scenes, a soundscape and maps that deepen slow reading.
 Contemplative and restrained — illuminated manuscript meets planetarium.
 
-> **The poem's text is not in this repository.** A fresh checkout uses placeholder
-> lines in the exact shape of the sequence. The hosted edition is built from a
-> locally imported copy. See [RIGHTS.md](RIGHTS.md).
+> **Readable poem text is not in this repository.** A fresh checkout uses placeholder
+> lines in the exact shape of the sequence. Production builds decrypt the hosted
+> text bundle using a Cloudflare secret. See [RIGHTS.md](RIGHTS.md).
 
 **Live:** https://four-quartets-interactive.pages.dev
 
@@ -70,24 +70,39 @@ Adding a note, a source or a feature: see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Deployment
 
-Production is uploaded directly from a machine with the imported text:
+Cloudflare Pages automatically builds and deploys pushes to `main`. Production uses
+`STILLPOINT_PUBLIC=0`, `STILLPOINT_TEXT=private`, `STILLPOINT_PUBLISH_TEXT=1`, and
+the secret `STILLPOINT_TEXT_KEY` to read `content/text-hosted/quartets.enc.json`.
+The bundle is compressed and encrypted with AES-256-GCM; readable text and the key
+are not committed. A missing or incorrect key fails the build instead of publishing
+placeholders. Preview builds continue to use `STILLPOINT_PUBLIC=1` and sample text.
+
+After editing the local poem files:
+
+```sh
+npm run import-text
+npm run pack:hosted
+# Commit the updated encrypted bundle and push to main.
+```
+
+`pack:hosted` reuses the key in the Git-ignored `.env.hosted` file (or
+`STILLPOINT_TEXT_KEY` in the environment). Keep that key consistent with the
+Cloudflare production secret. On a new machine, restore the key before repacking.
+
+You can also upload directly from a machine with the imported text:
 
 ```sh
 npm run deploy
 ```
 
-This runs `build:hosted`, which requires `content/text-private/quartets.json`,
-builds the reader and search index with that text, and uploads `dist/` to the
+This runs `build:hosted`, which requires a local text bundle or the encrypted bundle
+and its key, builds the reader and search index with that text, and uploads `dist/` to the
 production branch of the `four-quartets-interactive` Cloudflare Pages project.
 Wrangler uses `CLOUDFLARE_API_TOKEN` or an existing `wrangler login` session.
 To build without uploading, run `npm run build:hosted`.
 
-Automatic production builds from Git are disabled: Git does not contain the
-imported text, so those builds would replace the hosted edition with placeholders.
-Git preview builds still use `STILLPOINT_PUBLIC=1`, which forces the sample text
-and checks the output for unintended inclusion of imported text. The poem files
-remain ignored by Git. After changing the local `.txt` files, run
-`npm run import-text` before deploying again.
+Readable poem files remain ignored by Git. Direct uploads do not disable automatic
+Git builds; commit an updated encrypted bundle to keep both deployment paths in sync.
 
 ## Licence
 

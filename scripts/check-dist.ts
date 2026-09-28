@@ -36,16 +36,16 @@ function readMaybeGzip(p: string): string {
 function main() {
   if (!existsSync(DIST)) throw new Error("dist/ not found — run astro build first.");
   const mode = textMode();
-  if (!existsSync(PRIVATE_JSON)) {
-    console.log(`check-dist: no private text present; build used the ${mode} text. OK.`);
-    return;
-  }
   if (mode === "private" && !isPublic) {
     if (process.env.STILLPOINT_PUBLISH_TEXT === "1") {
       console.log("check-dist: imported text included for the explicitly selected hosted edition.");
     } else {
       console.warn("check-dist: this build contains imported text. Use npm run deploy only when publication is intended (see RIGHTS.md).");
     }
+    return;
+  }
+  if (!existsSync(PRIVATE_JSON)) {
+    console.log(`check-dist: no local private text present; build used the ${mode} text. OK.`);
     return;
   }
   const bundle = JSON.parse(readFileSync(PRIVATE_JSON, "utf8")) as TextBundle;

@@ -1,4 +1,4 @@
-# The poem text is NOT distributed with this repository. See RIGHTS.md.
+# Readable poem text stays out of Git; the hosted bundle is encrypted. See RIGHTS.md.
 content/text-private/*
 !content/text-private/README.md
 !content/text-private/.gitkeep
