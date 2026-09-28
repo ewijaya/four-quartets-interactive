@@ -1,0 +1,104 @@
+---
+import Base from "../layouts/Base.astro";
+import Sketch from "../components/viz/Sketch.astro";
+import Emblem from "../components/chrome/Emblem.astro";
+import { CONNECTIONS, PLACES } from "../data/places";
+import { QUARTET_BY_CODE } from "../data/quartets";
+import { SOURCE_BY_ID } from "../data/sources";
+import { quartetUrl, url } from "../lib/url";
+import "../styles/viz.css";
+
+const groups = [
+  { key: "quartet", title: "The four places" },
+  { key: "life", title: "Eliot's places" },
+  { key: "source", title: "Where the sources came from" },
+] as const;
+const data = {
+  places: PLACES.map((p) => ({ id: p.id, name: p.name, lat: p.lat, lng: p.lng, kind: p.kind, precision: p.precision, element: p.quartet ? QUARTET_BY_CODE[p.quartet].element : null })),
+  links: CONNECTIONS,
+};
+const json = JSON.stringify(data).replace(/</g, "\\u003c");
+const fmt = (v: number, pos: string, neg: string) => `${Math.abs(v).toFixed(2)}° ${v >= 0 ? pos : neg}`;
+---
+
+<Base title="Atlas" description="The places of Four Quartets and the places its sources came from, on an inked globe." section="atlas">
+  <div class="page viz-page atlas" data-atlas>
+    <p class="eyebrow">Explore</p>
+    <h1>Atlas</h1>
+    <p class="lede">
+      Four places give the quartets their names; others — a river, a coast, a city under bombardment — run through them; and the voices
+      the poem answers come from Ephesus to Kurukshetra. Lines on the globe join each source to the quartet it enters.
+    </p>
+    <div class="atlas__grid">
+      <div class="atlas__globe-wrap">
+        <div class="atlas__globe" data-globe aria-hidden="true"></div>
+        <p class="atlas__hint">Drag to turn the globe. Choose a place to go to it.</p>
+      </div>
+      <div class="atlas__side">
+        <nav class="atlas__list" aria-label="Places">
+          {
+            groups.map((g) => (
+              <section>
+                <h2 class="eyebrow">{g.title}</h2>
+                <ul>
+                  {PLACES.filter((p) => p.kind === g.key).map((p) => (
+                    <li>
+                      <a href={`#place-${p.id}`} data-place={p.id} data-element={p.quartet ? QUARTET_BY_CODE[p.quartet].element : undefined}>
+                        <span class:list={["atlas__mark", `atlas__mark--${p.kind}`]} aria-hidden="true" />
+                        {p.name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            ))
+          }
+        </nav>
+        <div class="atlas__cards">
+          {
+            PLACES.map((p) => {
+              const q = p.quartet ? QUARTET_BY_CODE[p.quartet] : null;
+              return (
+                <article class="place-card" id={`place-${p.id}`} data-card={p.id} data-element={q?.element} tabindex="-1">
+                  <Sketch sketch={p.sketch} label={p.illustrationPrompt} />
+                  <p class="eyebrow">
+                    {p.kind === "quartet" ? "Quartet" : p.kind === "life" ? "Eliot's life" : "Source"}
+                    {p.precision !== "exact" && ` · location ${p.precision}`}
+                  </p>
+                  <h2>
+                    {q && <Emblem element={q.element} size={22} />} {p.name}
+                  </h2>
+                  <p class="place-card__coords">
+                    {fmt(p.lat, "N", "S")}, {fmt(p.lng, "E", "W")}
+                  </p>
+                  <p class="place-card__blurb">{p.blurb}</p>
+                  <p class="place-card__links">
+                    {q && <a href={quartetUrl(q.id)}>Read {q.title}</a>}
+                    {(p.sources ?? []).map((sid) =>
+                      SOURCE_BY_ID[sid] ? <a href={url(`/sources#${sid}`)}>{SOURCE_BY_ID[sid]!.author}</a> : null,
+                    )}
+                  </p>
+                </article>
+              );
+            })
+          }
+        </div>
+      </div>
+    </div>
+    <script type="application/json" data-atlas-data set:html={json} />
+  </div>
+</Base>
+
+<script>
+  import { initAtlas } from "../lib/viz/globe";
+  let off: (() => void) | null = null;
+  document.addEventListener("astro:page-load", () => {
+    off?.();
+    const root = document.querySelector<HTMLElement>("[data-atlas]");
+    off = root ? initAtlas(root) : null;
+  });
+  document.addEventListener("astro:before-swap", () => {
+    off?.();
+    off = null;
+  });
+</script>

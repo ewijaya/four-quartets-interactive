@@ -6,6 +6,7 @@ import { getPrefs, onPrefs, reducedMotion } from "./prefs";
 import { NoteSheet } from "./sheet";
 import { announce } from "./a11y";
 import { registerShortcut } from "./keyboard";
+import { initLineTools } from "./linetools";
 
 const BASE = (import.meta.env.BASE_URL ?? "/").replace(/\/$/, "");
 const WIDE = window.matchMedia("(min-width: 1100px)");
@@ -289,13 +290,6 @@ export function initReader(root: HTMLElement): () => void {
       toggle.setAttribute("aria-expanded", String(open));
       return;
     }
-    const ln = t.closest<HTMLAnchorElement>("a.ln");
-    if (ln) {
-      e.preventDefault();
-      const line = ln.closest<HTMLElement>(".line")!;
-      copyLineLink(line);
-      return;
-    }
     const noteLink = t.closest<HTMLAnchorElement>("a[data-note-link]");
     if (noteLink && notes.has(noteLink.dataset.noteLink!)) {
       e.preventDefault();
@@ -429,18 +423,6 @@ export function initReader(root: HTMLElement): () => void {
     }
     return false;
   };
-
-  function copyLineLink(line: HTMLElement) {
-    const [, m, n] = line.dataset.line!.split(".");
-    const href = `${location.origin}${BASE}/${quartetId}/${m}#${n}`;
-    history.replaceState(history.state, "", `${BASE}/${quartetId}/${m}#${n}`);
-    highlight([line], false);
-    navigator.clipboard?.writeText(href).then(
-      () => announce(`Link to line ${n} copied`),
-      () => announce(`Line ${n}`),
-    );
-    toast(`Link to line ${n} copied`);
-  }
 
   // ------------------------------------------------------------------ movement tracking
   let currentMovement = start || 0;
@@ -576,6 +558,12 @@ export function initReader(root: HTMLElement): () => void {
   root.querySelectorAll("[data-movement-text]").forEach((t) => ro.observe(t));
   cleanups.push(() => ro.disconnect());
 
+  cleanups.push(initLineTools(root, quartetId));
+  const printBtn = root.querySelector<HTMLButtonElement>("[data-print]");
+  const onPrint = () => window.print();
+  printBtn?.addEventListener("click", onPrint);
+  cleanups.push(() => printBtn?.removeEventListener("click", onPrint));
+
   // ------------------------------------------------------------------ first run
   syncAnchors();
   syncDisclosureCounts();
@@ -598,19 +586,4 @@ export function initReader(root: HTMLElement): () => void {
     for (const c of cleanups.reverse()) c();
     document.body.classList.remove("reader-ready");
   };
-}
-
-let toastTimer = 0;
-function toast(msg: string) {
-  let el = document.querySelector<HTMLElement>(".toast");
-  if (!el) {
-    el = document.createElement("div");
-    el.className = "toast";
-    el.setAttribute("aria-hidden", "true");
-    document.body.append(el);
-  }
-  el.textContent = msg;
-  el.classList.add("is-shown");
-  window.clearTimeout(toastTimer);
-  toastTimer = window.setTimeout(() => el!.classList.remove("is-shown"), 2200);
 }

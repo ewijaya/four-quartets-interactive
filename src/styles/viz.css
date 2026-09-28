@@ -752,3 +752,210 @@ body.spiral-static .spiral__controls {
     top: calc(var(--header-h) + 0.5rem);
   }
 }
+
+/* ---------------------------------------------------------------- Atlas */
+
+.atlas__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 620px) minmax(18rem, 1fr);
+  gap: var(--s-7);
+  align-items: start;
+}
+.atlas__globe {
+  width: 100%;
+  aspect-ratio: 1;
+  max-width: 620px;
+  touch-action: none;
+}
+.atlas__globe svg {
+  width: 100%;
+  height: auto;
+  cursor: grab;
+}
+.atlas__hint {
+  font-size: 0.82rem;
+  color: var(--ink-faint);
+  text-align: center;
+}
+.globe__sphere {
+  fill: var(--surface-2);
+}
+.globe__rim {
+  fill: none;
+  stroke: var(--rule-strong);
+  stroke-width: 1;
+}
+.globe__graticule {
+  fill: none;
+  stroke: var(--rule);
+  stroke-width: 0.5;
+  stroke-dasharray: 2 3;
+}
+.globe__land {
+  fill: color-mix(in srgb, var(--gold-leaf) 16%, var(--bg));
+  stroke: var(--ink-soft);
+  stroke-width: 0.7;
+}
+.globe__arcs path {
+  fill: none;
+  stroke: var(--ink-faint);
+  stroke-width: 0.9;
+  stroke-dasharray: 3 4;
+  opacity: 0.7;
+  transition: stroke var(--t-1) var(--ease);
+}
+.globe__arcs path.is-on {
+  stroke: var(--rubric);
+  stroke-width: 1.4;
+  opacity: 1;
+}
+.globe__place {
+  cursor: pointer;
+}
+.globe__place .dot {
+  fill: var(--ink-soft);
+  stroke: var(--bg);
+  stroke-width: 1.2;
+}
+.globe__place--quartet .dot {
+  fill: var(--accent);
+}
+.globe__place .halo {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1;
+}
+.globe__place--source .halo,
+.globe__place--life .halo {
+  stroke: var(--ink-faint);
+  stroke-dasharray: 2 3;
+}
+.globe__place.is-selected .dot {
+  fill: var(--rubric);
+}
+.globe__place .label {
+  font-family: var(--font-display-stack);
+  font-size: 14px;
+  fill: var(--ink);
+  paint-order: stroke;
+  stroke: var(--bg);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+.atlas__list section + section {
+  margin-top: var(--s-4);
+}
+.atlas__list ul {
+  list-style: none;
+  margin: var(--s-2) 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+.atlas__list a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 2.25rem;
+  padding: 0.25rem 0.7rem;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  text-decoration: none;
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+}
+.atlas__list a:hover,
+.atlas__list a[aria-current="true"] {
+  border-color: var(--accent);
+  color: var(--ink);
+}
+.atlas__mark {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: var(--ink-soft);
+}
+.atlas__mark--quartet {
+  background: var(--accent);
+}
+.atlas__mark--source {
+  background: none;
+  border: 1px solid var(--ink-soft);
+}
+.atlas__cards {
+  margin-top: var(--s-5);
+  display: grid;
+  gap: var(--s-5);
+}
+.place-card {
+  padding: var(--s-4);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
+  scroll-margin-top: calc(var(--header-h) + 1rem);
+}
+.place-card h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.8rem;
+  margin: 0.2rem 0;
+}
+.place-card h2 .emblem {
+  color: var(--accent);
+}
+.place-card__coords {
+  font-size: 0.8rem;
+  color: var(--ink-faint);
+  font-variant-numeric: tabular-nums;
+}
+.place-card__blurb {
+  font-family: var(--font-poem-stack);
+  font-size: 1.1rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+.place-card__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1rem;
+  font-size: 0.9rem;
+}
+.sketch {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-bottom: var(--s-3);
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: var(--s-2);
+}
+.sketch path {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.sk-s-ink {
+  stroke: var(--ink);
+}
+.sk-s-accent {
+  stroke: color-mix(in srgb, var(--accent) 80%, var(--ink));
+}
+.sk-s-wash {
+  stroke: var(--ink-faint);
+  opacity: 0.7;
+}
+.sk-s-none {
+  stroke: none;
+}
+@media (max-width: 899px) {
+  .atlas__grid {
+    grid-template-columns: 1fr;
+    gap: var(--s-4);
+  }
+}
+@media (max-width: 599px) {
+  .globe__place .label {
+    font-size: 12px;
+  }
+}

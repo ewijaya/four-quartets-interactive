@@ -85,8 +85,6 @@ const noteCount = local.size;
         id={`m${m.n}`}
         data-movement={m.n}
         aria-labelledby={`m${m.n}-h`}
-        data-pagefind-body={m.n === start ? "" : undefined}
-        data-pagefind-meta={m.n === start ? `title:${q.title} ${m.roman}` : undefined}
       >
         <h2 class="movement-heading" id={`m${m.n}-h`} data-tiles data-element={q.element}>
           <span class="sr-only">
@@ -168,6 +166,7 @@ const noteCount = local.size;
         </a>
       </li>
     </ul>
+    <p class="reader-end__print"><button class="btn" type="button" data-print>Print or save as PDF</button></p>
     <p class="reader-end__movements">
       {
         view.movements.map((m) => (

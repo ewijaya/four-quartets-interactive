@@ -59,7 +59,7 @@ export const SOURCES: Source[] = [
     work: "The Boke Named the Governour",
     date: "1531",
     note: "Tudor treatise on the education of rulers. Its chapter on dancing as a figure of matrimony and concord is quoted, in its old spelling, in the midsummer dance of East Coker I.",
-    placeId: "london",
+    placeId: "london-berthelet",
   },
   {
     id: "mallarme",

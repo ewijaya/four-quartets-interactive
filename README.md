@@ -20,7 +20,7 @@ Built in phases (see [docs/PLAN.md](docs/PLAN.md); screenshots and reviews in
 - [x] 2 — Burnt Norton annotation corpus, anchor resolver and report
 - [x] 3 — Elemental scenes and tile transitions
 - [x] 4 — Still Point home, Movement Map, Time Spiral, Motif Tracer
-- [ ] 5 — Atlas, soundscape, search, notes
+- [x] 5 — Atlas, soundscape, search, notes
 - [ ] 6 — Polish, audits, remaining annotations
 
 ## Quick start

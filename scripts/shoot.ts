@@ -106,6 +106,33 @@ export const SHOTS: Shot[] = [
   { name: "spiral", path: "/spiral", wait: 1500 },
   { name: "motifs", path: "/motifs" },
   { name: "motif-rose", path: "/motifs/rose" },
+  { name: "atlas", path: "/atlas" },
+  {
+    name: "search",
+    path: "/burnt-norton/1",
+    act: async (page) => {
+      await page.keyboard.press("/");
+      await page.locator(".search input").fill("still point");
+      await settle(page, 1200);
+    },
+  },
+  {
+    name: "line-tools",
+    path: "/burnt-norton/1",
+    act: async (page) => {
+      const l = page.locator('[data-line="BN.1.12"]');
+      await l.locator(".ln").click({ force: true });
+      await page.locator('.line-pop [data-act="bookmark"]').click();
+      await page.locator('[data-line="BN.1.14"] .ln').click({ force: true });
+      await page.locator('.line-pop [data-act="note"]').click();
+      await page.locator(".line-pop textarea").fill("The door we never opened — compare East Coker's ‘way of putting it’.");
+      await page.locator('.line-pop [data-act="save"]').click();
+      await page.locator('[data-line="BN.1.10"] .ln').click({ force: true });
+      await l.scrollIntoViewIfNeeded();
+      await settle(page, 600);
+    },
+  },
+  { name: "my-notes", path: "/my-notes" },
   { name: "notes-index", path: "/notes" },
   { name: "note-page", path: "/notes/bn-sunlight-pool" },
   { name: "sources", path: "/sources" },
@@ -128,7 +155,7 @@ async function waitForServer(url: string, ms = 30000) {
 
 export async function withPreview<T>(fn: () => Promise<T>, build = true): Promise<T> {
   const env = { ...process.env, STILLPOINT_TEXT: "sample" };
-  if (build) execSync("npx astro build", { stdio: "inherit", env });
+  if (build) execSync("npm run build", { stdio: "inherit", env });
   const server: ChildProcess = spawn("npx", ["astro", "preview", "--port", String(PORT), "--ignore-lock"], {
     env,
     stdio: "ignore",
@@ -156,7 +183,7 @@ const VIEWPORTS = {
 } as const;
 
 async function main() {
-  const shots = SHOTS.filter((s) => !only || s.name.includes(only));
+  const shots = SHOTS.filter((s) => !only || only.split(",").some((o) => s.name.includes(o)));
   // Overwrite only the shots being taken (partial runs keep the rest).
   mkdirSync(outDir, { recursive: true });
   const problems: string[] = [];

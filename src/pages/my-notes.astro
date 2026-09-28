@@ -1,0 +1,39 @@
+---
+import Base from "../layouts/Base.astro";
+import { QUARTETS } from "../data/quartets";
+import "../styles/pages.css";
+
+const quartets = QUARTETS.map((q) => ({ code: q.code, id: q.id, title: q.title }));
+---
+
+<Base title="Bookmarks & notes" description="Your bookmarks and personal notes, kept in this browser." section="my-notes">
+  <div class="page page--narrow my-notes" data-my-notes data-quartets={JSON.stringify(quartets)}>
+    <h1>Bookmarks &amp; notes</h1>
+    <p class="lede">
+      Kept in this browser only — nothing is sent anywhere. Click a line number in the poem to bookmark it or write a note, or press
+      <kbd>b</kbd> or <kbd>n</kbd> while reading.
+    </p>
+    <div class="my-notes__actions">
+      <button class="btn" type="button" data-export>Export (JSON)</button>
+      <label class="btn my-notes__import">Import… <input type="file" accept="application/json,.json" data-import class="sr-only" /></label>
+    </div>
+    <div data-list aria-live="polite">
+      <p class="muted">Loading…</p>
+    </div>
+    <noscript><p>Bookmarks and notes need JavaScript and browser storage.</p></noscript>
+  </div>
+</Base>
+
+<script>
+  import { initMyNotes } from "../lib/client/my-notes";
+  let off: (() => void) | null = null;
+  document.addEventListener("astro:page-load", () => {
+    off?.();
+    const root = document.querySelector<HTMLElement>("[data-my-notes]");
+    off = root ? initMyNotes(root) : null;
+  });
+  document.addEventListener("astro:before-swap", () => {
+    off?.();
+    off = null;
+  });
+</script>

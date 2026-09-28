@@ -16,7 +16,7 @@ export default defineConfig({
   },
   webServer: {
     // Always the sample text: tests are public artefacts too.
-    command: `STILLPOINT_TEXT=sample npx astro build && STILLPOINT_TEXT=sample npx astro preview --port ${PORT} --ignore-lock`,
+    command: `STILLPOINT_TEXT=sample npm run build && STILLPOINT_TEXT=sample npx astro preview --port ${PORT} --ignore-lock`,
     url: `http://localhost:${PORT}`,
     reuseExistingServer: false,
     timeout: 180_000,

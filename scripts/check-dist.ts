@@ -44,26 +44,39 @@ function main() {
     return;
   }
   const bundle = JSON.parse(readFileSync(PRIVATE_JSON, "utf8")) as TextBundle;
-  const needles = bundle.quartets
-    .flatMap((q) => q.movements.flatMap((m) => m.stanzas.flatMap((s) => s.lines.map((l) => l.text))))
-    .filter((t) => t.length >= 24);
+  // Every line with its position, so passages (consecutive lines) can be recognised.
+  const all = bundle.quartets.flatMap((q) =>
+    q.movements.flatMap((m) => m.stanzas.flatMap((s) => s.lines.map((l) => ({ key: `${q.code}.${m.n}`, n: l.n, text: l.text })))),
+  );
+  const lines = all.filter((l) => l.text.length >= 16);
+  const words = (t: string) => t.split(/\s+/).filter(Boolean).length;
+  // Lemmas (≤ 6 words) may legitimately equal a whole short line, scattered through a
+  // page as labels. A leak looks different: a longer line, a passage of consecutive
+  // lines, or a great many lines in one file.
   const hits: string[] = [];
   for (const file of walk(DIST)) {
     if (!/\.(html|js|mjs|json|txt|xml|css|pf_fragment|pf_index|pf_meta|pagefind)$/.test(file)) continue;
     const body = readMaybeGzip(file);
-    for (const n of needles) {
-      if (body.includes(n)) {
-        hits.push(`${file}: contains a private line (${n.slice(0, 12)}…)`);
-        break;
-      }
+    const found = lines.filter((l) => body.includes(l.text));
+    const long = found.find((l) => words(l.text) > 6);
+    if (long) {
+      hits.push(`${file}: contains a private line of ${words(long.text)} words (${long.key}.${long.n})`);
+      continue;
     }
+    const at = new Set(found.map((l) => `${l.key}.${l.n}`));
+    const passage = found.find((l) => at.has(`${l.key}.${l.n + 1}`) && at.has(`${l.key}.${l.n + 2}`));
+    if (passage) {
+      hits.push(`${file}: contains consecutive private lines from ${passage.key}.${passage.n}`);
+      continue;
+    }
+    if (found.length > 40) hits.push(`${file}: contains ${found.length} private lines`);
   }
   if (hits.length) {
     console.error(`check-dist: ✗ private text found in ${hits.length} file(s):`);
     hits.slice(0, 20).forEach((h) => console.error("  " + h));
     process.exit(1);
   }
-  console.log(`check-dist: ✓ scanned dist/ — no private text (${needles.length} lines checked).`);
+  console.log(`check-dist: ✓ scanned dist/ — no private text (${lines.length} lines checked).`);
 }
 
 main();

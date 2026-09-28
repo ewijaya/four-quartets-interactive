@@ -784,3 +784,226 @@
 .cite {
   color: inherit;
 }
+
+/* --------------------------------------------------------- line tools, bookmarks, personal notes */
+
+.line.is-bookmarked .lt::after {
+  content: "";
+  display: inline-block;
+  width: 0.45em;
+  height: 0.7em;
+  margin-left: 0.45em;
+  vertical-align: 0.05em;
+  background: var(--rubric);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 72%, 0 100%);
+}
+.line-pop {
+  position: relative;
+  z-index: 20;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0.35rem 0 0.6rem;
+  padding: 0.45rem;
+  border: 1px solid var(--rule-strong);
+  border-radius: 6px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  font-family: var(--font-ui-stack);
+  font-size: 0.9rem;
+  line-height: 1.3;
+  text-indent: 0;
+}
+.line-pop > button {
+  min-height: 2.25rem;
+  padding: 0.3rem 0.75rem;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+}
+.line-pop > button:hover {
+  border-color: var(--accent);
+}
+.line-pop textarea {
+  width: min(30rem, 80vw);
+  padding: 0.5rem;
+  border: 1px solid var(--rule-strong);
+  border-radius: 4px;
+  background: var(--bg);
+  color: var(--ink);
+  font: inherit;
+  font-size: 1rem;
+}
+.line-pop__label {
+  width: 100%;
+  font-size: 0.8rem;
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.12em;
+  color: var(--ink-soft);
+}
+.line-pop__row {
+  display: flex;
+  gap: 0.35rem;
+}
+.line-pop__hint {
+  width: 100%;
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--ink-faint);
+}
+.my-note {
+  display: block;
+  margin: 0.2rem 0 0.5rem 1.75em;
+  padding: 0.35rem 0.6rem 0.4rem 0.75rem;
+  border-left: 2px solid var(--rubric);
+  background: color-mix(in srgb, var(--rubric) 6%, transparent);
+  font-family: var(--font-ui-stack);
+  font-style: italic;
+  font-size: 0.92rem;
+  line-height: 1.45;
+  color: var(--ink-soft);
+  text-indent: 0;
+}
+.my-note__text {
+  white-space: pre-wrap;
+}
+.my-note__btn {
+  margin-left: 0.6rem;
+  padding: 0.1rem 0.2rem;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-style: normal;
+  font-size: 0.78rem;
+  color: var(--ink-faint);
+  text-decoration: underline;
+  cursor: pointer;
+}
+.ln {
+  cursor: pointer;
+}
+@media print {
+  .line-pop,
+  .my-note__btn {
+    display: none !important;
+  }
+}
+
+.reader-end__print {
+  margin: 0 0 var(--s-5);
+}
+
+/* --------------------------------------------------------- print */
+
+@media print {
+  @page {
+    margin: 20mm 18mm 22mm;
+  }
+  :root,
+  :root[data-theme="night"] {
+    --bg: #fff;
+    --ink: #000;
+    --ink-soft: #222;
+    --ink-faint: #555;
+    --rule: #bbb;
+    --accent: #000;
+    --rubric: #7a1d14;
+  }
+  html,
+  body {
+    background: #fff !important;
+    color: #000;
+  }
+  .reader {
+    display: block;
+    font-size: 11.5pt;
+    line-height: 1.45;
+  }
+  .title-page {
+    min-height: 0;
+    padding: 0 0 12mm;
+  }
+  .title-page__begin,
+  .reader-end,
+  .notes__disclosure,
+  .note__toggle::after,
+  .note__permalink,
+  .anchor--approx::after {
+    display: none !important;
+  }
+  .movement {
+    display: block;
+    padding-top: 0;
+    break-before: page;
+  }
+  .movement-heading {
+    margin-bottom: 8mm;
+  }
+  .movement-heading.is-tiling > * {
+    visibility: visible;
+  }
+  .movement__text::before {
+    display: none;
+  }
+  .stanza {
+    break-inside: avoid-page;
+  }
+  .ln {
+    opacity: 1;
+    color: #666;
+  }
+  .line:not(.line--numbered) .ln {
+    opacity: 0;
+  }
+  .line.is-target {
+    background: none;
+  }
+  .anchor {
+    text-decoration-color: #999;
+    background: none !important;
+  }
+  /* Notes as endnotes at the chosen density. */
+  .movement .notes,
+  .notes--quartet {
+    position: static !important;
+    visibility: visible !important;
+    min-height: 0 !important;
+    margin-top: 8mm;
+    border-top: 0.5pt solid #999;
+    font-size: 9pt;
+    break-before: auto;
+  }
+  .movement .notes .notes__title {
+    display: block !important;
+  }
+  .notes__list,
+  .js .movement .notes .notes__list {
+    display: block !important;
+  }
+  .note,
+  .js .movement .note {
+    position: static !important;
+    transform: none !important;
+    border: 0 !important;
+    padding: 0 !important;
+    margin: 0 0 4mm !important;
+    box-shadow: none !important;
+    background: none !important;
+    break-inside: avoid;
+  }
+  .note__body,
+  .js .movement .note:not(.is-open) .note__body,
+  .js .movement .note:not(.is-open) .note__loc,
+  .js .notes--quartet .note:not(.is-open) .note__body {
+    display: block !important;
+  }
+  .motif-chip,
+  .conf {
+    border: 0;
+    padding: 0;
+  }
+}

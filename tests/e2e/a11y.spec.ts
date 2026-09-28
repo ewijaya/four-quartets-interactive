@@ -1,7 +1,7 @@
 import AxeBuilder from "@axe-core/playwright";
 import { test, expect, setPrefs } from "./fixtures";
 
-const ROUTES = ["/", "/burnt-norton", "/burnt-norton/2", "/little-gidding/5", "/notes", "/notes/bn-still-point", "/sources", "/about", "/map", "/compare/2", "/motifs", "/motifs/rose", "/spiral"];
+const ROUTES = ["/", "/burnt-norton", "/burnt-norton/2", "/little-gidding/5", "/notes", "/notes/bn-still-point", "/sources", "/about", "/map", "/compare/2", "/motifs", "/motifs/rose", "/spiral", "/atlas", "/my-notes"];
 
 for (const theme of ["vellum", "night"] as const) {
   for (const route of ROUTES) {

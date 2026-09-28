@@ -1,9 +1,26 @@
-/** Announce a short message to assistive technology through the page's live region. */
-export function announce(msg: string) {
+/**
+ * Announce a short message to assistive technology through the page's live region;
+ * with `visual`, also show it briefly as a toast.
+ */
+let toastTimer = 0;
+export function announce(msg: string, visual = false) {
   const live = document.querySelector<HTMLElement>("[data-live]");
-  if (!live) return;
-  live.textContent = "";
-  window.setTimeout(() => (live.textContent = msg), 60);
+  if (live) {
+    live.textContent = "";
+    window.setTimeout(() => (live.textContent = msg), 60);
+  }
+  if (!visual) return;
+  let el = document.querySelector<HTMLElement>(".toast");
+  if (!el) {
+    el = document.createElement("div");
+    el.className = "toast";
+    el.setAttribute("aria-hidden", "true");
+    document.body.append(el);
+  }
+  el.textContent = msg;
+  el.classList.add("is-shown");
+  window.clearTimeout(toastTimer);
+  toastTimer = window.setTimeout(() => el!.classList.remove("is-shown"), 2200);
 }
 
 /** True when the event target is a text field (single-key shortcuts must not fire). */

@@ -204,3 +204,54 @@
 .recordings li {
   margin-bottom: var(--s-3);
 }
+
+.my-notes__actions {
+  display: flex;
+  gap: 0.5rem;
+  margin: var(--s-4) 0 var(--s-6);
+}
+.my-notes__import {
+  cursor: pointer;
+  position: relative;
+}
+.my-notes__import:focus-within {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+.my-notes__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.my-notes__item {
+  position: relative;
+  padding: var(--s-3) 5rem var(--s-3) 0;
+  border-bottom: 1px solid var(--rule);
+}
+.my-notes__item a {
+  display: block;
+  font-family: var(--font-poem-stack);
+  font-size: 1.15rem;
+}
+.my-notes__item p {
+  margin: 0.3rem 0 0;
+  font-style: italic;
+  color: var(--ink-soft);
+  white-space: pre-wrap;
+}
+.my-notes__item--bookmark .eyebrow {
+  color: var(--rubric);
+}
+.my-notes__del {
+  position: absolute;
+  right: 0;
+  top: var(--s-3);
+  min-height: 2rem;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  background: none;
+  color: var(--ink-soft);
+  font-size: 0.8rem;
+  padding: 0.2rem 0.7rem;
+  cursor: pointer;
+}
