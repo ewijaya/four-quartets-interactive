@@ -1,6 +1,6 @@
 # Import report (private)
 
-Generated 2026-09-28T13:02:17.790Z from `burnt-norton.txt`, `east-coker.txt`, `little-gidding.txt`, `the-dry-salvages.txt` in `content/text-private`.
+Generated 2026-09-28T22:27:43.200Z from `burnt-norton.txt`, `east-coker.txt`, `little-gidding.txt`, `the-dry-salvages.txt` in `content/text-private`.
 Edition: private copy (converted from HTML for personal study)
 
 This report lists structure only; it never reproduces the text.
