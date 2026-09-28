@@ -1,0 +1,19 @@
+---
+/** Inline citation: <Cite id="gardner-1978" /> → "Gardner 1978". */
+import { BIB_BY_ID } from "../../data/bibliography";
+import { SOURCE_BY_ID } from "../../data/sources";
+import { url } from "../../lib/url";
+
+interface Props {
+  id: string;
+  loc?: string;
+}
+const { id, loc } = Astro.props;
+const bib = BIB_BY_ID[id];
+const src = SOURCE_BY_ID[id];
+if (!bib && !src) throw new Error(`<Cite id="${id}"> is not in the bibliography or sources`);
+const surname = (a: string) => a.split(/ and |, /)[0]!.replace(/\(eds?\.\)/, "").trim().split(" ").pop();
+const label = bib ? `${surname(bib.author)} ${bib.year}` : src!.author;
+---
+
+<a class="cite" href={url(`/sources#${id}`)}>{label}{loc ? `, ${loc}` : ""}</a>

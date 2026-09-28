@@ -1,0 +1,95 @@
+---
+import Base from "../layouts/Base.astro";
+import { RECORDINGS } from "../data/recordings";
+import { textMode } from "../lib/text/load";
+import { url } from "../lib/url";
+import "../styles/pages.css";
+
+const sample = textMode() === "sample";
+---
+
+<Base title="About" description="What this edition is, how to read it, and why the poem's text is not bundled." section="about">
+  <div class="page page--narrow prose about">
+    <h1>About</h1>
+    <p class="lede">
+      A reading edition of T. S. Eliot's <cite>Four Quartets</cite>. The poem sits at the centre; everything else — notes, scenes, sound,
+      maps — is there to deepen slow reading, and can be turned down or off.
+    </p>
+
+    <h2 id="reading">How to read</h2>
+    <ul>
+      <li>
+        <strong>Density.</strong> <em>Clean</em> shows the poem alone. <em>Reader</em> underlines phrases with essential notes. <em>Scholar</em> adds
+        prosody, textual matters and cross-references.
+      </li>
+      <li>
+        <strong>Notes</strong> open on hover, tap, or <kbd>Enter</kbd> on an underlined phrase. On wide screens they sit in the margin like
+        glosses; on phones they rise in a sheet from the bottom. Each note says whether it records an <em>established</em> fact or offers an
+        <em>interpretive</em> reading.
+      </li>
+      <li>
+        <strong>Lines</strong> are numbered within each movement. Click a line number to copy a link to it; links look like
+        <code>{url("/burnt-norton/1#12")}</code>.
+      </li>
+      <li><strong>Keyboard.</strong> Press <kbd>?</kbd> for shortcuts. Single-key shortcuts can be switched off in the menu.</li>
+      <li>
+        <strong>Motion and sound.</strong> Scenes behind the text move slowly and can be turned off; with reduced motion set in your system
+        they are replaced by still images. The soundscape is off until you turn it on.
+      </li>
+    </ul>
+
+    <h2 id="rights">The text, and why it is not here</h2>
+    <p>
+      <cite>Four Quartets</cite> is in copyright, and its text is not distributed with this site or its source code.
+      {
+        sample ? (
+          <>
+            You are looking at <strong>placeholder lines</strong> arranged in the shape of the sequence; the notes attach to where their
+            phrases fall in the printed poem.
+          </>
+        ) : (
+          <>This build is reading a privately imported copy of the text, for personal study; it must not be deployed publicly.</>
+        )
+      }
+    </p>
+    <p>
+      If you own a copy, you can import it locally: put a plain-text file for each quartet in <code>content/text-private/</code>, run
+      <code>npm run import-text</code>, and the edition — notes, search, maps and scenes — will use your text. See <code>RIGHTS.md</code>
+      and <code>docs/TEXT-FORMAT.md</code> in the repository.
+    </p>
+
+    <h2 id="recordings">Listen</h2>
+    <p>Recordings are linked, never hosted.</p>
+    <ul class="recordings">
+      {
+        RECORDINGS.map((r) => (
+          <li>
+            <strong>{r.reader}</strong> — {r.what}
+            {r.year && ` (${r.year})`}. {r.note}{" "}
+            {r.links.map((l, i) => (
+              <>
+                {i > 0 && " · "}
+                <a href={l.href} rel="noopener external">
+                  {l.label}
+                </a>
+              </>
+            ))}
+          </li>
+        ))
+      }
+    </ul>
+
+    <h2 id="made">How it is made</h2>
+    <p>
+      A static site built with Astro. The scenes are drawn live with WebGL shaders (three.js); the maps and diagrams with d3; the sketches on
+      the atlas cards with rough.js; the soundscape is synthesised with the Web Audio API. There are no photographs, no audio files and no
+      tracking. Type is set in EB Garamond, Cormorant Garamond and Alegreya Sans.
+    </p>
+
+    <h2 id="accessibility">Accessibility</h2>
+    <p>
+      The poem is plain, readable HTML before any script runs. Notes are accessible disclosures; line numbers are hidden from screen
+      readers; every visualization has a text alternative; everything works from the keyboard. If something gets in your way, please say so.
+    </p>
+  </div>
+</Base>

@@ -1,0 +1,82 @@
+---
+import Base from "../../layouts/Base.astro";
+import NoteCard from "../../components/reader/NoteCard.astro";
+import Emblem from "../../components/chrome/Emblem.astro";
+import { getNotes, TYPE_LABEL } from "../../lib/reader-model";
+import { QUARTET_BY_CODE, ROMAN } from "../../data/quartets";
+import { lineUrl, movementUrl, noteUrl, quartetUrl, url } from "../../lib/url";
+import "../../styles/reader.css";
+import "../../styles/pages.css";
+
+export async function getStaticPaths() {
+  const notes = await getNotes();
+  return notes.map((n) => ({ params: { id: n.meta.id }, props: { id: n.meta.id } }));
+}
+const { id } = Astro.props;
+const all = await getNotes();
+const note = all.find((n) => n.meta.id === id)!;
+const m = note.meta;
+const q = QUARTET_BY_CODE[m.anchor.quartet];
+const siblings = all.filter((n) => n.meta.anchor.quartet === m.anchor.quartet);
+siblings.sort((a, b) => a.meta.anchor.movement - b.meta.anchor.movement || a.order - b.order);
+const i = siblings.findIndex((n) => n.meta.id === id);
+const prev = siblings[i - 1];
+const next = siblings[i + 1];
+const context =
+  m.anchor.movement === 0
+    ? quartetUrl(q.id)
+    : note.firstLine
+      ? lineUrl(m.anchor.quartet, m.anchor.movement, note.firstLine, note.lastLine)
+      : movementUrl(q.id, m.anchor.movement);
+const where = m.anchor.movement === 0 ? q.title : `${q.title} ${ROMAN[m.anchor.movement]}`;
+---
+
+<Base
+  title={`${m.title} — note on ${where}`}
+  description={`${TYPE_LABEL[m.type]} note on ${where}${m.anchor.lemma ? ` (“${m.anchor.lemma}”)` : ""}.`}
+  element={q.element}
+  section="notes"
+>
+  <article class="page page--narrow note-page" data-pagefind-body data-pagefind-meta={`title:${m.title}`} data-pagefind-filter={`quartet:${q.title}`}>
+    <span data-pagefind-filter="kind:Note" hidden></span>
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href={url("/notes")}>Notes</a>
+      <span aria-hidden="true">/</span>
+      <a href={quartetUrl(q.id)} data-element={q.element}><Emblem element={q.element} size={14} /> {q.title}</a>
+      {
+        m.anchor.movement !== 0 && (
+          <>
+            <span aria-hidden="true">/</span>
+            <a href={movementUrl(q.id, m.anchor.movement)}>{ROMAN[m.anchor.movement]}</a>
+          </>
+        )
+      }
+    </nav>
+    <ol class="notes__list note-page__card">
+      <NoteCard note={note} headingLevel={3} standalone />
+    </ol>
+    <p class="note-page__context">
+      <a class="btn" href={context}>Read in context <span aria-hidden="true">→</span></a>
+    </p>
+    <nav class="note-page__pager" aria-label="More notes on this quartet">
+      {
+        prev ? (
+          <a href={noteUrl(prev.meta.id)} rel="prev">
+            <span class="eyebrow">Previous</span>
+            <span class="t">{prev.meta.title}</span>
+          </a>
+        ) : (
+          <span />
+        )
+      }
+      {
+        next && (
+          <a href={noteUrl(next.meta.id)} rel="next" class="next">
+            <span class="eyebrow">Next</span>
+            <span class="t">{next.meta.title}</span>
+          </a>
+        )
+      }
+    </nav>
+  </article>
+</Base>

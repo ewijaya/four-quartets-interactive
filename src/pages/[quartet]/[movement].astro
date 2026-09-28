@@ -1,0 +1,30 @@
+---
+import Base from "../../layouts/Base.astro";
+import Reader from "../../components/reader/Reader.astro";
+import { QUARTETS, ROMAN, ORDINAL_WORD, MOVEMENT_FUNCTIONS } from "../../data/quartets";
+import { buildQuartetView } from "../../lib/reader-model";
+import type { MovementN } from "../../lib/model";
+
+export function getStaticPaths() {
+  return QUARTETS.flatMap((q) =>
+    ([1, 2, 3, 4, 5] as const).map((m) => ({
+      params: { quartet: q.id, movement: String(m) },
+      props: { code: q.code, movement: m as MovementN },
+    })),
+  );
+}
+const { code, movement } = Astro.props;
+const view = await buildQuartetView(code);
+const q = view.info;
+---
+
+<Base
+  title={`${q.title} ${ROMAN[movement]}`}
+  description={`${q.title}, ${ORDINAL_WORD[movement]} movement (${MOVEMENT_FUNCTIONS[movement].name.toLowerCase()}) — annotated, with notes on sources, places and themes.`}
+  element={q.element}
+  current={{ code: q.code, movement }}
+  scene={q.element}
+  bodyClass="is-reader"
+>
+  <Reader view={view} start={movement} />
+</Base>

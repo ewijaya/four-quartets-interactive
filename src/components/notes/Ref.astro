@@ -1,0 +1,22 @@
+---
+/** Cross-reference inside an annotation body: to="BN.2.16", "BN.2.16-20" or "note:bn-still-point". */
+import { lineUrl, noteUrl } from "../../lib/url";
+import type { MovementN, QuartetCode } from "../../lib/model";
+
+interface Props {
+  to: string;
+}
+const { to } = Astro.props;
+let href = "#";
+let kind = "line";
+if (to.startsWith("note:")) {
+  href = noteUrl(to.slice(5));
+  kind = "note";
+} else {
+  const m = /^(BN|EC|DS|LG)\.([1-5])\.(\d+)(?:-(\d+))?$/.exec(to);
+  if (!m) throw new Error(`<Ref to="${to}"> is not a line id or note:id`);
+  href = lineUrl(m[1] as QuartetCode, Number(m[2]) as MovementN, Number(m[3]), m[4] ? Number(m[4]) : undefined);
+}
+---
+
+<a class="ref" href={href} data-ref-kind={kind}><slot /></a>

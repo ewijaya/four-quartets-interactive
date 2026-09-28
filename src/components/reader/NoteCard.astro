@@ -1,0 +1,93 @@
+---
+import { render } from "astro:content";
+import Citations from "../notes/Citations.astro";
+import Ref from "../notes/Ref.astro";
+import Cite from "../notes/Cite.astro";
+import { TYPE_LABEL, getNotes, type NoteVM } from "../../lib/reader-model";
+import { MOTIFS_BY_ID } from "../../data/motifs";
+import { QUARTET_BY_CODE } from "../../data/quartets";
+import { noteUrl, url } from "../../lib/url";
+
+interface Props {
+  note: NoteVM;
+  /** Ids of notes present on the same page (related links stay in-page). */
+  local?: Set<string>;
+  headingLevel?: 3 | 4;
+  standalone?: boolean;
+}
+const { note, local = new Set<string>(), headingLevel = 4, standalone = false } = Astro.props;
+const { Content } = await render(note.entry);
+const m = note.meta;
+const r = note.resolved;
+const H = `h${headingLevel}`;
+
+const loc =
+  r.kind === "quartet"
+    ? "The whole quartet"
+    : r.kind === "movement"
+      ? "The whole movement"
+      : note.firstLine === note.lastLine
+        ? `Line ${note.firstLine}`
+        : `Lines ${note.firstLine}–${note.lastLine}`;
+
+const related = (await getNotes()).filter((n) => m.related.includes(n.meta.id));
+const quartetTitle = QUARTET_BY_CODE[m.anchor.quartet].title;
+---
+
+<li
+  class="note"
+  id={standalone ? undefined : `n-${m.id}`}
+  data-note={m.id}
+  data-level={m.level}
+  data-type={m.type}
+  data-kind={r.kind}
+  data-lines={r.lines.join(" ")}
+  data-approx={r.approximate ? "" : undefined}
+>
+  <div class="note__head">
+    <span class="note__type">{TYPE_LABEL[m.type]}</span>
+    <H class="note__title">
+      <button class="note__toggle" type="button" aria-expanded="true" aria-controls={`n-${m.id}-body`}>
+        {m.title}
+      </button>
+    </H>
+    <span class="note__loc">
+      {standalone && <span>{quartetTitle}{m.anchor.movement ? ` ${["", "I", "II", "III", "IV", "V"][m.anchor.movement]}` : ""} · </span>}
+      {loc}{m.anchor.lemma && (<> · <q class="note__lemma">{m.anchor.lemma}</q></>)}
+    </span>
+  </div>
+  <div class="note__body" id={`n-${m.id}-body`}>
+    <div class="note__content">
+      <Content components={{ Ref, Cite }} />
+    </div>
+    <div class="note__meta">
+      <span class:list={["conf", `conf--${m.confidence}`]} title={m.confidence === "established" ? "Documented fact or widely accepted identification" : "A reading: argued, not proven"}>
+        {m.confidence === "established" ? "Established" : "Interpretive"}
+      </span>
+      {
+        m.motifs.map((id) => (
+          <a class="motif-chip" href={url(`/motifs/${id}`)} style={`--motif:${MOTIFS_BY_ID[id].color}`}>
+            {MOTIFS_BY_ID[id].name}
+          </a>
+        ))
+      }
+    </div>
+    <Citations items={m.sources} />
+    {
+      related.length > 0 && (
+        <p class="note__related">
+          <span class="citations__label">See also</span>
+          {related.map((rn, i) => (
+            <>
+              {i > 0 && <span aria-hidden="true"> · </span>}
+              <a href={local.has(rn.meta.id) ? `#n-${rn.meta.id}` : noteUrl(rn.meta.id)} data-note-link={rn.meta.id}>
+                {rn.meta.title}
+              </a>
+            </>
+          ))}
+        </p>
+      )
+    }
+    {!standalone && <a class="note__permalink" href={noteUrl(m.id)}>Permalink</a>}
+  </div>
+</li>

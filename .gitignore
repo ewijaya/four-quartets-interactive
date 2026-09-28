@@ -1,0 +1,29 @@
+# The poem text is NOT distributed with this repository. See RIGHTS.md.
+content/text-private/*
+!content/text-private/README.md
+!content/text-private/.gitkeep
+
+# build output
+dist/
+.astro/
+.vercel/
+
+# dependencies
+node_modules/
+
+# test artefacts
+test-results/
+playwright-report/
+reports/lighthouse/*.html
+reports/private/
+
+# logs & os
+*.log
+.DS_Store
+.env
+.env.*
+!.env.example
+
+# cloudflare
+.wrangler/
+.dev.vars

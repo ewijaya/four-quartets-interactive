@@ -1,0 +1,411 @@
+{
+  "source": "sample",
+  "counts": {
+    "annotations": 64,
+    "lemmas": 57,
+    "unresolved": 57,
+    "ambiguous": 0,
+    "problems": 32
+  },
+  "unresolved": [
+    {
+      "id": "bn-axle-tree",
+      "kind": "annotation",
+      "where": "BN II",
+      "lemma": "Clot the bedded axle-tree",
+      "file": "content/annotations/bn/bn-axle-tree.mdx"
+    },
+    {
+      "id": "bn-bell-buried",
+      "kind": "annotation",
+      "where": "BN IV",
+      "lemma": "Time and the bell",
+      "file": "content/annotations/bn/bn-bell-buried.mdx"
+    },
+    {
+      "id": "bn-bits-of-paper",
+      "kind": "annotation",
+      "where": "BN III",
+      "lemma": "Men and bits of paper",
+      "file": "content/annotations/bn/bn-bits-of-paper.mdx"
+    },
+    {
+      "id": "bn-boarhound",
+      "kind": "annotation",
+      "where": "BN II",
+      "lemma": "the boarhound and the boar",
+      "file": "content/annotations/bn/bn-boarhound.mdx"
+    },
+    {
+      "id": "bn-box-circle",
+      "kind": "annotation",
+      "where": "BN I",
+      "lemma": "into the box circle",
+      "file": "content/annotations/bn/bn-box-circle.mdx"
+    },
+    {
+      "id": "bn-children-leaves",
+      "kind": "annotation",
+      "where": "BN I",
+      "lemma": "the leaves were full of children",
+      "file": "content/annotations/bn/bn-children-leaves.mdx"
+    },
+    {
+      "id": "bn-chimera",
+      "kind": "annotation",
+      "where": "BN V",
+      "lemma": "the disconsolate chimera",
+      "file": "content/annotations/bn/bn-chimera.mdx"
+    },
+    {
+      "id": "bn-chinese-jar",
+      "kind": "annotation",
+      "where": "BN V",
+      "lemma": "a Chinese jar still",
+      "file": "content/annotations/bn/bn-chinese-jar.mdx"
+    },
+    {
+      "id": "bn-cloud-passed",
+      "kind": "annotation",
+      "where": "BN I",
+      "lemma": "Then a cloud passed",
+      "file": "content/annotations/bn/bn-cloud-passed.mdx"
+    },
+    {
+      "id": "bn-dance",
+      "kind": "annotation",
+      "where": "BN II",
+      "lemma": "there is only the dance",
+      "file": "content/annotations/bn/bn-dance.mdx"
+    },
+    {
+      "id": "bn-descend-lower",
+      "kind": "annotation",
+      "where": "BN III",
+      "lemma": "Descend lower, descend only",
+      "file": "content/annotations/bn/bn-descend-lower.mdx"
+    },
+    {
+      "id": "bn-desiccation",
+      "kind": "annotation",
+      "where": "BN III",
+      "lemma": "Desiccation of the world of sense",
+      "file": "content/annotations/bn/bn-desiccation.mdx"
+    },
+    {
+      "id": "bn-dim-light",
+      "kind": "annotation",
+      "where": "BN III",
+      "lemma": "In a dim light",
+      "file": "content/annotations/bn/bn-dim-light.mdx"
+    },
+    {
+      "id": "bn-disaffection",
+      "kind": "annotation",
+      "where": "BN III",
+      "lemma": "Here is a place of disaffection",
+      "file": "content/annotations/bn/bn-disaffection.mdx"
+    },
+    {
+      "id": "bn-distraction",
+      "kind": "annotation",
+      "where": "BN III",
+      "lemma": "Distracted from distraction by distraction",
+      "file": "content/annotations/bn/bn-distraction.mdx"
+    },
+    {
+      "id": "bn-drained-pool",
+      "kind": "annotation",
+      "where": "BN I",
+      "lemma": "the drained pool",
+      "file": "content/annotations/bn/bn-drained-pool.mdx"
+    },
+    {
+      "id": "bn-drift-of-stars",
+      "kind": "annotation",
+      "where": "BN II",
+      "lemma": "figured in the drift of stars",
+      "file": "content/annotations/bn/bn-drift-of-stars.mdx"
+    },
+    {
+      "id": "bn-enchainment",
+      "kind": "annotation",
+      "where": "BN II",
+      "lemma": "the enchainment of past and future",
+      "file": "content/annotations/bn/bn-enchainment.mdx"
+    },
+    {
+      "id": "bn-end-precedes",
+      "kind": "annotation",
+      "where": "BN V",
+      "lemma": "the end precedes the beginning",
+      "file": "content/annotations/bn/bn-end-precedes.mdx"
+    },
+    {
+      "id": "bn-erhebung",
+      "kind": "annotation",
+      "where": "BN II",
+      "lemma": "Erhebung without motion",
+      "file": "content/annotations/bn/bn-erhebung.mdx"
+    },
+    {
+      "id": "bn-eyebeam",
+      "kind": "annotation",
+      "where": "BN I",
+      "lemma": "the unseen eyebeam crossed",
+      "file": "content/annotations/bn/bn-eyebeam.mdx"
+    },
+    {
+      "id": "bn-first-world",
+      "kind": "annotation",
+      "where": "BN I",
+      "lemma": "Into our first world",
+      "file": "content/annotations/bn/bn-first-world.mdx"
+    },
+    {
+      "id": "bn-footfalls",
+      "kind": "annotation",
+      "where": "BN I",
+      "lemma": "Footfalls echo in the memory",
+      "file": "content/annotations/bn/bn-footfalls.mdx"
+    },
+    {
+      "id": "bn-garlic-sapphires",
+      "kind": "annotation",
+      "where": "BN II",
+      "lemma": "Garlic and sapphires in the mud",
+      "file": "content/annotations/bn/bn-garlic-sapphires.mdx"
+    },
+    {
+      "id": "bn-heart-of-light",
+      "kind": "annotation",
+      "where": "BN I",
+      "lemma": "heart of light",
+      "file": "content/annotations/bn/bn-heart-of-light.mdx"
+    },
+    {
+      "id": "bn-heaven-damnation",
+      "kind": "annotation",
+      "where": "BN II",
+      "lemma": "Protects mankind from heaven and damnation",
+      "file": "content/annotations/bn/bn-heaven-damnation.mdx"
+    },
+    {
+      "id": "bn-hidden-laughter",
+      "kind": "annotation",
+      "where": "BN V",
+      "lemma": "the hidden laughter",
+      "file": "content/annotations/bn/bn-hidden-laughter.mdx"
+    },
+    {
+      "id": "bn-human-kind",
+      "kind": "annotation",
+      "where": "BN I",
+      "lemma": "Cannot bear very much reality",
+      "file": "content/annotations/bn/bn-human-kind.mdx"
+    },
+    {
+      "id": "bn-kingfisher",
+      "kind": "annotation",
+      "where": "BN IV",
+      "lemma": "After the kingfisher's wing",
+      "file": "content/annotations/bn/bn-kingfisher.mdx"
+    },
+    {
+      "id": "bn-london-districts",
+      "kind": "annotation",
+      "where": "BN III",
+      "lemma": "Hampstead and Clerkenwell, Campden and Putney",
+      "file": "content/annotations/bn/bn-london-districts.mdx"
+    },
+    {
+      "id": "bn-lotos",
+      "kind": "annotation",
+      "where": "BN I",
+      "lemma": "the lotos rose, quietly, quietly",
+      "file": "content/annotations/bn/bn-lotos.mdx"
+    },
+    {
+      "id": "bn-love-unmoving",
+      "kind": "annotation",
+      "where": "BN V",
+      "lemma": "Love is itself unmoving",
+      "file": "content/annotations/bn/bn-love-unmoving.mdx"
+    },
+    {
+      "id": "bn-metalled-ways",
+      "kind": "annotation",
+      "where": "BN III",
+      "lemma": "on its metalled ways",
+      "file": "content/annotations/bn/bn-metalled-ways.mdx"
+    },
+    {
+      "id": "bn-my-words-echo",
+      "kind": "annotation",
+      "where": "BN I",
+      "lemma": "My words echo",
+      "file": "content/annotations/bn/bn-my-words-echo.mdx"
+    },
+    {
+      "id": "bn-one-way",
+      "kind": "annotation",
+      "where": "BN III",
+      "lemma": "This is the one way",
+      "file": "content/annotations/bn/bn-one-way.mdx"
+    },
+    {
+      "id": "bn-quick-now",
+      "kind": "annotation",
+      "where": "BN V",
+      "lemma": "Quick now, here, now, always",
+      "file": "content/annotations/bn/bn-quick-now.mdx"
+    },
+    {
+      "id": "bn-rose-garden",
+      "kind": "annotation",
+      "where": "BN I",
+      "lemma": "Into the rose-garden",
+      "file": "content/annotations/bn/bn-rose-garden.mdx"
+    },
+    {
+      "id": "bn-rose-leaves",
+      "kind": "annotation",
+      "where": "BN I",
+      "lemma": "a bowl of rose-leaves",
+      "file": "content/annotations/bn/bn-rose-leaves.mdx"
+    },
+    {
+      "id": "bn-shaft-sunlight",
+      "kind": "annotation",
+      "where": "BN V",
+      "lemma": "Sudden in a shaft of sunlight",
+      "file": "content/annotations/bn/bn-shaft-sunlight.mdx"
+    },
+    {
+      "id": "bn-smokefall",
+      "kind": "annotation",
+      "where": "BN II",
+      "lemma": "the draughty church at smokefall",
+      "file": "content/annotations/bn/bn-smokefall.mdx"
+    },
+    {
+      "id": "bn-still-point",
+      "kind": "annotation",
+      "where": "BN II",
+      "lemma": "still point of the turning world",
+      "file": "content/annotations/bn/bn-still-point.mdx"
+    },
+    {
+      "id": "bn-sunflower",
+      "kind": "annotation",
+      "where": "BN IV",
+      "lemma": "Will the sunflower turn to us",
+      "file": "content/annotations/bn/bn-sunflower.mdx"
+    },
+    {
+      "id": "bn-sunlight-pool",
+      "kind": "annotation",
+      "where": "BN I",
+      "lemma": "filled with water out of sunlight",
+      "file": "content/annotations/bn/bn-sunlight-pool.mdx"
+    },
+    {
+      "id": "bn-ten-stairs",
+      "kind": "annotation",
+      "where": "BN V",
+      "lemma": "the figure of the ten stairs",
+      "file": "content/annotations/bn/bn-ten-stairs.mdx"
+    },
+    {
+      "id": "bn-they",
+      "kind": "annotation",
+      "where": "BN I",
+      "lemma": "dignified, invisible",
+      "file": "content/annotations/bn/bn-they.mdx"
+    },
+    {
+      "id": "bn-three-moments",
+      "kind": "annotation",
+      "where": "BN II",
+      "lemma": "the arbour where the rain beat",
+      "file": "content/annotations/bn/bn-three-moments.mdx"
+    },
+    {
+      "id": "bn-thrush",
+      "kind": "annotation",
+      "where": "BN I",
+      "lemma": "The deception of the thrush",
+      "file": "content/annotations/bn/bn-thrush.mdx"
+    },
+    {
+      "id": "bn-time-conquered",
+      "kind": "annotation",
+      "where": "BN II",
+      "lemma": "Only through time time is conquered",
+      "file": "content/annotations/bn/bn-time-conquered.mdx"
+    },
+    {
+      "id": "bn-time-present",
+      "kind": "annotation",
+      "where": "BN I",
+      "lemma": "Time present and time past",
+      "file": "content/annotations/bn/bn-time-present.mdx"
+    },
+    {
+      "id": "bn-trilling-wire",
+      "kind": "annotation",
+      "where": "BN II",
+      "lemma": "The trilling wire in the blood",
+      "file": "content/annotations/bn/bn-trilling-wire.mdx"
+    },
+    {
+      "id": "bn-unheard-music",
+      "kind": "annotation",
+      "where": "BN I",
+      "lemma": "unheard music hidden in the shrubbery",
+      "file": "content/annotations/bn/bn-unheard-music.mdx"
+    },
+    {
+      "id": "bn-violin",
+      "kind": "annotation",
+      "where": "BN V",
+      "lemma": "the stillness of the violin",
+      "file": "content/annotations/bn/bn-violin.mdx"
+    },
+    {
+      "id": "bn-waste-sad-time",
+      "kind": "annotation",
+      "where": "BN V",
+      "lemma": "Ridiculous the waste sad time",
+      "file": "content/annotations/bn/bn-waste-sad-time.mdx"
+    },
+    {
+      "id": "bn-word-in-desert",
+      "kind": "annotation",
+      "where": "BN V",
+      "lemma": "The Word in the desert",
+      "file": "content/annotations/bn/bn-word-in-desert.mdx"
+    },
+    {
+      "id": "bn-words-music",
+      "kind": "annotation",
+      "where": "BN V",
+      "lemma": "Words move, music moves",
+      "file": "content/annotations/bn/bn-words-music.mdx"
+    },
+    {
+      "id": "bn-words-strain",
+      "kind": "annotation",
+      "where": "BN V",
+      "lemma": "Crack and sometimes break",
+      "file": "content/annotations/bn/bn-words-strain.mdx"
+    },
+    {
+      "id": "bn-yew",
+      "kind": "annotation",
+      "where": "BN IV",
+      "lemma": "Fingers of yew be curled",
+      "file": "content/annotations/bn/bn-yew.mdx"
+    }
+  ]
+}

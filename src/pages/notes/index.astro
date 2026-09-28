@@ -1,0 +1,67 @@
+---
+import Base from "../../layouts/Base.astro";
+import Emblem from "../../components/chrome/Emblem.astro";
+import { getNotes, TYPE_LABEL } from "../../lib/reader-model";
+import { QUARTETS, ROMAN } from "../../data/quartets";
+import { noteUrl } from "../../lib/url";
+import { ANNOTATION_TYPES } from "../../lib/model";
+import "../../styles/pages.css";
+
+const notes = await getNotes();
+const byQuartet = QUARTETS.map((q) => ({
+  q,
+  movements: [0, 1, 2, 3, 4, 5].map((mv) => ({
+    mv,
+    notes: notes.filter((n) => n.meta.anchor.quartet === q.code && n.meta.anchor.movement === mv).sort((a, b) => a.order - b.order),
+  })),
+}));
+const counts = Object.fromEntries(ANNOTATION_TYPES.map((t) => [t, notes.filter((n) => n.meta.type === t).length]));
+const est = notes.filter((n) => n.meta.confidence === "established").length;
+---
+
+<Base title="Notes" description="Every annotation in the edition, by quartet and movement." section="notes">
+  <div class="page">
+    <h1>Notes</h1>
+    <p class="lede">
+      {notes.length} annotations: {est} on established facts and identifications, {notes.length - est} interpretive readings. Each links
+      back to its place in the poem.
+    </p>
+    <ul class="type-legend" aria-label="Notes by type">
+      {ANNOTATION_TYPES.filter((t) => counts[t]).map((t) => <li><span class="note__type">{TYPE_LABEL[t]}</span> {counts[t]}</li>)}
+    </ul>
+    {
+      byQuartet.map(({ q, movements }) => (
+        <section class="notes-index" data-element={q.element} aria-labelledby={`ni-${q.id}`}>
+          <h2 id={`ni-${q.id}`}>
+            <Emblem element={q.element} size={26} /> {q.title}
+          </h2>
+          {movements.every((m) => !m.notes.length) ? (
+            <p class="muted">Annotations for this quartet are in progress.</p>
+          ) : (
+            <div class="notes-index__cols">
+              {movements
+                .filter((m) => m.notes.length)
+                .map((m) => (
+                  <div>
+                    <h3>{m.mv === 0 ? "The quartet" : `Movement ${ROMAN[m.mv]}`}</h3>
+                    <ul>
+                      {m.notes.map((n) => (
+                        <li>
+                          <a href={noteUrl(n.meta.id)}>{n.meta.title}</a>
+                          <span class="meta">
+                            {TYPE_LABEL[n.meta.type]}
+                            {n.firstLine ? ` · ${n.firstLine}` : ""}
+                            {n.meta.level === "scholar" ? " · scholar" : ""}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+            </div>
+          )}
+        </section>
+      ))
+    }
+  </div>
+</Base>

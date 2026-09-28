@@ -1,0 +1,132 @@
+/*
+ * Design tokens. Two themes over one structure:
+ *   Vellum — iron-gall ink on warm vellum, rubric red, a little gold.
+ *   Night  — starlight ivory on planetarium blue-black.
+ * Each quartet overlays an elemental accent (ink for text, glow for light/scenes).
+ * All text/background pairs are checked by scripts/check-contrast.ts.
+ */
+
+:root {
+  color-scheme: light;
+
+  /* Vellum (default) */
+  --bg: #f4eee1;
+  --bg-deep: #e9dfca;
+  --surface: #faf6ec;
+  --surface-2: #f1e9d8;
+  --ink: #221d17;
+  --ink-soft: #4a4136;
+  --ink-faint: #665b4d;
+  --rule: #d6c9ae;
+  --rule-strong: #b9a784;
+  --rubric: #962a1f;
+  --gold: #806119;
+  --gold-leaf: #b8913a;
+  --focus: #1f5f9e;
+  --scrim: rgb(244 238 225 / 0.8);
+  --shadow: 0 1px 2px rgb(60 40 10 / 0.08), 0 8px 28px rgb(60 40 10 / 0.1);
+
+  /* Elemental accents (Vellum ink / glow) */
+  --air-ink: #34617c;
+  --air-glow: #9cc3dc;
+  --air-rose: #9b4656;
+  --earth-ink: #744a1d;
+  --earth-glow: #d6a468;
+  --water-ink: #1c6464;
+  --water-glow: #7cc7c1;
+  --fire-ink: #9a3a18;
+  --fire-glow: #f0995a;
+
+  --accent: var(--gold);
+  --accent-glow: var(--gold-leaf);
+
+  /* Type */
+  --font-poem-stack: var(--font-poem), "EB Garamond", Georgia, serif;
+  --font-display-stack: var(--font-display), "Cormorant Garamond", Georgia, serif;
+  --font-ui-stack: var(--font-ui), "Alegreya Sans", system-ui, sans-serif;
+
+  --poem-size: clamp(1.125rem, 0.98rem + 0.45vw, 1.3125rem);
+  --poem-leading: 1.62;
+  --measure: 60ch;
+  --ui-size: 0.9375rem;
+  --note-size: 0.96875rem;
+
+  /* Space */
+  --s-1: 0.25rem;
+  --s-2: 0.5rem;
+  --s-3: 0.75rem;
+  --s-4: 1rem;
+  --s-5: 1.5rem;
+  --s-6: 2rem;
+  --s-7: 3rem;
+  --s-8: 4.5rem;
+  --s-9: 7rem;
+
+  --header-h: 3.5rem;
+  --gutter: max(1rem, env(safe-area-inset-left));
+
+  /* Motion: slow, eased, never fast loops */
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --t-1: 600ms;
+  --t-2: 900ms;
+  --t-3: 1200ms;
+  --t-4: 1600ms;
+
+  --radius: 3px;
+}
+
+:root[data-theme="night"] {
+  color-scheme: dark;
+  --bg: #0b0d15;
+  --bg-deep: #06070d;
+  --surface: #121522;
+  --surface-2: #181c2b;
+  --ink: #ebe4d3;
+  --ink-soft: #c3baa8;
+  --ink-faint: #9d9483;
+  --rule: #2a2e3e;
+  --rule-strong: #454a5e;
+  --rubric: #e8907f;
+  --gold: #dcb870;
+  --gold-leaf: #c9a24f;
+  --focus: #8fc1ff;
+  --scrim: rgb(11 13 21 / 0.72);
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 10px 30px rgb(0 0 0 / 0.45);
+
+  --air-ink: #a9cde4;
+  --air-glow: #9cc3dc;
+  --air-rose: #e7a9b4;
+  --earth-ink: #e0b57e;
+  --earth-glow: #d6a468;
+  --water-ink: #8fd3cd;
+  --water-glow: #7cc7c1;
+  --fire-ink: #f4a676;
+  --fire-glow: #f0995a;
+}
+
+[data-element="air"] {
+  --accent: var(--air-ink);
+  --accent-glow: var(--air-glow);
+}
+[data-element="earth"] {
+  --accent: var(--earth-ink);
+  --accent-glow: var(--earth-glow);
+}
+[data-element="water"] {
+  --accent: var(--water-ink);
+  --accent-glow: var(--water-glow);
+}
+[data-element="fire"] {
+  --accent: var(--fire-ink);
+  --accent-glow: var(--fire-glow);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --t-1: 1ms;
+    --t-2: 1ms;
+    --t-3: 1ms;
+    --t-4: 1ms;
+  }
+}

@@ -1,0 +1,24 @@
+---
+import Base from "../../layouts/Base.astro";
+import Reader from "../../components/reader/Reader.astro";
+import { QUARTETS } from "../../data/quartets";
+import { buildQuartetView } from "../../lib/reader-model";
+
+export function getStaticPaths() {
+  return QUARTETS.map((q) => ({ params: { quartet: q.id }, props: { code: q.code } }));
+}
+const { code } = Astro.props;
+const view = await buildQuartetView(code);
+const q = view.info;
+---
+
+<Base
+  title={q.title}
+  description={`${q.title} (${q.year}), the ${["", "first", "second", "third", "fourth"][Number(["BN", "EC", "DS", "LG"].indexOf(q.code)) + 1]} of Eliot's Four Quartets — ${q.summary}`}
+  element={q.element}
+  current={{ code: q.code, movement: 0 }}
+  scene={q.element}
+  bodyClass="is-reader"
+>
+  <Reader view={view} start={0} />
+</Base>

@@ -1,0 +1,183 @@
+---
+import Emblem from "./Emblem.astro";
+import { QUARTETS, ROMAN } from "../../data/quartets";
+import { movementUrl, quartetUrl, url } from "../../lib/url";
+import type { MovementN, QuartetCode } from "../../lib/model";
+
+interface Props {
+  current?: { code: QuartetCode; movement?: 0 | MovementN } | undefined;
+  section?: string | undefined;
+}
+const { current, section } = Astro.props;
+const cq = current ? QUARTETS.find((q) => q.code === current.code) : undefined;
+
+const explore = [
+  { href: url("/map"), label: "Movement Map", key: "map" },
+  { href: url("/spiral"), label: "Time Spiral", key: "spiral" },
+  { href: url("/motifs"), label: "Motif Tracer", key: "motifs" },
+  { href: url("/atlas"), label: "Atlas", key: "atlas" },
+];
+const more = [
+  { href: url("/my-notes"), label: "Bookmarks & notes", key: "my-notes" },
+  { href: url("/sources"), label: "Sources", key: "sources" },
+  { href: url("/about"), label: "About & rights", key: "about" },
+];
+---
+
+<header class="site-header" data-site-header>
+  <div class="site-header__bar">
+    <a class="wordmark" href={url("/")} aria-label="Four Quartets — home, the still point">
+      <Emblem element="still" size={26} />
+      <span class="wordmark__text" aria-hidden="true">Four Quartets</span>
+      <span class="wordmark__sample" title="Sample text: the poem is not bundled"></span>
+    </a>
+
+    <nav class="quartet-nav" aria-label="Quartets">
+      <ul>
+        {
+          QUARTETS.map((q) => (
+            <li>
+              <a
+                href={quartetUrl(q.id)}
+                data-element={q.element}
+                aria-current={current?.code === q.code ? "page" : undefined}
+              >
+                <Emblem element={q.element} size={17} />
+                <span>{q.title}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="site-header__tools">
+      {
+        cq && (
+          <fieldset class="density" data-density-switch>
+            <legend class="sr-only">Annotation density</legend>
+            {(["clean", "reader", "scholar"] as const).map((d) => (
+              <label class="density__opt" title={d === "clean" ? "The poem alone" : d === "reader" ? "Essential notes" : "All notes"}>
+                <input type="radio" name="density" value={d} checked={d === "reader"} />
+                <span>{d[0]!.toUpperCase() + d.slice(1)}</span>
+              </label>
+            ))}
+          </fieldset>
+        )
+      }
+      <button class="icon-btn" type="button" data-search-open aria-label="Search" title="Search ( / )" hidden>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"
+          ><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="M15.5 15.5 21 21" stroke-linecap="round"></path></svg
+        >
+      </button>
+      <button class="icon-btn" type="button" data-sound-toggle aria-pressed="false" aria-label="Soundscape" title="Soundscape (off)" hidden>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5H4Z" stroke-linejoin="round"></path>
+          <path class="wave" d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11" stroke-linecap="round"></path>
+        </svg>
+      </button>
+      <button class="icon-btn" type="button" data-theme-toggle aria-pressed="false" aria-label="Night theme" title="Night theme">
+        <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"
+          ><path d="M19.5 14.5A7.5 7.5 0 0 1 9.5 4.5a7.5 7.5 0 1 0 10 10Z" stroke-linejoin="round"></path></svg
+        >
+        <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"
+          ><circle cx="12" cy="12" r="4"></circle><path
+            d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"
+            stroke-linecap="round"></path></svg
+        >
+      </button>
+      <button class="icon-btn menu-btn" type="button" data-menu-toggle aria-expanded="false" aria-controls="site-menu" aria-label="Menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"
+          ><path d="M4 8h16M4 16h16" stroke-linecap="round"></path></svg
+        >
+      </button>
+    </div>
+  </div>
+
+  <div class="site-menu" id="site-menu" hidden data-site-menu>
+    <div class="site-menu__inner">
+      <nav aria-label="Site">
+        <section class="site-menu__group site-menu__quartets">
+          <h2 class="eyebrow">The quartets</h2>
+          <ul>
+            {
+              QUARTETS.map((q) => (
+                <li>
+                  <a href={quartetUrl(q.id)} data-element={q.element} aria-current={current?.code === q.code ? "page" : undefined}>
+                    <Emblem element={q.element} size={20} />
+                    <span class="t">{q.title}</span>
+                    <span class="y">{q.year}</span>
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </section>
+        <section class="site-menu__group">
+          <h2 class="eyebrow">Explore</h2>
+          <ul>
+            {
+              explore.map((e) => (
+                <li>
+                  <a href={e.href} aria-current={section === e.key ? "page" : undefined}>
+                    {e.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </section>
+        <section class="site-menu__group">
+          <h2 class="eyebrow">Library</h2>
+          <ul>
+            {
+              more.map((e) => (
+                <li>
+                  <a href={e.href} aria-current={section === e.key ? "page" : undefined}>
+                    {e.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </section>
+      </nav>
+      <section class="site-menu__group site-menu__settings" aria-labelledby="settings-h">
+        <h2 class="eyebrow" id="settings-h">Settings</h2>
+        {
+          cq && (
+            <fieldset class="density density--menu" data-density-switch>
+              <legend>Annotations</legend>
+              {(["clean", "reader", "scholar"] as const).map((d) => (
+                <label class="density__opt">
+                  <input type="radio" name="density-menu" value={d} checked={d === "reader"} />
+                  <span>{d[0]!.toUpperCase() + d.slice(1)}</span>
+                </label>
+              ))}
+            </fieldset>
+          )
+        }
+        <label class="switch"><input type="checkbox" data-pref="scenes" checked /> <span>Moving scenes</span></label>
+        <label class="switch"><input type="checkbox" data-pref="shortcuts" checked /> <span>Single-key shortcuts</span></label>
+        <p class="site-menu__hint">Press <kbd>?</kbd> for keyboard shortcuts.</p>
+      </section>
+    </div>
+  </div>
+</header>
+
+  {
+    cq && (
+      <nav class="movement-pips" aria-label={`Movements of ${cq.title}`} data-element={cq.element}>
+        <ol>
+          {([1, 2, 3, 4, 5] as const).map((m) => (
+            <li>
+              <a href={movementUrl(cq.id, m)} data-pip={m} aria-current={current?.movement === m ? "location" : undefined}>
+                <span class="sr-only">Movement </span>
+                {ROMAN[m]}
+              </a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+    )
+  }

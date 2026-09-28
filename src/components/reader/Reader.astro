@@ -1,0 +1,179 @@
+---
+/**
+ * A whole quartet as one continuous reading surface. `start` selects the page
+ * variant: which movement the page opens at and whose lines own the short
+ * fragment ids (#12), and which movement is indexed for search.
+ */
+import Emblem from "../chrome/Emblem.astro";
+import "../../styles/reader.css";
+import NoteCard from "./NoteCard.astro";
+import { QUARTETS, ORDINAL_WORD, ROMAN } from "../../data/quartets";
+import { movementUrl, quartetUrl, url } from "../../lib/url";
+import type { QuartetView } from "../../lib/reader-model";
+import type { MovementN } from "../../lib/model";
+
+interface Props {
+  view: QuartetView;
+  start: 0 | MovementN;
+}
+const { view, start } = Astro.props;
+const q = view.info;
+const idFor = (m: number, n: number) => (m === start ? `${n}` : `l${m}-${n}`);
+const local = new Set([...view.quartetNotes, ...view.movements.flatMap((m) => m.notes)].map((n) => n.meta.id));
+const next = QUARTETS[QUARTETS.findIndex((x) => x.id === q.id) + 1];
+const noteCount = local.size;
+---
+
+<article
+  class="reader"
+  data-reader
+  data-quartet={q.code}
+  data-quartet-id={q.id}
+  data-start={start}
+  data-source={view.source}
+  data-element={q.element}
+>
+  <header class="title-page" id="title">
+    <p class="eyebrow title-page__eyebrow">Four Quartets <span aria-hidden="true">·</span> {q.ordinal}</p>
+    <h1 class="title-page__title">{q.title}</h1>
+    <Emblem element={q.element} size={64} class="title-page__emblem" />
+    <p class="title-page__meta">
+      <span>{q.year}</span><span class="sep" aria-hidden="true">✦</span><span>{q.element}</span>
+    </p>
+    <p class="title-page__place">{q.place}</p>
+    <p class="title-page__summary">{q.summary}</p>
+    {
+      view.frontMatter.length > 0 && (
+        <div class="front-matter" role="group" aria-label="Front matter">
+          {view.frontMatter.map((p) => (
+            <p class="front-matter__para" lang={p.lang}>
+              {p.lines.map((l, i) => (
+                <>
+                  {i > 0 && <br />}
+                  <span style={l.indent ? `padding-left:${l.indent * 0.5}em` : undefined}>{l.text}</span>
+                </>
+              ))}
+            </p>
+          ))}
+        </div>
+      )
+    }
+    {
+      view.quartetNotes.length > 0 && (
+        <aside class="notes notes--quartet" aria-label={`Notes on ${q.title} as a whole`} data-pagefind-ignore>
+          <h2 class="notes__title">About this quartet</h2>
+          <ol class="notes__list">
+            {view.quartetNotes.map((n) => (
+              <NoteCard note={n} local={local} headingLevel={3} />
+            ))}
+          </ol>
+        </aside>
+      )
+    }
+    <a class="title-page__begin" href={`#m1`} data-begin>
+      <span>Begin</span>
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"
+        ><path d="M12 4v16m-6-6 6 6 6-6" stroke-linecap="round" stroke-linejoin="round"></path></svg
+      >
+    </a>
+  </header>
+
+  {
+    view.movements.map((m) => (
+      <section
+        class="movement"
+        id={`m${m.n}`}
+        data-movement={m.n}
+        aria-labelledby={`m${m.n}-h`}
+        data-pagefind-body={m.n === start ? "" : undefined}
+        data-pagefind-meta={m.n === start ? `title:${q.title} ${m.roman}` : undefined}
+      >
+        <h2 class="movement-heading" id={`m${m.n}-h`} data-tiles data-element={q.element}>
+          <span class="sr-only">
+            {q.title}, {ORDINAL_WORD[m.n]} movement
+          </span>
+          <span class="movement-heading__numeral" aria-hidden="true">
+            {m.roman}
+          </span>
+          <span class="movement-heading__caption" aria-hidden="true">
+            {q.title}
+          </span>
+        </h2>
+        <div class="movement__text" data-movement-text>
+          {m.stanzas.map((s) => (
+            <p class="stanza" data-stanza={s.n}>
+              {s.lines.map((l) => (
+                <span
+                  class:list={["line", { "line--step": l.step, "line--numbered": l.n % 5 === 0, "line--ranged": l.inRanges.length > 0 }]}
+                  id={idFor(m.n, l.n)}
+                  data-line={l.id}
+                  data-n={l.n}
+                  data-ranges={l.inRanges.length ? l.inRanges.join(" ") : undefined}
+                  style={l.indent ? `--indent:${l.indent}` : undefined}
+                >
+                  <a class="ln" href={`#${idFor(m.n, l.n)}`} tabindex="-1" aria-hidden="true" data-pagefind-ignore>
+                    {l.n}
+                  </a>
+                  <span class="lt" set:html={l.html} />
+                </span>
+              ))}
+            </p>
+          ))}
+        </div>
+        {m.notes.length > 0 && (
+          <aside class="notes" aria-label={`Notes to ${q.title} ${m.roman}`} data-movement-notes={m.n} data-pagefind-ignore>
+            <h3 class="notes__title">
+              Notes <span aria-hidden="true">·</span> {m.roman}
+            </h3>
+            <ol class="notes__list">
+              {m.notes.map((n) => (
+                <NoteCard note={n} local={local} />
+              ))}
+            </ol>
+          </aside>
+        )}
+      </section>
+    ))
+  }
+
+  <nav class="reader-end" aria-label="Continue">
+    <Emblem element={q.element} size={40} class="reader-end__emblem" />
+    <p class="reader-end__line">
+      End of <cite>{q.title}</cite>{noteCount > 0 && <span class="reader-end__count"> · {noteCount} notes</span>}
+    </p>
+    <ul class="reader-end__links">
+      {
+        next ? (
+          <li>
+            <a href={quartetUrl(next.id)} class="reader-end__next" data-element={next.element}>
+              <span class="eyebrow">Next quartet</span>
+              <span class="t">{next.title}</span>
+            </a>
+          </li>
+        ) : (
+          <li>
+            <a href={url("/")} class="reader-end__next">
+              <span class="eyebrow">Return</span>
+              <span class="t">The still point</span>
+            </a>
+          </li>
+        )
+      }
+      <li>
+        <a href={url("/map")} class="reader-end__next">
+          <span class="eyebrow">See the whole</span>
+          <span class="t">Movement map</span>
+        </a>
+      </li>
+    </ul>
+    <p class="reader-end__movements">
+      {
+        view.movements.map((m) => (
+          <a href={movementUrl(q.id, m.n)} data-movement-link={m.n}>
+            {ROMAN[m.n]}
+          </a>
+        ))
+      }
+    </p>
+  </nav>
+</article>

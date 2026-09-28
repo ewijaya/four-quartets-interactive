@@ -1,0 +1,95 @@
+---
+import { ClientRouter } from "astro:transitions";
+import { Font } from "astro:assets";
+import SiteHeader from "../components/chrome/SiteHeader.astro";
+import SiteFooter from "../components/chrome/SiteFooter.astro";
+import SampleBadge from "../components/chrome/SampleBadge.astro";
+import "../styles/global.css";
+import "../styles/chrome.css";
+import { textMode } from "../lib/text/load";
+import { url } from "../lib/url";
+import type { Element, MovementN, QuartetCode } from "../lib/model";
+
+interface Props {
+  title: string;
+  description?: string;
+  element?: Element | undefined;
+  current?: { code: QuartetCode; movement?: 0 | MovementN } | undefined;
+  section?: string | undefined;
+  /** Scene to run behind the page (home, air, earth, water, fire, spiral, none). */
+  scene?: string;
+  bodyClass?: string;
+  canonical?: string;
+}
+const {
+  title,
+  description = "An interactive, annotated reading of T. S. Eliot's Four Quartets — the poem at the centre, with notes, scenes, sound and maps that deepen slow reading.",
+  element,
+  current,
+  section,
+  scene = "none",
+  bodyClass = "",
+  canonical,
+} = Astro.props;
+const sample = textMode() === "sample";
+const fullTitle = title === "Four Quartets" ? "Four Quartets — The Still Point" : `${title} — Four Quartets`;
+const canonicalURL = new URL(canonical ?? Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="en" data-theme="vellum" data-density="reader">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+    <link rel="icon" href={url("/favicon.svg")} type="image/svg+xml" />
+    <meta name="theme-color" content="#f4eee1" data-theme-color />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <script is:inline>
+      (() => {
+        const KEY = "sp:prefs:v1";
+        const apply = (doc) => {
+          let p = {};
+          try {
+            p = JSON.parse(localStorage.getItem(KEY) || "{}") || {};
+          } catch (e) {}
+          const dark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+          const theme = p.theme === "night" || p.theme === "vellum" ? p.theme : dark ? "night" : "vellum";
+          const r = doc.documentElement;
+          r.dataset.theme = theme;
+          r.dataset.density = ["clean", "reader", "scholar"].includes(p.density) ? p.density : "reader";
+          r.dataset.scenes = p.scenes === false ? "off" : "on";
+          r.classList.add("js");
+          const tc = doc.querySelector("meta[data-theme-color]");
+          if (tc) tc.setAttribute("content", theme === "night" ? "#0b0d15" : "#f4eee1");
+        };
+        apply(document);
+        document.addEventListener("astro:before-swap", (e) => apply(e.newDocument));
+      })();
+    </script>
+    <Font cssVariable="--font-poem" preload={[{ weight: 400, style: "normal" }]} />
+    <Font cssVariable="--font-display" />
+    <Font cssVariable="--font-ui" />
+    <ClientRouter fallback="swap" />
+  </head>
+  <body class={bodyClass} data-element={element} data-scene={scene} data-sample={sample ? "true" : undefined}>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <SiteHeader current={current} section={section} />
+    <div class="stage" id="stage" transition:persist="stage" aria-hidden="true">
+      <img class="stage__still" alt="" decoding="async" hidden />
+    </div>
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <SiteFooter />
+    {sample && <SampleBadge />}
+    <div class="live-region sr-only" aria-live="polite" data-live></div>
+    <script>
+      import "../lib/client/app";
+    </script>
+  </body>
+</html>

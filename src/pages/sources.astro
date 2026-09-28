@@ -1,0 +1,77 @@
+---
+import Base from "../layouts/Base.astro";
+import { SOURCES } from "../data/sources";
+import { BIBLIOGRAPHY } from "../data/bibliography";
+import { getNotes } from "../lib/reader-model";
+import { noteUrl } from "../lib/url";
+import "../styles/pages.css";
+
+const notes = await getNotes();
+const citing = (ref: string) => notes.filter((n) => n.meta.sources.some((c) => c.ref === ref));
+---
+
+<Base title="Sources" description="The works the poem draws on, and the scholarship the annotations cite." section="sources">
+  <div class="page page--narrow">
+    <h1>Sources</h1>
+    <p class="lede">
+      The works Eliot drew on or answered, and the scholarship the notes rely on. Notes paraphrase and cite; they do not quote critics or
+      letters. A dagger <span class="to-verify" aria-hidden="true">†</span> in a note marks a citation whose page or section has not yet been
+      checked against the source.
+    </p>
+
+    <section aria-labelledby="intertexts">
+      <h2 id="intertexts">Intertexts</h2>
+      <dl class="source-list">
+        {
+          SOURCES.map((s) => {
+            const uses = citing(s.id);
+            return (
+              <div class="source" id={s.id}>
+                <dt>
+                  <span class="source__author">{s.author}</span>, <cite>{s.work}</cite> <span class="source__date">({s.date})</span>
+                </dt>
+                <dd>
+                  <p>{s.note}</p>
+                  {uses.length > 0 && (
+                    <p class="source__uses">
+                      Cited in{" "}
+                      {uses.map((n, i) => (
+                        <>
+                          {i > 0 && ", "}
+                          <a href={noteUrl(n.meta.id)}>{n.meta.title}</a>
+                        </>
+                      ))}
+                    </p>
+                  )}
+                </dd>
+              </div>
+            );
+          })
+        }
+      </dl>
+    </section>
+
+    <section aria-labelledby="scholarship">
+      <h2 id="scholarship">Scholarship and editions</h2>
+      <dl class="source-list">
+        {
+          BIBLIOGRAPHY.map((b) => {
+            const uses = citing(b.id);
+            return (
+              <div class="source" id={b.id}>
+                <dt>
+                  <span class="source__author">{b.author}</span> ({b.year}). <cite>{b.title}</cite>
+                  {b.publisher ? `. ${b.publisher}.` : "."}
+                </dt>
+                <dd>
+                  {b.note && <p>{b.note}</p>}
+                  {uses.length > 0 && <p class="source__uses">Cited in {uses.length} note{uses.length === 1 ? "" : "s"}.</p>}
+                </dd>
+              </div>
+            );
+          })
+        }
+      </dl>
+    </section>
+  </div>
+</Base>

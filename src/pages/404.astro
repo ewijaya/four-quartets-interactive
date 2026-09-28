@@ -1,0 +1,14 @@
+---
+import Base from "../layouts/Base.astro";
+import Emblem from "../components/chrome/Emblem.astro";
+import { url } from "../lib/url";
+---
+
+<Base title="Not found" description="This page does not exist.">
+  <div class="page page--narrow" style="text-align:center">
+    <Emblem element="still" size={56} />
+    <h1 style="margin-top:1.5rem">Not here</h1>
+    <p class="lede" style="margin-inline:auto">There is no page at this address. Perhaps it moved, or was never written.</p>
+    <p><a class="btn" href={url("/")}>Return to the still point</a></p>
+  </div>
+</Base>

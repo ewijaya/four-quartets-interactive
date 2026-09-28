@@ -1,0 +1,206 @@
+/* Shared styles for text pages: notes, sources, about. */
+
+.muted {
+  color: var(--ink-faint);
+}
+
+.crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: var(--s-6);
+  font-size: 0.875rem;
+  color: var(--ink-faint);
+}
+.crumbs a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--ink-soft);
+  text-decoration: none;
+}
+.crumbs a:hover {
+  color: var(--ink);
+}
+.crumbs .emblem {
+  color: var(--accent);
+}
+
+.note-page__card {
+  padding: 0;
+  margin: 0;
+}
+.note-page .note {
+  font-family: var(--font-ui-stack);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+}
+.note-page .note__title {
+  font-size: clamp(1.75rem, 1.3rem + 1.6vw, 2.5rem);
+  font-weight: 400;
+  font-family: var(--font-display-stack);
+  margin: 0.25rem 0;
+}
+.note-page .note__toggle {
+  cursor: default;
+}
+.note-page .note__loc {
+  font-size: 0.9rem;
+}
+.note-page .note__body {
+  margin-top: var(--s-4);
+}
+.note-page .note__content {
+  font-family: var(--font-poem-stack);
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: var(--ink);
+}
+.note-page .note__content p {
+  margin-bottom: 1em;
+}
+.note-page__context {
+  margin: var(--s-6) 0;
+}
+.note-page__pager {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--s-4);
+  margin-top: var(--s-7);
+  padding-top: var(--s-5);
+  border-top: 1px solid var(--rule);
+}
+.note-page__pager a {
+  display: grid;
+  gap: 0.15rem;
+  max-width: 48%;
+  text-decoration: none;
+  color: var(--ink-soft);
+}
+.note-page__pager a:hover {
+  color: var(--ink);
+}
+.note-page__pager .next {
+  text-align: right;
+  margin-left: auto;
+}
+.note-page__pager .t {
+  font-family: var(--font-poem-stack);
+  font-size: 1.1rem;
+}
+
+.type-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  list-style: none;
+  padding: 0;
+  margin: var(--s-5) 0 var(--s-7);
+  color: var(--ink-faint);
+  font-size: 0.9rem;
+}
+.type-legend .note__type {
+  margin-right: 0.25rem;
+}
+
+.notes-index {
+  margin-bottom: var(--s-8);
+}
+.notes-index h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 2.2rem;
+  padding-bottom: var(--s-3);
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: var(--s-5);
+}
+.notes-index h2 .emblem {
+  color: var(--accent);
+}
+.notes-index h3 {
+  font-family: var(--font-ui-stack);
+  font-size: 0.82rem;
+  font-weight: 500;
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.16em;
+  color: var(--ink-faint);
+  margin-bottom: var(--s-3);
+}
+.notes-index__cols {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: var(--s-5) var(--s-6);
+}
+.notes-index ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.notes-index li {
+  display: grid;
+  margin-bottom: 0.55rem;
+}
+.notes-index li a {
+  font-family: var(--font-poem-stack);
+  font-size: 1.08rem;
+  text-decoration: none;
+  color: var(--ink);
+}
+.notes-index li a:hover {
+  text-decoration: underline;
+}
+.notes-index .meta {
+  font-size: 0.78rem;
+  color: var(--ink-faint);
+}
+
+.source-list {
+  margin: 0;
+}
+.source {
+  padding: var(--s-4) 0;
+  border-bottom: 1px solid var(--rule);
+  scroll-margin-top: calc(var(--header-h) + 1rem);
+}
+.source:target {
+  background: color-mix(in srgb, var(--accent-glow) 14%, transparent);
+}
+.source dt {
+  font-family: var(--font-poem-stack);
+  font-size: 1.15rem;
+  color: var(--ink);
+}
+.source dd {
+  margin: 0.35rem 0 0;
+  color: var(--ink-soft);
+}
+.source dd p {
+  margin: 0 0 0.35rem;
+}
+.source__author {
+  font-variant-caps: small-caps;
+  letter-spacing: 0.03em;
+}
+.source__date {
+  color: var(--ink-faint);
+}
+.source__uses {
+  font-size: 0.875rem;
+  color: var(--ink-faint);
+}
+.page section > h2 {
+  font-size: 2rem;
+  margin: var(--s-7) 0 var(--s-3);
+}
+
+.about code {
+  font-size: 0.85em;
+  padding: 0.05em 0.35em;
+  border-radius: 3px;
+  background: var(--surface-2);
+}
+.recordings li {
+  margin-bottom: var(--s-3);
+}
