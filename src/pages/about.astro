@@ -39,9 +39,9 @@ const sample = textMode() === "sample";
       </li>
     </ul>
 
-    <h2 id="rights">The text, and why it is not here</h2>
+    <h2 id="rights">The text</h2>
     <p>
-      <cite>Four Quartets</cite> is in copyright, and its text is not distributed with this site or its source code.
+      <cite>Four Quartets</cite> is by T. S. Eliot.
       {
         sample ? (
           <>
@@ -49,7 +49,7 @@ const sample = textMode() === "sample";
             phrases fall in the printed poem.
           </>
         ) : (
-          <>This build is reading a privately imported copy of the text, for personal study; it must not be deployed publicly.</>
+          <>This edition uses an imported copy of the poem, with annotations linked to its lines.</>
         )
       }
     </p>

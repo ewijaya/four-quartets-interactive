@@ -4,11 +4,11 @@ A reading edition of T. S. Eliot's *Four Quartets*: the poem at the centre, with
 margin notes, elemental scenes, a soundscape and maps that deepen slow reading.
 Contemplative and restrained — illuminated manuscript meets planetarium.
 
-> **The poem's text is not in this repository.** The site ships with placeholder
-> lines in the exact shape of the sequence. Import your own copy locally to read
-> the real text. See [RIGHTS.md](RIGHTS.md).
+> **The poem's text is not in this repository.** A fresh checkout uses placeholder
+> lines in the exact shape of the sequence. The hosted edition is built from a
+> locally imported copy. See [RIGHTS.md](RIGHTS.md).
 
-**Live (sample text):** https://four-quartets-interactive.pages.dev
+**Live:** https://four-quartets-interactive.pages.dev
 
 ## Status
 
@@ -70,9 +70,24 @@ Adding a note, a source or a feature: see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Deployment
 
-Cloudflare Pages builds every push to `main` with `STILLPOINT_PUBLIC=1`, which
-forces the sample text; `scripts/check-dist.ts` fails any build that would
-publish private text.
+Production is uploaded directly from a machine with the imported text:
+
+```sh
+npm run deploy
+```
+
+This runs `build:hosted`, which requires `content/text-private/quartets.json`,
+builds the reader and search index with that text, and uploads `dist/` to the
+production branch of the `four-quartets-interactive` Cloudflare Pages project.
+Wrangler uses `CLOUDFLARE_API_TOKEN` or an existing `wrangler login` session.
+To build without uploading, run `npm run build:hosted`.
+
+Automatic production builds from Git are disabled: Git does not contain the
+imported text, so those builds would replace the hosted edition with placeholders.
+Git preview builds still use `STILLPOINT_PUBLIC=1`, which forces the sample text
+and checks the output for unintended inclusion of imported text. The poem files
+remain ignored by Git. After changing the local `.txt` files, run
+`npm run import-text` before deploying again.
 
 ## Licence
 

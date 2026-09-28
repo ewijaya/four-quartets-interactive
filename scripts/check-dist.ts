@@ -1,7 +1,8 @@
 /**
  * Rights guard. After a build, make sure the private text did not leak into dist/
  * (HTML, JS, JSON and the gzip-compressed Pagefind index) when the build is meant
- * to be public. Local builds with the private text only get a warning.
+ * to use sample text. Imported-text builds warn unless publication was explicitly
+ * selected through npm run build:hosted / npm run deploy.
  */
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
@@ -40,7 +41,11 @@ function main() {
     return;
   }
   if (mode === "private" && !isPublic) {
-    console.warn("check-dist: ⚠ this build contains the PRIVATE text. Do not deploy it publicly (see RIGHTS.md).");
+    if (process.env.STILLPOINT_PUBLISH_TEXT === "1") {
+      console.log("check-dist: imported text included for the explicitly selected hosted edition.");
+    } else {
+      console.warn("check-dist: this build contains imported text. Use npm run deploy only when publication is intended (see RIGHTS.md).");
+    }
     return;
   }
   const bundle = JSON.parse(readFileSync(PRIVATE_JSON, "utf8")) as TextBundle;

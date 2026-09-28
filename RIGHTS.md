@@ -5,7 +5,8 @@
 *Four Quartets* is the work of T. S. Eliot (1888–1965). Its text is protected by
 copyright, held by the Eliot estate and administered by his publishers (Faber and
 Faber in the UK). **No part of the poem's text is included in this repository or in
-any build produced from it by default.**
+any build produced from a fresh checkout by default.** The hosted edition is an
+explicit deployment of a locally imported copy; its text is not committed to Git.
 
 Instead:
 
@@ -13,7 +14,8 @@ Instead:
   arranged in the shape of the sequence — four quartets × five movements with
   approximate stanza and line counts. The shape is structural information, not text.
 - `content/text-private/` is where you may place **your own copy** of the text for
-  local, personal study. Everything in that folder except its README is ignored by git.
+  local reading or an explicitly selected hosted edition. Everything in that folder
+  except its README and `.gitkeep` is ignored by git.
   The importer (`npm run import-text`) turns it into `quartets.json` in the same folder.
 
 When the private text is present, the app renders it; otherwise it renders the sample
@@ -24,7 +26,7 @@ and shows a **Sample text** badge.
 | Risk | Safeguard |
 |---|---|
 | Private text committed to git | `.gitignore` excludes `content/text-private/*` |
-| Private text published in a deploy | `STILLPOINT_PUBLIC=1` (set it in CI and on the host) forces the sample text; `scripts/check-dist.ts` fails the build if any line of your private text appears anywhere in `dist/`, including the search index |
+| Imported text unintentionally included in a sample build | `STILLPOINT_PUBLIC=1` forces the sample text; `scripts/check-dist.ts` scans `dist/`, including the search index, for imported passages |
 | Text leaking through reports | `reports/*.md` describe structure only; the anchor report shows at most six-word windows |
 | Text leaking through screenshots | `npm run shoot` always builds with the sample text; the images in `docs/progress/` never show the poem |
 
@@ -34,10 +36,20 @@ Annotations are original commentary. Each may carry a **lemma** — a short phra
 **at most six words** used as an anchor label, the conventional form of reference in
 scholarly commentary. The schema rejects longer lemmas at build time. Note bodies
 refer to the poem only in short phrases of the same kind (six words or fewer), and do
-not quote critics or letters: they paraphrase and cite. `scripts/check-dist.ts` fails
-the build if any longer line of the poem appears in the output, notes included.
+not quote critics or letters: they paraphrase and cite. For sample builds,
+`scripts/check-dist.ts` fails the build if any longer line of the imported poem
+appears in the output, notes included.
 Public-domain texts (the King James Bible, Julian of Norwich, Dante, and so on) are
 occasionally quoted briefly.
+
+## Hosted edition
+
+`npm run deploy` deliberately publishes the imported text to Cloudflare Pages.
+It requires the local text bundle, builds both HTML and search from it, and uploads
+the result directly. `STILLPOINT_PUBLISH_TEXT=1` records this intentional choice
+in the build check; it does not override `STILLPOINT_PUBLIC=1`.
+Automatic production Git builds are disabled because they only have sample text.
+This deployment choice does not change the copyright status of the poem.
 
 ## Copyright status (orientation only — not legal advice)
 
