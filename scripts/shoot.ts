@@ -7,7 +7,7 @@
  * Fails if any page logs a console error or throws.
  */
 import { spawn, execSync, type ChildProcess } from "node:child_process";
-import { mkdirSync, rmSync } from "node:fs";
+import { mkdirSync } from "node:fs";
 import { join } from "node:path";
 import { chromium, type Page } from "@playwright/test";
 
@@ -101,6 +101,11 @@ export const SHOTS: Shot[] = [
       await page.mouse.wheel(0, 300);
       await settle(page, 4000);
     } },
+  { name: "map", path: "/map" },
+  { name: "compare-2", path: "/compare/2" },
+  { name: "spiral", path: "/spiral", wait: 1500 },
+  { name: "motifs", path: "/motifs" },
+  { name: "motif-rose", path: "/motifs/rose" },
   { name: "notes-index", path: "/notes" },
   { name: "note-page", path: "/notes/bn-sunlight-pool" },
   { name: "sources", path: "/sources" },
@@ -152,7 +157,7 @@ const VIEWPORTS = {
 
 async function main() {
   const shots = SHOTS.filter((s) => !only || s.name.includes(only));
-  rmSync(outDir, { recursive: true, force: true });
+  // Overwrite only the shots being taken (partial runs keep the rest).
   mkdirSync(outDir, { recursive: true });
   const problems: string[] = [];
 

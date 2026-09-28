@@ -486,28 +486,6 @@
 .conf--established::before {
   background: currentColor;
 }
-.motif-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35em;
-  padding: 0.05rem 0.5rem 0.1rem;
-  border: 1px solid var(--rule);
-  border-radius: 999px;
-  font-size: 0.76rem;
-  color: var(--ink-soft);
-  text-decoration: none;
-}
-.motif-chip::before {
-  content: "";
-  width: 0.45em;
-  height: 0.45em;
-  border-radius: 50%;
-  background: var(--motif);
-}
-.motif-chip:hover {
-  border-color: var(--rule-strong);
-  color: var(--ink);
-}
 .citations,
 .note__related {
   margin: 0.35rem 0 0;

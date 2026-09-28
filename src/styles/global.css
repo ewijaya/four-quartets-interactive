@@ -317,3 +317,34 @@ p {
   color: var(--ink-faint);
   font-size: 0.875rem;
 }
+
+/* Motif chips and dots (notes, tracer, map) */
+.motif-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  padding: 0.05rem 0.5rem 0.1rem;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  font-size: 0.76rem;
+  color: var(--ink-soft);
+  text-decoration: none;
+}
+.motif-chip::before {
+  content: "";
+  width: 0.45em;
+  height: 0.45em;
+  border-radius: 50%;
+  background: var(--motif);
+}
+.motif-chip:hover {
+  border-color: var(--rule-strong);
+  color: var(--ink);
+}
+.dot {
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--motif);
+}

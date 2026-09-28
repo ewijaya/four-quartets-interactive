@@ -1,0 +1,112 @@
+---
+import Base from "../layouts/Base.astro";
+import Emblem from "../components/chrome/Emblem.astro";
+import StanzaShape from "../components/viz/StanzaShape.astro";
+import { getSequence } from "../lib/sequence";
+import { MOVEMENT_FUNCTIONS, QUARTETS, ROMAN } from "../data/quartets";
+import { MOTIFS_BY_ID } from "../data/motifs";
+import { movementUrl, url } from "../lib/url";
+import "../styles/viz.css";
+
+const seq = await getSequence();
+const cell = (code: string, n: number) => seq.movements.find((m) => m.quartet === code && m.n === n)!;
+const maxStanza = Math.max(...seq.movements.flatMap((m) => m.stanzas));
+---
+
+<Base title="Movement Map" description="The whole sequence as a grid: four quartets, five movements each, with the parallels between them." section="map">
+  <div class="page viz-page">
+    <p class="eyebrow">Explore</p>
+    <h1>The Movement Map</h1>
+    <p class="lede">
+      Four quartets, five movements each. Read across a row to follow one quartet; read down a column to follow one movement's function
+      through the whole sequence. Each cell sketches the movement's shape — its verse paragraphs, in proportion.
+    </p>
+
+    <table class="mm">
+      <caption class="sr-only">Four Quartets by movement: line counts, verse paragraphs, notes and motifs</caption>
+      <thead>
+        <tr>
+          <td class="mm__corner"></td>
+          {
+            ([1, 2, 3, 4, 5] as const).map((n) => (
+              <th scope="col" data-col={n}>
+                <a href={url(`/compare/${n}`)} class="mm__colhead">
+                  <span class="mm__numeral">{ROMAN[n]}</span>
+                  <span class="mm__fn">{MOVEMENT_FUNCTIONS[n].name}</span>
+                  <span class="mm__compare">Compare</span>
+                </a>
+              </th>
+            ))
+          }
+        </tr>
+      </thead>
+      <tbody>
+        {
+          QUARTETS.map((q, row) => (
+            <tr data-element={q.element} data-row={row}>
+              <th scope="row" class="mm__rowhead">
+                <a href={url(`/${q.id}`)}>
+                  <Emblem element={q.element} size={22} />
+                  <span class="t">{q.title}</span>
+                  <span class="y">
+                    {q.year} · {q.element}
+                  </span>
+                </a>
+              </th>
+              {([1, 2, 3, 4, 5] as const).map((n) => {
+                const m = cell(q.code, n);
+                return (
+                  <td data-col={n}>
+                    <a class="mm__cell" href={movementUrl(q.id, n)} aria-label={`${q.title} ${ROMAN[n]}: ${m.count} lines, ${m.notes + m.scholarNotes} notes`}>
+                      <span class="mm__cellnum" aria-hidden="true">
+                        {ROMAN[n]}
+                      </span>
+                      <StanzaShape stanzas={m.stanzas} max={maxStanza} />
+                      <span class="mm__stats" aria-hidden="true">
+                        {m.count} lines · {m.stanzas.length} {m.stanzas.length === 1 ? "paragraph" : "paragraphs"}
+                      </span>
+                      <span class="mm__notes" aria-hidden="true">
+                        {m.notes + m.scholarNotes > 0 ? `${m.notes + m.scholarNotes} notes` : "notes to come"}
+                      </span>
+                      <span class="mm__motifs" aria-hidden="true">
+                        {m.motifs.slice(0, 9).map((id) => (
+                          <span class="dot" style={`--motif:${MOTIFS_BY_ID[id].color}`} title={MOTIFS_BY_ID[id].name} />
+                        ))}
+                      </span>
+                    </a>
+                  </td>
+                );
+              })}
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+
+    <nav class="mm__mobile-compare" aria-label="Compare a movement across the quartets">
+      <span class="eyebrow">Compare</span>
+      {([1, 2, 3, 4, 5] as const).map((n) => <a href={url(`/compare/${n}`)}>{ROMAN[n]}</a>)}
+    </nav>
+
+    <section class="functions" aria-labelledby="fn-title">
+      <h2 id="fn-title">The five functions</h2>
+      <p class="muted">
+        The parallel pattern was first set out by Helen Gardner (<cite>The Art of T. S. Eliot</cite>, 1949). The summaries are ours, and
+        interpretive.
+      </p>
+      <ol class="functions__list">
+        {
+          ([1, 2, 3, 4, 5] as const).map((n) => (
+            <li>
+              <h3>
+                <span class="mm__numeral">{ROMAN[n]}</span> {MOVEMENT_FUNCTIONS[n].name}
+              </h3>
+              <p>{MOVEMENT_FUNCTIONS[n].gloss}</p>
+              <a href={url(`/compare/${n}`)}>Compare the four {ROMAN[n]}s →</a>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+  </div>
+</Base>

@@ -1,7 +1,136 @@
 import type { MotifId, MotifOccurrence } from "../lib/model";
 
 /**
- * Motif occurrences, anchored by short lemmas and resolved like annotations.
- * Filled in Phase 4 (Motif Tracer).
+ * Where each motif occurs, anchored by short lemmas (≤ 6 words) and resolved against
+ * the text like annotations (see npm run resolve-anchors). `note` links an occurrence
+ * to the annotation that discusses it. Hints are true line numbers (npm run sync-hints).
  */
-export const MOTIF_OCCURRENCES: Partial<Record<MotifId, MotifOccurrence[]>> = {};
+const o = (quartet: MotifOccurrence["quartet"], movement: MotifOccurrence["movement"], lemma: string, hint: number, note?: string): MotifOccurrence =>
+  note ? { quartet, movement, lemma, hint, note } : { quartet, movement, lemma, hint };
+
+export const MOTIF_OCCURRENCES: Partial<Record<MotifId, MotifOccurrence[]>> = {
+  rose: [
+    o("BN", 1, "Into the rose-garden", 14, "bn-rose-garden"),
+    o("BN", 1, "a bowl of rose-leaves", 17, "bn-rose-leaves"),
+    o("BN", 1, "for the roses", 30),
+    o("BN", 1, "the lotos rose, quietly, quietly", 38, "bn-lotos"),
+    o("BN", 2, "the moment in the rose-garden", 40, "bn-three-moments"),
+    o("LG", 2, "the burnt roses leave", 2),
+    o("LG", 3, "the spectre of a Rose", 35),
+    o("LG", 5, "the moment of the rose", 19),
+    o("LG", 5, "the fire and the rose", 46),
+  ],
+  garden: [
+    o("BN", 1, "Inhabit the garden", 20),
+    o("BN", 1, "Through the first gate", 22),
+    o("BN", 1, "Along the empty alley", 34, "bn-box-circle"),
+    o("BN", 1, "the leaves were full of children", 42, "bn-children-leaves"),
+    o("BN", 5, "Of children in the foliage", 35, "bn-hidden-laughter"),
+    o("EC", 1, "the open field", 15),
+    o("LG", 1, "the hedgerow", 14),
+    o("LG", 5, "the children in the apple-tree", 35),
+  ],
+  fire: [
+    o("EC", 1, "Old fires to ashes", 6),
+    o("EC", 1, "Round and round the fire", 34),
+    o("EC", 2, "that destructive fire", 16),
+    o("EC", 4, "frigid purgatorial fires", 19),
+    o("LG", 1, "pentecostal fire", 10),
+    o("LG", 2, "This is the death of air", 8),
+    o("LG", 2, "that refining fire", 91),
+    o("LG", 4, "With flame of incandescent terror", 2),
+    o("LG", 4, "redeemed from fire by fire", 7),
+    o("LG", 4, "the intolerable shirt of flame", 11),
+    o("LG", 5, "the crowned knot of fire", 45),
+  ],
+  water: [
+    o("BN", 1, "filled with water out of sunlight", 37, "bn-sunlight-pool"),
+    o("EC", 2, "the ice-cap", 17),
+    o("DS", 1, "a strong brown god", 2),
+    o("DS", 1, "The river is within us", 15),
+    o("LG", 2, "the death of water and fire", 24),
+    o("LG", 5, "the source of the longest river", 33),
+  ],
+  dance: [
+    o("BN", 2, "The dance along the artery", 6),
+    o("BN", 2, "there is only the dance", 21, "bn-dance"),
+    o("BN", 5, "the funeral dance", 20),
+    o("EC", 1, "The association of man and woman", 29),
+    o("EC", 1, "Keeping time", 40),
+    o("LG", 2, "Where you must move in measure", 92),
+    o("LG", 5, "The complete consort dancing together", 10),
+  ],
+  "still-point": [
+    o("BN", 2, "still point of the turning world", 16, "bn-still-point"),
+    o("BN", 2, "the point, the still point", 20),
+    o("BN", 4, "At the still point", 10, "bn-kingfisher"),
+    o("BN", 5, "a Chinese jar still", 6, "bn-chinese-jar"),
+    o("EC", 5, "be still and still moving", 33),
+    o("DS", 5, "intersection of the timeless", 17),
+  ],
+  time: [
+    o("BN", 1, "Time present and time past", 1, "bn-time-present"),
+    o("BN", 2, "Only through time time is conquered", 44, "bn-time-conquered"),
+    o("BN", 4, "Time and the bell", 1, "bn-bell-buried"),
+    o("BN", 5, "the waste sad time", 37, "bn-waste-sad-time"),
+    o("EC", 1, "a time for building", 9),
+    o("DS", 1, "time not our time", 38),
+    o("DS", 2, "Time the destroyer", 67),
+    o("DS", 5, "the point of intersection", 17),
+    o("LG", 1, "Suspended in time", 3),
+    o("LG", 5, "A people without history", 20),
+  ],
+  "word-silence": [
+    o("BN", 5, "Words move, music moves", 1, "bn-words-music"),
+    o("BN", 5, "Crack and sometimes break", 14, "bn-words-strain"),
+    o("BN", 5, "The Word in the desert", 18, "bn-word-in-desert"),
+    o("EC", 2, "a way of putting it", 18),
+    o("EC", 5, "a raid on the inarticulate", 8),
+    o("DS", 5, "you are the music", 27),
+    o("LG", 2, "purify the dialect of the tribe", 74),
+    o("LG", 5, "every phrase", 3),
+  ],
+  "light-dark": [
+    o("BN", 1, "out of heart of light", 39, "bn-heart-of-light"),
+    o("BN", 3, "In a dim light", 3, "bn-dim-light"),
+    o("BN", 4, "answered light to light", 9, "bn-kingfisher"),
+    o("BN", 5, "Sudden in a shaft of sunlight", 32, "bn-shaft-sunlight"),
+    o("EC", 3, "O dark dark dark", 1),
+    o("EC", 3, "the darkness of God", 13),
+    o("LG", 1, "the brief sun flames the ice", 5),
+    o("LG", 5, "while the light fails", 22),
+  ],
+  dove: [
+    o("LG", 2, "dove with the flickering tongue", 28),
+    o("LG", 4, "The dove descending breaks the air", 1),
+  ],
+  bell: [
+    o("BN", 4, "Time and the bell", 1, "bn-bell-buried"),
+    o("DS", 1, "The tolling bell", 37),
+    o("DS", 1, "Clangs", 49),
+    o("DS", 2, "the bell of the last annunciation", 18),
+    o("DS", 4, "the sea bell's", 14),
+  ],
+  yew: [
+    o("BN", 4, "Fingers of yew be curled", 7, "bn-yew"),
+    o("DS", 5, "far from the yew-tree", 48),
+    o("LG", 5, "the moment of the yew-tree", 19),
+  ],
+  sea: [
+    o("EC", 1, "Out at sea the dawn wind", 49),
+    o("EC", 5, "the vast waters", 37),
+    o("DS", 1, "The sea is all about us", 15),
+    o("DS", 1, "The sea has many voices", 24),
+    o("DS", 3, "Fare forward, voyagers", 46),
+    o("DS", 4, "Lady, whose shrine stands", 1),
+    o("LG", 5, "Between two waves of the sea", 38),
+  ],
+  "ascent-descent": [
+    o("BN", 3, "Descend lower, descend only", 25, "bn-descend-lower"),
+    o("BN", 3, "This is the one way", 33, "bn-one-way"),
+    o("BN", 5, "the figure of the ten stairs", 23, "bn-ten-stairs"),
+    o("EC", 3, "I said to my soul", 23),
+    o("EC", 3, "In order to arrive there", 36),
+    o("LG", 4, "The dove descending breaks the air", 1),
+  ],
+};

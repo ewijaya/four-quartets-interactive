@@ -1,0 +1,110 @@
+---
+/**
+ * The Motif Tracer: an arc diagram over the whole sequence (drawn client-side with
+ * d3), plus an accessible occurrence list that works without JavaScript and is the
+ * keyboard interface. Data carries positions and labels only, never the text.
+ */
+import { getSequence } from "../../lib/sequence";
+import { MOTIFS, MOTIFS_BY_ID } from "../../data/motifs";
+import { QUARTET_BY_CODE, ROMAN } from "../../data/quartets";
+import { lineUrl, noteUrl, url } from "../../lib/url";
+import type { MotifId } from "../../lib/model";
+
+interface Props {
+  initial: MotifId[];
+  /** Show the chips for choosing motifs (off on single-motif pages). */
+  chooser?: boolean;
+  lists?: MotifId[];
+}
+const { initial, chooser = true, lists = MOTIFS.map((m) => m.id) } = Astro.props;
+const seq = await getSequence();
+const label = (q: string, m: number, n: number) => `${QUARTET_BY_CODE[q as "BN"].title} ${ROMAN[m]}, line ${n}`;
+const data = {
+  total: seq.total,
+  quartets: seq.quartets.map((q) => ({ title: q.title, element: q.element, start: q.start, count: q.count })),
+  movements: seq.movements.map((m) => ({ roman: m.roman, start: m.start, count: m.count })),
+  motifs: MOTIFS.map((m) => ({ id: m.id, name: m.name, color: m.color })),
+  occ: seq.motifs.map((o) => ({
+    motif: o.motif,
+    g: o.g,
+    lemma: o.lemma,
+    where: label(o.quartet, o.movement, o.n),
+    href: lineUrl(o.quartet, o.movement, o.n),
+    note: o.note ? { href: noteUrl(o.note), id: o.note } : null,
+  })),
+};
+const json = JSON.stringify(data).replace(/</g, "\\u003c");
+---
+
+<div class="tracer" data-tracer data-initial={initial.join(",")} data-chooser={chooser ? "" : undefined}>
+  {
+    chooser && (
+      <div class="tracer__chips" role="group" aria-label="Motifs to trace (up to three)">
+        {MOTIFS.map((m) => (
+          <button type="button" class="motif-chip tracer__chip" data-motif={m.id} aria-pressed={initial.includes(m.id) ? "true" : "false"} style={`--motif:${m.color}`}>
+            {m.name}
+          </button>
+        ))}
+      </div>
+    )
+  }
+  <figure class="tracer__figure">
+    <div class="tracer__scroll">
+      <div class="tracer__svg" data-tracer-svg aria-hidden="true"></div>
+    </div>
+    <figcaption class="tracer__caption">
+      The whole sequence runs left to right, one point per line; arcs join successive occurrences of each motif. Choose a point to go to its
+      line. The same occurrences are listed below.
+    </figcaption>
+    <div class="tracer__tip" data-tracer-tip hidden></div>
+  </figure>
+  <script type="application/json" data-tracer-data set:html={json} />
+
+  <section class="tracer__lists" aria-label="Occurrences">
+    {
+      lists.map((id) => {
+        const m = MOTIFS_BY_ID[id];
+        const occ = seq.motifs.filter((o) => o.motif === id);
+        return (
+          <details class="tracer__list" data-list={id} open={lists.length === 1 || initial.includes(id)}>
+            <summary style={`--motif:${m.color}`}>
+              <span class="dot" /> {m.name} <span class="muted">({occ.length})</span>
+            </summary>
+            <ol>
+              {occ.map((o) => (
+                <li>
+                  <a href={lineUrl(o.quartet, o.movement, o.n)}>{label(o.quartet, o.movement, o.n)}</a> — <q>{o.lemma}</q>
+                  {o.note && (
+                    <>
+                      {" "}
+                      · <a href={noteUrl(o.note)}>note</a>
+                    </>
+                  )}
+                </li>
+              ))}
+            </ol>
+            {lists.length > 1 && (
+              <a class="tracer__more" href={url(`/motifs/${id}`)}>
+                About the {m.name.toLowerCase()} motif →
+              </a>
+            )}
+          </details>
+        );
+      })
+    }
+  </section>
+</div>
+
+<script>
+  import { initTracer } from "../../lib/viz/tracer";
+  let off: (() => void) | null = null;
+  document.addEventListener("astro:page-load", () => {
+    off?.();
+    const root = document.querySelector<HTMLElement>("[data-tracer]");
+    off = root ? initTracer(root) : null;
+  });
+  document.addEventListener("astro:before-swap", () => {
+    off?.();
+    off = null;
+  });
+</script>

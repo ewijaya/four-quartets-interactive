@@ -24,6 +24,8 @@ export interface SceneEnv {
 
 export interface StageScene {
   readonly key: string;
+  /** Fraction of device resolution to render at; default follows the quality tier. */
+  readonly renderScale?: number;
   readonly scene: Scene;
   readonly camera: Camera;
   /** Background colour the scene is composited from (sRGB 0xRRGGBB), per theme. */

@@ -1,0 +1,114 @@
+---
+import Base from "../layouts/Base.astro";
+import Emblem from "../components/chrome/Emblem.astro";
+import { getSequence } from "../lib/sequence";
+import { MOTIFS_BY_ID } from "../data/motifs";
+import { QUARTETS, QUARTET_BY_CODE, ROMAN } from "../data/quartets";
+import { lineUrl, movementUrl, noteUrl } from "../lib/url";
+import { loadText } from "../lib/text/load";
+import "../styles/viz.css";
+
+const seq = await getSequence();
+const where = (q: string, m: number, n: number) => `${QUARTET_BY_CODE[q as "BN"].title} ${ROMAN[m]}, line ${n}`;
+const lineIds = loadText().quartets.flatMap((q) => q.movements.flatMap((m) => m.stanzas.flatMap((s) => s.lines.map((l) => l.id))));
+const data = {
+  total: seq.total,
+  quartets: seq.quartets,
+  movements: seq.movements.map((m) => ({ quartet: m.quartet, n: m.n, roman: m.roman, start: m.start, count: m.count, href: movementUrl(m.qid as "burnt-norton", m.n) })),
+  notes: seq.notes.map((n) => ({ g: n.g, title: n.title, where: where(n.quartet, n.movement, n.n), href: noteUrl(n.id), type: n.type })),
+  motifs: seq.motifs.map((o) => ({
+    g: o.g,
+    motif: o.motif,
+    name: MOTIFS_BY_ID[o.motif].name,
+    color: MOTIFS_BY_ID[o.motif].color,
+    lemma: o.lemma,
+    where: where(o.quartet, o.movement, o.n),
+    href: lineUrl(o.quartet, o.movement, o.n),
+  })),
+  lineHrefs: {},
+  lineIds,
+};
+const json = JSON.stringify(data).replace(/</g, "\\u003c");
+---
+
+<Base
+  title="Time Spiral"
+  description="The whole of Four Quartets as a helix — all of time visible at once, with notes and motifs as lights."
+  scene="spiral"
+  bodyClass="is-spiral"
+  section="spiral"
+>
+  <div class="spiral" data-no-text-band>
+    <script type="application/json" data-spiral-data set:html={json} />
+    <div class="spiral__labels" aria-hidden="true">
+      {
+        QUARTETS.map((q, i) => (
+          <span class="spiral__label" data-spiral-label={i} data-element={q.element}>
+            <Emblem element={q.element} size={14} /> {q.title} <span class="y">{q.year}</span>
+          </span>
+        ))
+      }
+      <span class="spiral__label spiral__label--here" data-spiral-here hidden>You were here</span>
+    </div>
+
+    <section class="spiral-ui spiral__panel" aria-labelledby="spiral-title">
+      <p class="eyebrow">Explore</p>
+      <h1 id="spiral-title">The Time Spiral</h1>
+      <p class="spiral__lede">
+        The whole sequence at once: one turn for each quartet, rising from 1936 to 1942 around a still axis. Gold lights are notes, coloured
+        lights are motifs. Drag to turn, scroll or pinch to zoom, choose a light to read it.
+      </p>
+      <div class="spiral__controls" role="group" aria-label="View">
+        <label class="switch"><input type="checkbox" data-layer="notes" checked /> <span>Notes</span></label>
+        <label class="switch"><input type="checkbox" data-layer="motifs" checked /> <span>Motifs</span></label>
+        <span class="spiral__zoom">
+          <button class="icon-btn" type="button" data-cue="zoom-in" aria-label="Zoom in">+</button>
+          <button class="icon-btn" type="button" data-cue="zoom-out" aria-label="Zoom out">−</button>
+          <button class="btn" type="button" data-cue="reset">Reset view</button>
+        </span>
+      </div>
+      <details class="spiral__list" open>
+        <summary>The movements</summary>
+        <ol>
+          {
+            QUARTETS.map((q) => (
+              <li data-element={q.element}>
+                <span class="q">
+                  <Emblem element={q.element} size={14} /> {q.title}
+                </span>
+                <span class="ms">
+                  {seq.movements
+                    .filter((m) => m.quartet === q.code)
+                    .map((m) => (
+                      <button type="button" data-fly={seq.movements.indexOf(m)} data-href={movementUrl(m.qid as "burnt-norton", m.n)} aria-label={`Show ${q.title} ${m.roman} on the spiral (${m.count} lines, ${m.notes + m.scholarNotes} notes)`}>
+                        {m.roman}
+                      </button>
+                    ))}
+                </span>
+              </li>
+            ))
+          }
+        </ol>
+      </details>
+    </section>
+
+    <aside class="spiral-ui spiral__card" data-spiral-card hidden aria-live="polite"></aside>
+
+    <noscript>
+      <p class="spiral__noscript">The Time Spiral needs JavaScript and WebGL. The <a href="/map">Movement Map</a> shows the same structure.</p>
+    </noscript>
+  </div>
+</Base>
+
+<script>
+  import { initSpiralPage } from "../lib/client/spiral-page";
+  let off: (() => void) | null = null;
+  document.addEventListener("astro:page-load", () => {
+    off?.();
+    off = document.querySelector(".spiral") ? initSpiralPage() : null;
+  });
+  document.addEventListener("astro:before-swap", () => {
+    off?.();
+    off = null;
+  });
+</script>

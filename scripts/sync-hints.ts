@@ -50,10 +50,16 @@ function syncTs(file: string, items: Array<{ quartet: string; movement: number; 
     if (it.hint) t.hint = it.hint;
     const n = lineOf(it.quartet, t);
     if (!n || n === it.hint) continue;
-    const lit = JSON.stringify(it.lemma);
-    const re = new RegExp(`(lemma: ${lit.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}, hint: )\\d+`);
+    const lit = JSON.stringify(it.lemma).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    // Object literals (cues): lemma: "…", hint: N
+    const re = new RegExp(`(lemma: ${lit}, hint: )\\d+`);
+    // Helper calls (motif occurrences): o("BN", 1, "…", N
+    const re2 = new RegExp(`(o\\("${it.quartet}", ${it.movement}, ${lit}, )\\d+`);
     if (re.test(src)) {
       src = src.replace(re, `$1${n}`);
+      changed++;
+    } else if (re2.test(src)) {
+      src = src.replace(re2, `$1${n}`);
       changed++;
     }
   }

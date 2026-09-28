@@ -83,6 +83,7 @@ const Q: Array<{ scene: string; id: string; plan: Array<Omit<Still, "scene" | "p
 
 const ALL: Still[] = [
   { scene: "home", path: "/", movement: 0, progress: 0, time: 30 },
+  { scene: "spiral", path: "/spiral", movement: 0, progress: 0, time: 20 },
   ...Q.flatMap((q) => q.plan.map((p) => ({ ...p, scene: q.scene, path: p.movement ? `/${q.id}/${p.movement}` : `/${q.id}` }))),
 ];
 

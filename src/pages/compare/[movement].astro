@@ -1,0 +1,109 @@
+---
+import Base from "../../layouts/Base.astro";
+import Emblem from "../../components/chrome/Emblem.astro";
+import { buildQuartetView } from "../../lib/reader-model";
+import { MOVEMENT_FUNCTIONS, ORDINAL_WORD, QUARTETS, ROMAN } from "../../data/quartets";
+import { movementUrl, url } from "../../lib/url";
+import type { MovementN } from "../../lib/model";
+import "../../styles/reader.css";
+import "../../styles/viz.css";
+
+export function getStaticPaths() {
+  return ([1, 2, 3, 4, 5] as const).map((n) => ({ params: { movement: String(n) }, props: { n } }));
+}
+const { n } = Astro.props as { n: MovementN };
+const fn = MOVEMENT_FUNCTIONS[n];
+const views = await Promise.all(QUARTETS.map((q) => buildQuartetView(q.code)));
+const notesBase = url("/notes/");
+// In the comparison, annotated phrases link to the note's own page.
+const relink = (html: string) => html.replaceAll('href="#n-', `href="${notesBase}`);
+---
+
+<Base
+  title={`Compare ${ROMAN[n]}`}
+  description={`The ${ORDINAL_WORD[n]} movement of each of the Four Quartets, side by side: ${fn.name.toLowerCase()}.`}
+  section="map"
+  bodyClass="is-compare"
+>
+  <div class="compare" data-compare>
+    <header class="compare__head">
+      <p class="eyebrow"><a href={url("/map")}>Movement Map</a> <span aria-hidden="true">/</span> Compare</p>
+      <h1>
+        <span class="mm__numeral">{ROMAN[n]}</span>
+        {fn.name}
+      </h1>
+      <p class="compare__gloss">{fn.gloss}</p>
+      <div class="compare__controls">
+        <label class="switch"><input type="checkbox" data-sync checked /> <span>Scroll together</span></label>
+        <nav class="compare__pager" aria-label="Other movements">
+          {
+            ([1, 2, 3, 4, 5] as const).map((k) => (
+              <a href={url(`/compare/${k}`)} aria-current={k === n ? "page" : undefined}>
+                {ROMAN[k]}
+              </a>
+            ))
+          }
+        </nav>
+      </div>
+      <nav class="compare__tabs" aria-label="Quartets">
+        {
+          QUARTETS.map((q, i) => (
+            <button type="button" data-tab={i} data-element={q.element} aria-controls={`col-${q.id}`}>
+              <Emblem element={q.element} size={16} />
+              {q.short}
+            </button>
+          ))
+        }
+      </nav>
+    </header>
+
+    <div class="compare__cols">
+      {
+        views.map((v) => {
+          const m = v.movements.find((x) => x.n === n)!;
+          const q = v.info;
+          const notes = m.notes.length;
+          return (
+            <section class="compare__col" id={`col-${q.id}`} data-element={q.element} aria-labelledby={`h-${q.id}`} data-col>
+              <header class="compare__colhead">
+                <Emblem element={q.element} size={22} />
+                <h2 id={`h-${q.id}`}>{q.title}</h2>
+                <p class="compare__meta">
+                  {q.year} · {m.lineCount} lines{notes ? ` · ${notes} notes` : ""} · <a href={movementUrl(q.id, n)}>read in context</a>
+                </p>
+              </header>
+              <div class="compare__text" tabindex="0" aria-label={`${q.title} ${ROMAN[n]}`}>
+                {m.stanzas.map((s) => (
+                  <p class="stanza">
+                    {s.lines.map((l) => (
+                      <span class:list={["line", { "line--numbered": l.n % 5 === 0, "line--step": l.step }]} data-n={l.n} style={l.indent ? `--indent:${l.indent}` : undefined}>
+                        <span class="ln" aria-hidden="true">
+                          {l.n}
+                        </span>
+                        <span class="lt" set:html={relink(l.html)} />
+                      </span>
+                    ))}
+                  </p>
+                ))}
+              </div>
+            </section>
+          );
+        })
+      }
+    </div>
+  </div>
+</Base>
+
+<script>
+  import { initCompare } from "../../lib/client/compare";
+  let off: (() => void) | null = null;
+  document.addEventListener("astro:page-load", () => {
+    off?.();
+    const root = document.querySelector<HTMLElement>("[data-compare]");
+    off = root ? initCompare(root) : null;
+  });
+  document.addEventListener("astro:before-swap", () => {
+    off?.();
+    off = null;
+  });
+</script>

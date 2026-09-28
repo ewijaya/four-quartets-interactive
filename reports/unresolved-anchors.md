@@ -1,12 +1,12 @@
 # Anchor resolution report
 
-Text: **private** (private copy (converted from HTML for personal study)) · generated 2026-09-28T13:08:49.802Z
+Text: **private** (private copy (converted from HTML for personal study)) · generated 2026-09-28T15:58:48.671Z
 
 | | Count |
 |---|---|
 | Annotations | 64 |
-| Lemma anchors (annotations, motifs, cues) | 83 |
-| Resolved exactly | 83 |
+| Lemma anchors (annotations, motifs, cues) | 179 |
+| Resolved exactly | 179 |
 | **Unresolved** | **0** |
 | Ambiguous (matched more than once, disambiguated by hint) | 2 |
 | Matched a variant spelling (check the edition) | 2 |
@@ -22,8 +22,8 @@ These lemmas occur more than once in their movement. The match nearest the `hint
 
 | Anchor | Where | Lemma | Matches | Chosen |
 |---|---|---|---|---|
-| `bn-first-world` | BN I | “Into our first world” | 2 | BN.1.23 |
-| `bn-might-have-been` | BN I | “What might have been” | 3 | BN.1.6 |
+| `word-silence#8` | LG V | “every phrase” | 2 | LG.5.3 |
+| `ascent-descent#4` | EC III | “I said to my soul” | 2 | EC.3.23 |
 
 ## Variant spellings
 

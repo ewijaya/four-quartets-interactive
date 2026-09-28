@@ -57,6 +57,7 @@ for (const f of files) {
 }
 
 const lemmaRow = (kind: Row["kind"], id: string, q: QuartetText, m: MovementN, lemma: string, file: string, hint?: number, occurrence?: number) => {
+  if (wordCount(lemma) > 6) problems.push(`\`${id}\` (${kind}): lemma longer than six words`);
   const t: Parameters<typeof resolveLemma>[1] = { movement: m, lemma };
   if (hint !== undefined) t.hint = hint;
   if (occurrence !== undefined) t.occurrence = occurrence;

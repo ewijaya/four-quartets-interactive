@@ -29,6 +29,7 @@ const SCENES: Record<string, SceneFactory> = {
   water: () => import("./scenes/water"),
   fire: () => import("./scenes/fire"),
   home: () => import("./scenes/home"),
+  spiral: () => import("./scenes/spiral"),
 };
 export const hasScene = (key: string) => key in SCENES;
 
@@ -201,7 +202,7 @@ export class Stage {
     this.current = next;
     this.key = key;
     this.loading = null;
-    next.resize(this.width, this.height);
+    this.applySize();
     this.setPaper();
     this.fade = this.still ? 1 : 0;
     this.fadeTarget = 1;
@@ -257,7 +258,7 @@ export class Stage {
   private applySize() {
     this.renderer.setPixelRatio(this.dpr);
     this.renderer.setSize(this.width, this.height, false);
-    const s = this.still ? 0.9 : RENDER_SCALE[this.tier];
+    const s = this.still ? 0.9 : Math.min(1, this.current?.renderScale ?? RENDER_SCALE[this.tier]);
     this.rt.setSize(Math.max(2, Math.round(this.width * this.dpr * s)), Math.max(2, Math.round(this.height * this.dpr * s)));
     (this.blitMat.uniforms.uRes!.value as Vector2).set(this.width * this.dpr, this.height * this.dpr);
     this.current?.resize(this.width, this.height);

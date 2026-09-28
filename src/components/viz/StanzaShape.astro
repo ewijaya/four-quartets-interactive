@@ -1,0 +1,25 @@
+---
+/** A movement's stanza structure as a tiny bar sketch (widths ∝ line counts). */
+interface Props {
+  stanzas: number[];
+  max?: number;
+  class?: string;
+}
+const { stanzas, max = 100, class: cls = "" } = Astro.props;
+const W = 120;
+const H = 18;
+const gap = 1.5;
+const total = stanzas.reduce((a, b) => a + b, 0);
+const scale = (W - gap * (stanzas.length - 1)) / Math.max(total, 1);
+let x = 0;
+const bars = stanzas.map((n) => {
+  const w = Math.max(1.2, n * scale);
+  const b = { x, w, h: Math.max(3, (n / max) * H * 2.2) };
+  x += w + gap;
+  return b;
+});
+---
+
+<svg class:list={["stanza-shape", cls]} viewBox={`0 0 ${W} ${H}`} width={W} height={H} aria-hidden="true" focusable="false">
+  {bars.map((b) => <rect x={b.x} y={H - Math.min(H, b.h)} width={b.w} height={Math.min(H, b.h)} rx="0.6" />)}
+</svg>

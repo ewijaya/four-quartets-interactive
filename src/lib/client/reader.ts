@@ -532,6 +532,25 @@ export function initReader(root: HTMLElement): () => void {
     registerShortcut({ keys: ["k"], label: "Previous annotated phrase", run: () => anchorJump(-1) }),
   );
 
+  // ------------------------------------------------------------------ last position
+  // Remembered for the Time Spiral ("you are here") and for returning readers.
+  let saveAt = 0;
+  const savePosition = () => {
+    const now = performance.now();
+    if (now - saveAt < 1200) return;
+    saveAt = now;
+    const col = root.querySelector<HTMLElement>(".movement__text")?.getBoundingClientRect();
+    if (!col) return;
+    const el = document.elementFromPoint(col.left + 40, window.innerHeight * 0.38)?.closest<HTMLElement>(".line");
+    if (!el?.dataset.line) return;
+    try {
+      localStorage.setItem("sp:last", JSON.stringify({ line: el.dataset.line, at: Date.now() }));
+    } catch {
+      /* storage unavailable */
+    }
+  };
+  on(window, "scroll", savePosition, { passive: true });
+
   // ------------------------------------------------------------------ reactions
   cleanups.push(
     onPrefs((_p, key) => {

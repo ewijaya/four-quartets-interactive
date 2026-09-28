@@ -71,6 +71,7 @@ void main(){
 
 class HomeScene implements StageScene {
   readonly key = "home";
+  readonly renderScale = 0.9;
   readonly scene = new Scene();
   readonly camera = new PerspectiveCamera(38, 1, 0.1, 100);
   private palette = new Palette(

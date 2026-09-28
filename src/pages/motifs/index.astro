@@ -1,0 +1,17 @@
+---
+import Base from "../../layouts/Base.astro";
+import MotifTracer from "../../components/viz/MotifTracer.astro";
+import "../../styles/viz.css";
+---
+
+<Base title="Motif Tracer" description="Trace the rose, fire, the dance, the bell and ten other motifs through the whole of Four Quartets." section="motifs">
+  <div class="page viz-page">
+    <p class="eyebrow">Explore</p>
+    <h1>The Motif Tracer</h1>
+    <p class="lede">
+      Images return across the sequence — the rose, the dance, the still point, fire, the bell. Choose up to three to see where they
+      recur and how far apart; each arc joins one occurrence to the next.
+    </p>
+    <MotifTracer initial={["rose", "fire"]} />
+  </div>
+</Base>
