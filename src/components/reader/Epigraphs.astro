@@ -1,0 +1,109 @@
+---
+import { url } from "../../lib/url";
+
+// Heraclitus is shared editorial front matter, independent of the imported poem.
+const fragments = [
+  {
+    n: 2,
+    greek: ["τοῦ λόγου δὲ ἐόντος ξυνοῦ ζώουσιν οἱ πολλοί", "ὡς ἰδίαν ἔχοντες φρόνησιν"],
+    reference: "I. p. 77. Fr. 2.",
+    translation: "Though wisdom is common, the many live as if they have wisdom of their own.",
+  },
+  {
+    n: 60,
+    greek: ["ὁδὸς ἄνω κάτω μία καὶ ὡυτή"],
+    reference: "I. p. 89. Fr. 60.",
+    translation: "The way upward and the way downward is one and the same.",
+  },
+];
+---
+
+<section class="epigraphs" id="epigraphs" aria-labelledby="epigraphs-heading" tabindex="-1">
+  <h2 class="epigraphs__heading" id="epigraphs-heading">Heraclitus <span aria-hidden="true">·</span> Epigraphs</h2>
+  {fragments.map((fragment) => (
+    <figure class="epigraphs__fragment">
+      <blockquote lang="grc">
+        {fragment.greek.map((line) => <span>{line}</span>)}
+      </blockquote>
+      <figcaption>{fragment.reference}</figcaption>
+    </figure>
+  ))}
+  <p class="epigraphs__source">
+    Diels: <a href={url("/sources#diels-1903")}><cite lang="de">Die Fragmente der Vorsokratiker</cite></a> (Herakleitos).
+  </p>
+  <details class="epigraphs__translations">
+    <summary>English translations</summary>
+    {fragments.map((fragment) => (
+      <p><span class="epigraphs__label">Fragment {fragment.n}</span>{fragment.translation}</p>
+    ))}
+    <a class="epigraphs__note" href={url("/notes/bn-epigraphs")}>About these fragments</a>
+  </details>
+</section>
+
+<style>
+  .epigraphs {
+    width: 100%;
+    max-width: 34rem;
+    margin-top: var(--s-7);
+    text-align: left;
+    color: var(--ink-soft);
+    scroll-margin-top: calc(var(--header-h) + var(--s-5));
+  }
+  /* Fragment navigation focuses this reading region; controls keep their focus rings. */
+  .epigraphs:focus { outline: none; }
+  .epigraphs__heading {
+    margin: 0 0 var(--s-5);
+    font-family: var(--font-ui-stack);
+    font-size: 0.8rem;
+    font-weight: 500;
+    font-variant-caps: all-small-caps;
+    letter-spacing: 0.15em;
+    text-align: center;
+    color: var(--ink-faint);
+  }
+  .epigraphs__fragment { margin: 0 0 var(--s-5); }
+  blockquote {
+    margin: 0;
+    font-family: var(--font-poem-stack);
+    font-size: clamp(1.05rem, 2vw, 1.25rem);
+    line-height: 1.65;
+  }
+  blockquote span { display: block; }
+  figcaption {
+    margin-top: var(--s-2);
+    text-align: right;
+    font-size: 0.85rem;
+    color: var(--ink-faint);
+  }
+  .epigraphs__source {
+    margin: 0 0 var(--s-4);
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--ink-faint);
+  }
+  .epigraphs__translations {
+    border-top: 1px solid var(--rule);
+    padding-top: var(--s-3);
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+  summary, .epigraphs__note {
+    font-family: var(--font-ui-stack);
+    font-size: 0.875rem;
+    color: var(--ink-soft);
+  }
+  summary { cursor: pointer; padding-block: 0.25rem; }
+  .epigraphs__translations p { margin: var(--s-4) 0; }
+  .epigraphs__label {
+    display: block;
+    margin-bottom: var(--s-1);
+    font-family: var(--font-ui-stack);
+    font-size: 0.75rem;
+    font-variant-caps: all-small-caps;
+    letter-spacing: 0.1em;
+    color: var(--ink-faint);
+  }
+  @media print {
+    .epigraphs { break-inside: avoid; }
+  }
+</style>

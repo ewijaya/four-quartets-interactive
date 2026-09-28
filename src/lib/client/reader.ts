@@ -407,6 +407,15 @@ export function initReader(root: HTMLElement): () => void {
   const handleHash = (scroll: boolean) => {
     const h = location.hash;
     if (!h) return false;
+    if (h === "#epigraphs") {
+      const epigraphs = root.querySelector<HTMLElement>(h);
+      if (!epigraphs) return false;
+      if (scroll) {
+        epigraphs.scrollIntoView({ block: "start", behavior: "auto" });
+        epigraphs.focus({ preventScroll: true });
+      }
+      return true;
+    }
     if (h.startsWith("#n-")) {
       focusNote(h.slice(3));
       return true;
@@ -430,7 +439,8 @@ export function initReader(root: HTMLElement): () => void {
       else p.removeAttribute("aria-current");
     });
     const path = `${BASE}/${quartetId}${m ? `/${m}` : ""}`;
-    if (location.pathname.replace(/\/$/, "") !== path) history.replaceState(history.state, "", path);
+    const fragment = m === 0 && location.hash === "#epigraphs" ? location.hash : "";
+    if (location.pathname.replace(/\/$/, "") !== path) history.replaceState(history.state, "", path + fragment);
     root.dispatchEvent(new CustomEvent("sp:movement", { detail: { movement: m }, bubbles: true }));
   };
   const io = new IntersectionObserver(

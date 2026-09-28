@@ -183,6 +183,14 @@
 
 /* --------------------------------------------------------- the verse */
 
+.reader-preface-link {
+  margin: 0 0 var(--s-5);
+  text-align: center;
+  font-family: var(--font-ui-stack);
+  font-size: 0.875rem;
+  color: var(--ink-faint);
+}
+
 .movement__text {
   position: relative;
   /* A soft vellum/night leaf behind the text keeps contrast over any scene. */
@@ -962,6 +970,7 @@
     padding: 0 0 12mm;
   }
   .title-page__begin,
+  .reader-preface-link,
   .reader-end,
   .notes__disclosure,
   .note__toggle::after,

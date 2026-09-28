@@ -39,6 +39,13 @@
 }
 
 /* The four quartets, arranged around the armillary (desktop) */
+.home__epigraphs {
+  margin: var(--s-3) 0 0;
+  font-family: var(--font-ui-stack);
+  font-size: 0.875rem;
+  color: var(--ink-faint);
+}
+
 .home__orbits {
   width: 100%;
   max-width: 76rem;

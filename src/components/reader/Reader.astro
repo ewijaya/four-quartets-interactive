@@ -7,6 +7,7 @@
 import Emblem from "../chrome/Emblem.astro";
 import "../../styles/reader.css";
 import NoteCard from "./NoteCard.astro";
+import Epigraphs from "./Epigraphs.astro";
 import { QUARTETS, ORDINAL_WORD, ROMAN } from "../../data/quartets";
 import { movementUrl, quartetUrl, url } from "../../lib/url";
 import type { QuartetView } from "../../lib/reader-model";
@@ -43,7 +44,8 @@ const noteCount = local.size;
     <p class="title-page__place">{q.place}</p>
     <p class="title-page__summary">{q.summary}</p>
     {
-      view.frontMatter.length > 0 && (
+      // Render Burnt Norton's epigraphs once, even if absent from (or repeated in) an import.
+      q.code === "BN" ? <Epigraphs /> : view.frontMatter.length > 0 && (
         <div class="front-matter" role="group" aria-label="Front matter">
           {view.frontMatter.map((p) => (
             <p class="front-matter__para" lang={p.lang}>
@@ -98,6 +100,9 @@ const noteCount = local.size;
           </span>
         </h2>
         <div class="movement__text" data-movement-text>
+          {q.code === "BN" && m.n === 1 && (
+            <p class="reader-preface-link" data-pagefind-ignore><a href="#epigraphs">Read the epigraphs</a></p>
+          )}
           {m.stanzas.map((s) => (
             <p class="stanza" data-stanza={s.n}>
               {s.lines.map((l) => (
