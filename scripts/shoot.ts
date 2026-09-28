@@ -96,6 +96,33 @@ export const SHOTS: Shot[] = [
       await settle(page, 3500);
     } },
   { name: "ds-1", path: "/the-dry-salvages/1" },
+  {
+    name: "ds-3-note-open",
+    path: "/the-dry-salvages/3",
+    act: async (page) => {
+      const a = page.locator('.anchor[data-notes~="ds-fruit-of-action"]').first();
+      await a.scrollIntoViewIfNeeded();
+      await a.click();
+      await settle(page, 1200);
+    },
+  },
+  {
+    name: "ec-3-scholar",
+    path: "/east-coker/3",
+    act: async (page) => {
+      await page.locator('[data-density-switch] input[value="scholar"]').first().evaluate((el) => (el as HTMLInputElement).click());
+      await settle(page, 900);
+    },
+  },
+  {
+    name: "lg-5-notes",
+    path: "/little-gidding/5",
+    act: async (page) => {
+      await page.locator('.anchor[data-notes~="lg-exploration"]').first().scrollIntoViewIfNeeded();
+      await page.mouse.wheel(0, 120);
+      await settle(page, 1500);
+    },
+  },
   { name: "lg-5-rose", path: "/little-gidding/5", act: async (page) => {
       await page.locator('[data-cue-start~="rose"]').first().scrollIntoViewIfNeeded();
       await page.mouse.wheel(0, 300);

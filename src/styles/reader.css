@@ -521,6 +521,23 @@
     grid-row: 1 / span 2;
     position: relative;
     padding-top: 0;
+    isolation: isolate;
+  }
+  /* The same soft leaf as the verse, so margin notes keep contrast over a scene. */
+  .notes::before {
+    content: "";
+    position: absolute;
+    inset: -2rem -2.5rem;
+    z-index: -1;
+    border-radius: 3rem;
+    background: var(--scrim);
+    filter: blur(42px);
+    opacity: 0;
+    transition: opacity var(--t-3) var(--ease);
+    pointer-events: none;
+  }
+  :root[data-scenes="on"] body.has-scene .notes::before {
+    opacity: 0.55;
   }
   .notes--quartet {
     grid-column: auto;

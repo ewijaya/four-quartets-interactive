@@ -200,7 +200,64 @@ export const SOURCES: Source[] = [
     date: "4th century BCE",
     note: "Sets out the idea of an unmoved mover: an eternal first cause that moves all things as an object of love and desire, without itself moving.",
   },
-
+  {
+    id: "doyle-hound",
+    author: "Arthur Conan Doyle",
+    work: "The Hound of the Baskervilles",
+    date: "1901–02",
+    note: "Sherlock Holmes novel set on Dartmoor, where the Grimpen Mire swallows those who stray from the safe path. Eliot was a lifelong reader of the Holmes stories.",
+  },
+  {
+    id: "civil-war",
+    author: "English history",
+    work: "The Civil War and Little Gidding",
+    date: "1642–1651",
+    note: "Charles I visited the Ferrar household at Little Gidding, the last time at night in May 1646 while fleeing from Oxford, days before he gave himself up to the Scots. Strafford (1641), Archbishop Laud (1645) and the King himself (1649) died on the scaffold; Milton, the parliament's great apologist, died blind in 1674.",
+    placeId: "little-gidding",
+  },
+  {
+    id: "shakespeare-hamlet",
+    author: "William Shakespeare",
+    work: "Hamlet",
+    date: "c. 1600",
+    note: "The play opens with the watch on the battlements of Elsinore, where the dead King's ghost appears and fades away at cock-crow.",
+  },
+  {
+    id: "ovid-nessus",
+    author: "Ovid",
+    work: "Metamorphoses, Book IX",
+    date: "8 CE",
+    note: "The death of Hercules: Deianira sends him a shirt steeped in the blood of the centaur Nessus, believing it a love charm; it burns into his flesh, and he has himself laid on a pyre on Mount Oeta. Sophocles tells the same story in The Women of Trachis.",
+  },
+  {
+    id: "yeats",
+    author: "W. B. Yeats",
+    work: "Late poems",
+    date: "1930s",
+    note: "Irish poet (1865–1939), whose last poems speak with open rage about old age. He died in January 1939; many readers see him among the features of the ‘familiar compound ghost’ in Little Gidding II. Eliot gave the first annual Yeats lecture in Dublin in 1940.",
+  },
+  {
+    id: "tennyson-ulysses",
+    author: "Alfred Tennyson",
+    work: "“Ulysses”",
+    date: "1842",
+    note: "The aged Ulysses, home in Ithaca, resolves to sail once more beyond the known world rather than rust in idleness.",
+  },
+  {
+    id: "whitman-lilacs",
+    author: "Walt Whitman",
+    work: "“When Lilacs Last in the Dooryard Bloom'd”",
+    date: "1865",
+    note: "Whitman's elegy for Lincoln, which begins with lilacs blooming in a dooryard in spring. Eliot's attitude to Whitman moved from distaste to a guarded respect.",
+  },
+  {
+    id: "eliot-landscapes",
+    author: "T. S. Eliot",
+    work: "“Landscapes” (I. New Hampshire; V. Cape Ann)",
+    date: "1934–35",
+    note: "Five short place-poems. ‘New Hampshire’ hears children's voices in an orchard and ends in an apple-tree; ‘Cape Ann’ names the shore birds of the coast where Eliot spent his boyhood summers.",
+    placeId: "eastern-point",
+  },
 ];
 
 export const SOURCE_BY_ID = Object.fromEntries(SOURCES.map((s) => [s.id, s])) as Record<string, Source>;

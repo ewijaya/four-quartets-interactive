@@ -1,11 +1,11 @@
 {
   "source": "private",
   "counts": {
-    "annotations": 64,
-    "lemmas": 179,
+    "annotations": 174,
+    "lemmas": 279,
     "unresolved": 0,
-    "ambiguous": 2,
-    "problems": 31
+    "ambiguous": 0,
+    "problems": 0
   },
   "unresolved": []
 }
