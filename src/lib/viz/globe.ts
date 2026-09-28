@@ -17,11 +17,14 @@ interface AtlasData {
 
 const reduced = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-/** Label placement for places close together (the three English quartets). */
-const LABEL: Record<string, [dx: number, dy: number, anchor: "start" | "end"]> = {
-  "burnt-norton": [-10, -4, "end"],
-  "little-gidding": [9, -7, "start"],
-  "east-coker": [9, 13, "start"],
+/** Label placement for places close together: the three English quartets are stacked
+ *  north to south on the Atlantic side, clear of their halos (r 11) and of the source points to the east. */
+const LABEL: Record<string, [dx: number, dy: number, anchor: "start" | "middle" | "end"]> = {
+  "little-gidding": [-17, -18, "end"],
+  "burnt-norton": [-17, 1, "end"],
+  "east-coker": [-17, 17, "end"],
+  // Centred below its halo, so on a small globe it neither reaches the English stack nor the rim.
+  "dry-salvages": [0, 26, "middle"],
 };
 
 export function initAtlas(root: HTMLElement): () => void {

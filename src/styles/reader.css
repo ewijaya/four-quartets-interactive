@@ -631,6 +631,10 @@
   .notes__disclosure:focus-visible {
     outline: 2px solid var(--focus);
   }
+  /* Without scripts the list is shown as endnotes and needs no toggle. */
+  :root:not(.js) .notes__disclosure {
+    display: none;
+  }
   .notes__disclosure svg {
     transition: transform var(--t-1) var(--ease);
   }

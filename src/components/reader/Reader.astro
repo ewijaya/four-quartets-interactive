@@ -122,6 +122,13 @@ const noteCount = local.size;
         </div>
         {m.notes.length > 0 && (
           <aside class="notes" aria-label={`Notes to ${q.title} ${m.roman}`} data-movement-notes={m.n} data-pagefind-ignore>
+            {/* Small-screen endnote toggle, rendered here (not by script) so adding it never shifts the page. */}
+            <button class="notes__disclosure" type="button" aria-expanded="false" data-notes-disclosure hidden={!m.notes.some((n) => n.meta.level === "reader")}>
+              <span>
+                Notes · {m.roman} <span class="c">({m.notes.filter((n) => n.meta.level === "reader").length})</span>
+              </span>
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 9 6 6 6-6" stroke-linecap="round"></path></svg>
+            </button>
             <h3 class="notes__title">
               Notes <span aria-hidden="true">·</span> {m.roman}
             </h3>

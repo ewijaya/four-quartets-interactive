@@ -1,6 +1,6 @@
 # Anchor resolution report
 
-Text: **private** (private copy (converted from HTML for personal study)) · generated 2026-09-28T21:52:33.188Z
+Text: **private** (private copy (converted from HTML for personal study)) · generated 2026-09-28T22:24:01.662Z
 
 | | Count |
 |---|---|

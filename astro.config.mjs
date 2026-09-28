@@ -16,11 +16,11 @@ const latinVariants = (pkg, prefix, cuts) =>
     unicodeRange: /** @type {[string]} */ ([LATIN]),
   }));
 
-// Base path lets the same build run on Vercel ("/") or a GitHub Pages project site ("/repo/").
+// Base path lets the same build run at a domain root ("/") or a GitHub Pages project site ("/repo/").
 const base = process.env.BASE_PATH ?? "/";
 
 export default defineConfig({
-  site: process.env.SITE_URL ?? "https://still-point.vercel.app",
+  site: process.env.SITE_URL ?? "https://four-quartets-interactive.pages.dev",
   base,
   output: "static",
   trailingSlash: "ignore",

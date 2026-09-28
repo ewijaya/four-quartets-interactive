@@ -63,6 +63,8 @@ stated default and can be revisited).
    half-line counts as its own line). Headings, front matter and blank lines are not counted.
 10. **Hosting:** static output works on Vercel (default, `vercel.json` provided) and on
     GitHub Pages (`BASE_PATH` env + a workflow). Nothing is deployed from this session.
+    *Superseded 2026-09-28: deployed on Cloudflare Pages from `main`, sample text only
+    (see README and docs/CHECKLIST.md).*
 11. **Recordings:** linked out, never hosted; every link is checked before it ships.
 12. **Annotation spelling:** British (matching Eliot's printed text); citations are
     author–date with a bibliography; page locators only when verified, otherwise the

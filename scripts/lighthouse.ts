@@ -8,7 +8,7 @@ import { execFileSync } from "node:child_process";
 import { chromium } from "@playwright/test";
 import { withPreview } from "./shoot";
 
-const ROUTES = ["/", "/burnt-norton/1", "/little-gidding/5", "/map", "/motifs", "/atlas", "/spiral", "/notes/bn-still-point"];
+const ROUTES = ["/", "/burnt-norton/1", "/east-coker/3", "/little-gidding/5", "/map", "/motifs", "/atlas", "/spiral", "/notes/bn-still-point"];
 const ORIGIN = "http://localhost:4399";
 const OUT = "reports/lighthouse";
 

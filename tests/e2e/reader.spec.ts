@@ -113,6 +113,27 @@ test.describe("reader", () => {
     void errors;
   });
 
+  test("opening at a later movement does not shift the layout", async ({ page, errors }) => {
+    await page.addInitScript(() => {
+      const w = window as Window & { __cls?: number };
+      w.__cls = 0;
+      new PerformanceObserver((l) => {
+        for (const e of l.getEntries() as Array<PerformanceEntry & { value: number; hadRecentInput: boolean }>) if (!e.hadRecentInput) w.__cls! += e.value;
+      }).observe({ type: "layout-shift", buffered: true });
+    });
+    // Slow scripts, as on a phone network: the page paints before the reader runs.
+    await page.route("**/_astro/*.js", async (r) => {
+      await new Promise((res) => setTimeout(res, 400));
+      await r.continue();
+    });
+    await page.goto("/little-gidding/5");
+    await expect(page.locator("#m5-h")).toBeInViewport();
+    await page.waitForTimeout(1500);
+    const cls = await page.evaluate(() => (window as Window & { __cls?: number }).__cls ?? 0);
+    expect(cls, "cumulative layout shift").toBeLessThan(0.05);
+    void errors;
+  });
+
   test("reduced motion shows an illustrated still instead of animation", async ({ page, errors }) => {
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.goto("/east-coker/1");

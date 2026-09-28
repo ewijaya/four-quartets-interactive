@@ -21,7 +21,28 @@ Built in phases (see [docs/PLAN.md](docs/PLAN.md); screenshots and reviews in
 - [x] 3 — Elemental scenes and tile transitions
 - [x] 4 — Still Point home, Movement Map, Time Spiral, Motif Tracer
 - [x] 5 — Atlas, soundscape, search, notes
-- [ ] 6 — Polish, audits, remaining annotations
+- [x] 6 — Audits, annotations for all four quartets, docs
+
+Where it stands: [docs/CHECKLIST.md](docs/CHECKLIST.md) (the definition of done, with
+the gaps that remain).
+
+## What's in it
+
+- **Reader** — each quartet as one continuous scroll, margin notes on wide screens and a
+  bottom sheet on phones, three densities (Clean, Reader, Scholar), deep links to lines
+  and ranges, bookmarks and personal notes, print/PDF with endnotes.
+- **174 annotations** across the four quartets — allusions, sources, places, history,
+  prosody — each marked *established* or *interpretive*, with citations
+  ([/sources](https://four-quartets-interactive.pages.dev/sources)).
+- **Scenes** — one WebGL scene per element (air, earth, water, fire), tile transitions
+  at movement boundaries, illustrated stills for reduced motion.
+- **Explore** — the Still Point home, a Movement Map and side-by-side comparison, a
+  Time Spiral, a Motif Tracer and an Atlas of places and sources.
+- **Soundscape and search** — a generated drone per quartet (off by default) and
+  Pagefind search over lines, notes and motifs.
+
+Lighthouse on the production build: performance 93–100, accessibility, best practices
+and SEO 100 on every audited route ([reports/lighthouse/summary.md](reports/lighthouse/summary.md)).
 
 ## Quick start
 
@@ -29,7 +50,8 @@ Built in phases (see [docs/PLAN.md](docs/PLAN.md); screenshots and reviews in
 npm install
 npm run dev                 # http://localhost:4321 (sample text)
 npm test                    # unit tests (importer, resolver)
-npm run test:e2e            # Playwright: reader behaviour + axe accessibility
+npm run test:e2e            # Playwright: reader, explore, search, axe, contrast, frame time
+npm run lighthouse          # audit the production build → reports/lighthouse/
 ```
 
 ### Reading your own copy
@@ -41,6 +63,10 @@ npm run import-text         # → content/text-private/quartets.json (git-ignore
 npm run resolve-anchors     # → reports/unresolved-anchors.md
 npm run dev
 ```
+
+## Contributing
+
+Adding a note, a source or a feature: see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Deployment
 

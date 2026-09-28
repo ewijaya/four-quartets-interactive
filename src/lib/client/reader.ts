@@ -231,22 +231,17 @@ export function initReader(root: HTMLElement): () => void {
   // ------------------------------------------------------------------ small-screen endnotes
   const disclosures: HTMLButtonElement[] = [];
   asides.forEach((aside) => {
-    const count = aside.querySelectorAll("li.note").length;
-    const btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "notes__disclosure";
-    btn.setAttribute("aria-expanded", "false");
-    const title = aside.querySelector(".notes__title")?.textContent?.trim() ?? "Notes";
-    btn.innerHTML = `<span>${title} <span class="c">(${count})</span></span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 9 6 6 6-6" stroke-linecap="round"/></svg>`;
-    btn.addEventListener("click", () => {
+    const btn = aside.querySelector<HTMLButtonElement>("[data-notes-disclosure]");
+    if (!btn) return;
+    const onToggle = () => {
       const open = !aside.classList.contains("is-expanded");
       aside.classList.toggle("is-expanded", open);
       btn.setAttribute("aria-expanded", String(open));
-    });
-    aside.prepend(btn);
+    };
+    btn.addEventListener("click", onToggle);
+    cleanups.push(() => btn.removeEventListener("click", onToggle));
     disclosures.push(btn);
   });
-  cleanups.push(() => disclosures.forEach((b) => b.remove()));
 
   const syncDisclosureCounts = () => {
     disclosures.forEach((btn) => {

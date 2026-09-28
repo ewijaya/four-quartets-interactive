@@ -32,10 +32,12 @@ and shows a **Sample text** badge.
 
 Annotations are original commentary. Each may carry a **lemma** — a short phrase of
 **at most six words** used as an anchor label, the conventional form of reference in
-scholarly commentary. The schema rejects longer lemmas at build time. Annotations do
-not quote further from the poem, and do not quote critics or letters: they paraphrase
-and cite. Public-domain texts (the King James Bible, Julian of Norwich, Dante, and so
-on) are occasionally quoted briefly.
+scholarly commentary. The schema rejects longer lemmas at build time. Note bodies
+refer to the poem only in short phrases of the same kind (six words or fewer), and do
+not quote critics or letters: they paraphrase and cite. `scripts/check-dist.ts` fails
+the build if any longer line of the poem appears in the output, notes included.
+Public-domain texts (the King James Bible, Julian of Norwich, Dante, and so on) are
+occasionally quoted briefly.
 
 ## Copyright status (orientation only — not legal advice)
 
