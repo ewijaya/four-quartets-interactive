@@ -68,6 +68,22 @@ npm run dev
 
 Adding a note, a source or a feature: see [CONTRIBUTING.md](CONTRIBUTING.md).
 
+## Installing as an app
+
+The edition is an installable web app. On Android, open the site in Chrome and choose
+**Install app** from the ⋮ menu; on iPhone or iPad, open it in Safari and tap
+**Share → Add to Home Screen**. Installed, it opens full-screen from its own icon and keeps
+the home page and all four quartets, every movement with its notes, glosses and
+commentary, on the device for reading offline. In a browser tab, pages you have opened
+are kept too. Search needs a connection.
+
+- `public/icons/` is drawn from the still-point emblem by `npm run icons`
+  (`scripts/make-icons.ts`).
+- `src/pages/manifest.webmanifest.ts` builds the web app manifest.
+- `scripts/build-sw.ts` writes `dist/sw.js` from `scripts/sw-template.js` after every
+  build. Its version is a hash of the whole build, so each deploy replaces the old cache.
+  Pages are fetched network-first, so a new deploy shows as soon as the reader is online.
+
 ## Deployment
 
 Cloudflare Pages automatically builds and deploys pushes to `main`. Production uses

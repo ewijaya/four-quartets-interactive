@@ -10,7 +10,7 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && tsx scripts/index-search.ts && tsx scripts/check-dist.ts",
+    "build": "astro build && tsx scripts/index-search.ts && tsx scripts/build-sw.ts && tsx scripts/check-dist.ts",
     "build:hosted": "STILLPOINT_PUBLIC=0 STILLPOINT_TEXT=private STILLPOINT_PUBLISH_TEXT=1 npm run build",
     "deploy": "npm run build:hosted && wrangler pages deploy dist --project-name four-quartets-interactive --branch main --commit-dirty=true",
     "preview": "astro preview",
@@ -27,7 +27,8 @@
     "lighthouse": "tsx scripts/lighthouse.ts",
     "contrast": "tsx scripts/check-contrast.ts",
     "derive-shape": "tsx scripts/derive-shape.ts",
-    "sync-hints": "tsx scripts/sync-hints.ts"
+    "sync-hints": "tsx scripts/sync-hints.ts",
+    "icons": "tsx scripts/make-icons.ts"
   },
   "dependencies": {
     "@astrojs/mdx": "^8.0.2",

@@ -52,6 +52,10 @@ keys fail the build. Preview builds use sample text.
 the Git-ignored `.env.hosted` key. `npm run deploy` remains available for direct
 uploads. `STILLPOINT_PUBLISH_TEXT=1` records intentional publication in the build
 check; it does not override `STILLPOINT_PUBLIC=1`.
+The site's service worker keeps pages a reader has opened in that reader's browser
+cache, and an installed copy keeps the four quartets' published pages, so they can be
+read offline on that device. It caches only what the hosted site already serves, and
+nothing beyond it.
 This deployment choice does not change the copyright status of the poem.
 
 ## Copyright status (orientation only — not legal advice)

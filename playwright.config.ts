@@ -11,6 +11,8 @@ export default defineConfig({
   use: {
     baseURL: `http://localhost:${PORT}`,
     trace: "retain-on-failure",
+    // The offline cache would hide requests from page.route(); tests/e2e/pwa.spec.ts turns it back on.
+    serviceWorkers: "block",
     // Real GPU where available (macOS: ANGLE/Metal); falls back to SwiftShader elsewhere.
     launchOptions: { args: ["--use-angle=metal", "--enable-gpu", "--ignore-gpu-blocklist"] },
   },

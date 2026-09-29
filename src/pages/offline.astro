@@ -1,0 +1,28 @@
+---
+// Shown by the service worker when a page is requested offline and is not saved on this device.
+import Base from "../layouts/Base.astro";
+import Emblem from "../components/chrome/Emblem.astro";
+import { QUARTETS } from "../data/quartets";
+import { quartetUrl, url } from "../lib/url";
+---
+
+<Base title="Offline" description="You are offline, and this page is not saved on this device.">
+  <div class="page page--narrow" style="text-align:center">
+    <Emblem element="still" size={56} />
+    <h1 style="margin-top:1.5rem">Offline</h1>
+    <p class="lede" style="margin-inline:auto">
+      This page is not saved on this device yet. Pages you have opened are kept for reading offline, and once the edition is
+      installed as an app, all four quartets are.
+    </p>
+    <ul class="offline__list" style="list-style:none;padding:0;margin:1.5rem 0;line-height:2.2">
+      {
+        QUARTETS.map((q) => (
+          <li>
+            <a href={quartetUrl(q.id)}>{q.title}</a>
+          </li>
+        ))
+      }
+    </ul>
+    <p><a class="btn" href={url("/")}>Return to the still point</a></p>
+  </div>
+</Base>

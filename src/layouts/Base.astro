@@ -45,6 +45,11 @@ const canonicalURL = new URL(canonical ?? Astro.url.pathname, Astro.site);
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
     <link rel="icon" href={url("/favicon.svg")} type="image/svg+xml" />
+    <link rel="manifest" href={url("/manifest.webmanifest")} />
+    <link rel="apple-touch-icon" href={url("/icons/apple-touch-icon.png")} />
+    <meta name="apple-mobile-web-app-title" content="Four Quartets" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="theme-color" content="#f4eee1" data-theme-color />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
@@ -75,6 +80,27 @@ const canonicalURL = new URL(canonical ?? Astro.url.pathname, Astro.site);
     <Font cssVariable="--font-display" />
     <Font cssVariable="--font-ui" />
     <ClientRouter fallback="swap" />
+    {
+      import.meta.env.PROD && (
+        <script is:inline define:vars={{ swUrl: url("/sw.js"), swScope: url("/") }}>
+          // Offline support (production builds only). Installed as an app, keep all four quartets on the device.
+          if ("serviceWorker" in navigator) {
+            const installed = () => matchMedia("(display-mode: standalone)").matches || navigator.standalone;
+            const keepAll = () =>
+              navigator.serviceWorker.ready.then((r) => r.active && r.active.postMessage("cache-reader"));
+            addEventListener("load", () => {
+              navigator.serviceWorker
+                .register(swUrl, { scope: swScope })
+                .then(() => installed() && keepAll())
+                .catch(() => {});
+            });
+            addEventListener("appinstalled", keepAll);
+            // A new deploy brings a new worker with an empty cache: refill it as soon as it takes over.
+            navigator.serviceWorker.addEventListener("controllerchange", () => installed() && keepAll());
+          }
+        </script>
+      )
+    }
   </head>
   <body class={bodyClass} data-element={element} data-scene={scene} data-sample={sample ? "true" : undefined}>
     <a class="skip-link" href="#main">Skip to content</a>
