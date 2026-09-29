@@ -8,6 +8,7 @@ import "../styles/global.css";
 import "../styles/chrome.css";
 import { textMode } from "../lib/text/load";
 import { url } from "../lib/url";
+import { QUARTETS } from "../data/quartets";
 import type { Element, MovementN, QuartetCode } from "../lib/model";
 
 interface Props {
@@ -34,6 +35,12 @@ const {
 const sample = textMode() === "sample";
 const fullTitle = title === "Four Quartets" ? "Four Quartets — The Still Point" : `${title} — Four Quartets`;
 const canonicalURL = new URL(canonical ?? Astro.url.pathname, Astro.site);
+// Share card (scripts/make-og.ts): a quartet's pages and notes show that quartet's card.
+const cardQuartet = QUARTETS.find((q) => q.element === element);
+const ogImage = new URL(url(`/og/${cardQuartet?.id ?? "four-quartets"}.jpg`), Astro.site).href;
+const ogAlt = cardQuartet
+  ? `${cardQuartet.title}, from T. S. Eliot's Four Quartets: an interactive, annotated reading`
+  : "Four Quartets by T. S. Eliot: an interactive, annotated reading";
 ---
 
 <!doctype html>
@@ -54,6 +61,18 @@ const canonicalURL = new URL(canonical ?? Astro.url.pathname, Astro.site);
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Four Quartets" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={ogAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={ogAlt} />
     <script is:inline>
       (() => {
         const KEY = "sp:prefs:v1";

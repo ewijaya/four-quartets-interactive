@@ -35,6 +35,9 @@ export function initTracer(root: HTMLElement): () => void {
     const H = 300;
     const base = 232;
     const x = scaleLinear().domain([0, data.total]).range([16, width - 16]);
+    // On narrow screens the chart is drawn at 720 and scaled down to fit; keep each
+    // dot's touch target at least 24px across on screen (26, to be safe from rounding).
+    const hitR = Math.max(11, 13 / Math.min(1, (host.clientWidth || width) / width));
     host.replaceChildren();
     const svg = select(host).append("svg").attr("viewBox", `0 0 ${width} ${H}`).attr("width", width).attr("height", H);
 
@@ -103,7 +106,7 @@ export function initTracer(root: HTMLElement): () => void {
         a.append("circle")
           .attr("cx", x(o.g))
           .attr("cy", base - 1 - k * 7)
-          .attr("r", 11)
+          .attr("r", hitR)
           .attr("class", "tracer__hit");
         a.on("mouseenter", (ev: MouseEvent) => showTip(ev, o, id))
           .on("mouseleave", hideTip)
