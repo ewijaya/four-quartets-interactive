@@ -41,6 +41,9 @@ the gaps that remain).
   turn per quartet, each cut into the same five movements so the movements line up in
   columns; hover a light for a preview, open its card and step along the notes, or follow
   a motif as a thread up the helix (`/spiral?motif=rose` opens with one already followed).
+  The Atlas globe zooms from the whole world to a few hundred kilometres across (pinch,
+  double-click, Ctrl/⌘ + scroll or the buttons), and choosing a place frames it with the
+  places joined to it.
 - **Soundscape and search** — a generated drone per quartet (off by default) and
   Pagefind search over lines, notes and motifs.
 
