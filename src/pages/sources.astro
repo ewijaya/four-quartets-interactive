@@ -2,17 +2,31 @@
 import Base from "../layouts/Base.astro";
 import { SOURCES } from "../data/sources";
 import { BIBLIOGRAPHY } from "../data/bibliography";
+import { QUARTETS, ROMAN } from "../data/quartets";
 import { getNotes } from "../lib/reader-model";
-import { noteUrl } from "../lib/url";
+import { noteInTextUrl, url } from "../lib/url";
 import "../styles/pages.css";
 
 const notes = await getNotes();
 const citing = (ref: string) => notes.filter((n) => n.meta.sources.some((c) => c.ref === ref));
+/** The notes citing a source, by quartet and then in reading order. */
+const byQuartet = (ref: string) =>
+  QUARTETS.map((q) => ({
+    q,
+    notes: citing(ref)
+      .filter((n) => n.meta.anchor.quartet === q.code)
+      .sort((a, b) => a.meta.anchor.movement - b.meta.anchor.movement || a.order - b.order),
+  })).filter((g) => g.notes.length > 0);
+// For the way back: quartet ids and titles, and the base path the "from" link must sit under.
+const quartetTitles = JSON.stringify(Object.fromEntries(QUARTETS.map((q) => [q.id, q.title])));
 ---
 
 <Base title="Sources" description="The works the poem draws on, and the scholarship the annotations cite." section="sources">
   <div class="page page--narrow" data-pagefind-body data-pagefind-meta="title:Sources & bibliography">
     <span data-pagefind-filter="kind:Page" hidden></span>
+    <p class="return" data-pagefind-ignore data-return data-quartets={quartetTitles} data-base={url("/")} hidden>
+      <a href={url("/")} data-return-link><span aria-hidden="true">←</span> <span class="return__label" data-return-label>Back to the poem</span></a>
+    </p>
     <h1>Sources</h1>
     <p class="lede">
       The works Eliot drew on or answered, and the scholarship the notes rely on. Notes paraphrase and cite; they do not quote critics or
@@ -25,7 +39,7 @@ const citing = (ref: string) => notes.filter((n) => n.meta.sources.some((c) => c
       <dl class="source-list">
         {
           SOURCES.map((s) => {
-            const uses = citing(s.id);
+            const groups = byQuartet(s.id);
             return (
               <div class="source" id={s.id}>
                 <dt>
@@ -33,14 +47,13 @@ const citing = (ref: string) => notes.filter((n) => n.meta.sources.some((c) => c
                 </dt>
                 <dd>
                   <p>{s.note}</p>
-                  {uses.length > 0 && (
+                  {groups.length > 0 && (
                     <p class="source__uses">
                       Cited in{" "}
-                      {uses.map((n, i) => (
-                        <>
-                          {i > 0 && ", "}
-                          <a href={noteUrl(n.meta.id)}>{n.meta.title}</a>
-                        </>
+                      {groups.map((g, gi) => (
+                        <>{gi > 0 && "; "}<span class="source__q">{g.q.title}</span> {g.notes.map((n, i) => (
+                          <>{i > 0 && ", "}<a href={noteInTextUrl(n.meta.anchor.quartet, n.meta.anchor.movement, n.meta.id)} data-note={n.meta.id}>{n.meta.title}</a>{n.meta.anchor.movement > 0 && <span class="source__m"> {ROMAN[n.meta.anchor.movement]}</span>}</>
+                        ))}</>
                       ))}
                     </p>
                   )}
@@ -76,3 +89,44 @@ const citing = (ref: string) => notes.filter((n) => n.meta.sources.some((c) => c
     </section>
   </div>
 </Base>
+
+<script>
+  /**
+   * The way back: a source link from a note, a gloss or the Atlas carries `?from=` (the page and
+   * fragment it sat in). Show a link back there — the installed app has no Back button — and mark
+   * the note it came from. Only paths on this site are accepted.
+   */
+  const ROMAN = ["", "I", "II", "III", "IV", "V"];
+  document.addEventListener("astro:page-load", () => {
+    const box = document.querySelector<HTMLElement>("[data-return]");
+    if (!box) return;
+    const from = new URLSearchParams(location.search).get("from") ?? "";
+    const base = box.dataset.base ?? "/";
+    let to: URL | null = null;
+    try {
+      to = from.startsWith(base) && !from.startsWith("//") ? new URL(from, location.origin) : null;
+    } catch {
+      to = null;
+    }
+    if (!to || to.origin !== location.origin) {
+      box.hidden = true;
+      return;
+    }
+    const titles = JSON.parse(box.dataset.quartets ?? "{}") as Record<string, string>;
+    const [first = "", second = ""] = to.pathname.slice(base.length).split("/").filter(Boolean);
+    const noteId = to.hash.startsWith("#n-") ? decodeURIComponent(to.hash.slice(3)) : "";
+    const line = /^#(\d+)(?:-(\d+))?$/.exec(to.hash);
+    let where = "the poem";
+    if (titles[first]) where = `${titles[first]}${ROMAN[Number(second)] ? ` ${ROMAN[Number(second)]}` : ""}${line ? `, line ${line[1]}` : ""}`;
+    else if (first === "atlas") where = "the Atlas";
+    else if (first === "notes") where = "the note";
+    const cited = noteId ? document.querySelector<HTMLAnchorElement>(`.source__uses a[data-note="${CSS.escape(noteId)}"]`) : null;
+    const label = box.querySelector<HTMLElement>("[data-return-label]")!;
+    label.textContent = `Back to ${where}${cited ? ` · ${cited.textContent?.trim()}` : ""}`;
+    box.querySelector<HTMLAnchorElement>("[data-return-link]")!.href = to.pathname + to.search + to.hash;
+    box.hidden = false;
+    // Mark, in the source it came to, the note it came from.
+    const here = location.hash ? document.getElementById(decodeURIComponent(location.hash.slice(1))) : null;
+    here?.querySelector(`.source__uses a[data-note="${CSS.escape(noteId)}"]`)?.setAttribute("aria-current", "true");
+  });
+</script>

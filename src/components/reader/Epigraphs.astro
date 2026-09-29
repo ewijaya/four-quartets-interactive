@@ -1,5 +1,5 @@
 ---
-import { url } from "../../lib/url";
+import { sourceUrl, url } from "../../lib/url";
 
 // Heraclitus is shared editorial front matter, independent of the imported poem.
 const fragments = [
@@ -29,7 +29,7 @@ const fragments = [
     </figure>
   ))}
   <p class="epigraphs__source">
-    Diels: <a href={url("/sources#diels-1903")}><cite lang="de">Die Fragmente der Vorsokratiker</cite></a> (Herakleitos).
+    Diels: <a href={sourceUrl("diels-1903", url("/burnt-norton#epigraphs"))}><cite lang="de">Die Fragmente der Vorsokratiker</cite></a> (Herakleitos).
   </p>
   <details class="epigraphs__translations">
     <summary>English translations</summary>

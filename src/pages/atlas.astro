@@ -9,7 +9,7 @@ import { atlasLinks } from "../lib/atlas";
 import { excerpt } from "../lib/excerpt";
 import { getNotes, type NoteVM } from "../lib/reader-model";
 import type { QuartetCode } from "../lib/model";
-import { lineUrl, movementUrl, noteUrl, quartetUrl, url } from "../lib/url";
+import { lineUrl, movementUrl, noteUrl, quartetUrl, sourceUrl, url } from "../lib/url";
 import "../styles/viz.css";
 
 const notes = await getNotes();
@@ -110,7 +110,7 @@ const fmt = (v: number, pos: string, neg: string) => `${Math.abs(v).toFixed(2)}Â
                   <p class="place-card__links">
                     {q && <a href={quartetUrl(q.id)}>Read {q.title}</a>}
                     {(p.sources ?? []).map((sid) =>
-                      SOURCE_BY_ID[sid] ? <a href={url(`/sources#${sid}`)}>{SOURCE_BY_ID[sid]!.author}</a> : null,
+                      SOURCE_BY_ID[sid] ? <a href={sourceUrl(sid, url(`/atlas#place-${p.id}`))}>{SOURCE_BY_ID[sid]!.author}</a> : null,
                     )}
                   </p>
                   {mine.length > 0 && (

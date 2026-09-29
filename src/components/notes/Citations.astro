@@ -1,12 +1,14 @@
 ---
-import { url } from "../../lib/url";
+import { sourceUrl } from "../../lib/url";
 import { citeLabel as label } from "../../lib/cite";
 import type { Citation } from "../../lib/model";
 
 interface Props {
   items: Citation[];
+  /** Where these citations sit in the poem (a note or a line), for the Sources page's way back. */
+  from?: string;
 }
-const { items } = Astro.props;
+const { items, from } = Astro.props;
 ---
 
 {
@@ -16,7 +18,7 @@ const { items } = Astro.props;
       {items.map((c, i) => (
         <>
           {i > 0 && <span aria-hidden="true"> · </span>}
-          <a href={url(`/sources#${c.ref}`)} class="citations__item">{label(c) + (c.locator ? `, ${c.locator}` : "")}</a>
+          <a href={sourceUrl(c.ref, from)} class="citations__item">{label(c) + (c.locator ? `, ${c.locator}` : "")}</a>
           {c.status === "to-verify" && (
             <span class="to-verify" title="Locator not yet verified against the source">
               <span aria-hidden="true">†</span>

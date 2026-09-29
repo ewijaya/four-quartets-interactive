@@ -190,6 +190,48 @@
   font-size: 0.875rem;
   color: var(--ink-faint);
 }
+.source__q {
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.06em;
+  color: var(--ink-soft);
+}
+.source__uses a[aria-current="true"] {
+  color: var(--ink);
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 2px;
+}
+/* The way back to where a source link was followed from: pinned at the foot of the window. */
+.return {
+  position: fixed;
+  z-index: 30;
+  left: 50%;
+  bottom: calc(var(--s-4) + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  max-width: calc(100vw - 2 * var(--gutter));
+  margin: 0;
+}
+.return a {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  padding: 0.45rem 1.1rem;
+  border: 1px solid var(--rule-strong);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface) 94%, transparent);
+  box-shadow: 0 6px 24px color-mix(in srgb, var(--ink) 16%, transparent);
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+.return a:hover {
+  border-color: var(--accent);
+}
+.return__label {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
 .page section > h2 {
   font-size: 2rem;
   margin: var(--s-7) 0 var(--s-3);
