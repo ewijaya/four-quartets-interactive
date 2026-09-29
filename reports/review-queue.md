@@ -15,8 +15,8 @@ quotation. A run may be a public-domain source the poem itself quotes (Julian, t
 
 ### Whole quartet
 
-- [ ] `bn-burnt-norton` · place · established · 2 citations to verify
-- [ ] `bn-composition` · history · established · 2 citations to verify
+- [ ] `bn-burnt-norton` · place · established · 1 citation to verify
+- [ ] `bn-composition` · history · established · 1 citation to verify
 - [ ] `bn-epigraphs` · source · established
 - [ ] `bn-why-quartets` · theme · interpretive · 3 citations to verify
 
@@ -34,7 +34,7 @@ quotation. A run may be a public-domain source the poem itself quotes (Julian, t
 - [ ] `bn-brief-1-3` · commentary · interpretive · ll. 19–29
 - [ ] `bn-first-world` · theme · interpretive · l. 23
 - [ ] `bn-thrush` · crossref · interpretive · l. 24
-- [ ] `bn-they` · allusion · interpretive · l. 25 · 2 citations to verify
+- [ ] `bn-they` · allusion · interpretive · l. 25 · 1 citation to verify
 - [ ] `bn-unheard-music` · allusion · interpretive · l. 29
 - [ ] `bn-brief-1-4` · commentary · interpretive · ll. 30–41
 - [ ] `bn-eyebeam` · allusion · interpretive · l. 30 · 1 citation to verify
@@ -46,7 +46,7 @@ quotation. A run may be a public-domain source the poem itself quotes (Julian, t
 - [ ] `bn-cloud-passed` · theme · interpretive · l. 41
 - [ ] `bn-brief-1-5` · commentary · interpretive · ll. 42–48
 - [ ] `bn-children-leaves` · crossref · interpretive · l. 42 · 1 citation to verify
-- [ ] `bn-human-kind` · textual · established · l. 45 · 1 citation to verify
+- [ ] `bn-human-kind` · textual · established · l. 45
 - [ ] gloss `bn-1-unredeemable` · sense · l. 5
 - [ ] gloss `bn-1-speculation` · sense · l. 8
 - [ ] gloss `bn-1-towards` · sense · l. 13
@@ -62,7 +62,7 @@ quotation. A run may be a public-domain source the poem itself quotes (Julian, t
 - [ ] `bn-drift-of-stars` · theme · interpretive · l. 8
 - [ ] `bn-boarhound` · allusion · interpretive · l. 13
 - [ ] `bn-brief-2-2` · commentary · interpretive · ll. 16–23
-- [ ] `bn-still-point` · theme · interpretive · l. 16 · 2 citations to verify
+- [ ] `bn-still-point` · theme · interpretive · l. 16 · 1 citation to verify
 - [ ] `bn-dance` · theme · interpretive · l. 21 · 1 citation to verify
 - [ ] `bn-brief-2-3` · commentary · interpretive · ll. 24–32
 - [ ] `bn-erhebung` · textual · interpretive · l. 28
@@ -70,7 +70,7 @@ quotation. A run may be a public-domain source the poem itself quotes (Julian, t
 - [ ] `bn-enchainment` · theme · interpretive · l. 33
 - [ ] `bn-heaven-damnation` · theme · interpretive · l. 35
 - [ ] `bn-three-moments` · theme · interpretive · l. 41
-- [ ] `bn-smokefall` · textual · interpretive · l. 42 · 1 citation to verify
+- [ ] `bn-smokefall` · textual · interpretive · l. 42
 - [ ] `bn-time-conquered` · theme · interpretive · l. 44 · 1 citation to verify
 - [ ] gloss `bn-2-axle-tree` · archaic · l. 2
 - [ ] gloss `bn-2-inveterate` · sense · l. 4
@@ -146,13 +146,13 @@ quotation. A run may be a public-domain source the poem itself quotes (Julian, t
 
 ### Whole quartet
 
-- [ ] `ec-composition` · history · established · 1 citation to verify
+- [ ] `ec-composition` · history · established
 - [ ] `ec-east-coker` · place · established · 2 citations to verify
 
 ### I
 
 - [ ] `ec-brief-1-1` · commentary · interpretive · ll. 1–13
-- [ ] `ec-in-my-beginning` · allusion · established · l. 1 · 1 citation to verify
+- [ ] `ec-in-my-beginning` · allusion · established · l. 1
 - [ ] `ec-houses-rise-fall` · theme · interpretive · l. 2
 - [ ] `ec-open-field` · allusion · interpretive · l. 4
 - [ ] `ec-flesh-fur` · prosody · interpretive · l. 7
@@ -163,7 +163,7 @@ quotation. A run may be a public-domain source the poem itself quotes (Julian, t
 - [ ] `ec-deep-lane` · place · established · l. 15 · 1 citation to verify
 - [ ] `ec-brief-1-3` · commentary · interpretive · ll. 24–47
 - [ ] `ec-dead-village` · source · interpretive · l. 24
-- [ ] `ec-dancers` · theme · interpretive · l. 28 · 1 citation to verify
+- [ ] `ec-dancers` · theme · interpretive · l. 28
 - [ ] `ec-elyot` · source · established · l. 30 · 1 citation to verify
 - [ ] `ec-earth-feet` · prosody · interpretive · l. 38
 - [ ] `ec-under-earth` · theme · interpretive · l. 39
@@ -249,7 +249,7 @@ quotation. A run may be a public-domain source the poem itself quotes (Julian, t
 
 - [ ] `ec-lyric-iv` · prosody · established · 1 citation to verify
 - [ ] `ec-brief-4-1` · commentary · interpretive · ll. 1–10
-- [ ] `ec-wounded-surgeon` · theme · interpretive · l. 1 · 1 citation to verify
+- [ ] `ec-wounded-surgeon` · theme · interpretive · l. 1
 - [ ] `ec-rosary` · source · interpretive · l. 3 · 1 citation to verify
 - [ ] `ec-brief-4-2` · commentary · interpretive · ll. 11–25
 - [ ] `ec-hospital` · allusion · interpretive · l. 11
@@ -298,7 +298,7 @@ quotation. A run may be a public-domain source the poem itself quotes (Julian, t
 
 ### Whole quartet
 
-- [ ] `ds-composition` · history · established · 1 citation to verify
+- [ ] `ds-composition` · history · established
 - [ ] `ds-dry-salvages` · place · established · 2 citations to verify
 
 ### I
@@ -446,7 +446,7 @@ quotation. A run may be a public-domain source the poem itself quotes (Julian, t
 
 ### Whole quartet
 
-- [ ] `lg-composition` · history · established · 2 citations to verify
+- [ ] `lg-composition` · history · established · 1 citation to verify
 - [ ] `lg-little-gidding` · place · established · 2 citations to verify
 
 ### I
@@ -506,7 +506,7 @@ quotation. A run may be a public-domain source the poem itself quotes (Julian, t
 - [ ] `lg-strange-meeting` · allusion · interpretive · l. 33 · 1 citation to verify
 - [ ] `lg-brief-2-5` · commentary · interpretive · ll. 37–54
 - [ ] `lg-first-met-stranger` · allusion · established · l. 38 · 1 citation to verify
-- [ ] `lg-compound-ghost` · allusion · interpretive · l. 42 · 3 citations to verify
+- [ ] `lg-compound-ghost` · allusion · interpretive · l. 42 · 2 citations to verify
 - [ ] `lg-double-part` · allusion · interpretive · l. 44
 - [ ] `lg-what-are-you-here` · source · established · l. 45
 - [ ] `lg-face-still-forming` · allusion · established · l. 48 · 1 citation to verify

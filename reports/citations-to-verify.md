@@ -23,17 +23,9 @@ checked against the source. Verify, add a page/section `locator`, and set `statu
 
 9 use(s): `bn-descend-lower`, `bn-desiccation` — the nights of sense and of spirit, `bn-ten-stairs` (Dark Night, Book II, chs. 19–20), `ec-darkness-of-god`, `ec-in-order-to-arrive` (Ascent of Mount Carmel, Book I, ch. 13), `ec-wait-without-hope`, `ec-way-of-ignorance` (Ascent of Mount Carmel, Book I, ch. 13), `lg-costing-everything`, `lg-love-beyond-desire` (Ascent of Mount Carmel, Book I)
 
-## Christopher Ricks and Jim McCue (eds.), *The Poems of T. S. Eliot, Volume I: Collected and Uncollected Poems* (2015)
-
-8 use(s): `bn-box-circle`, `bn-burnt-norton`, `bn-human-kind`, `bn-smokefall`, `bn-still-point`, `ec-dancers`, `ec-in-my-beginning`, `ec-wounded-surgeon`
-
 ## Anonymous (part of the Mahabharata), *Bhagavad Gita*
 
 7 use(s): `bn-lotos` — Indian religious imagery generally, `ds-arjuna`, `ds-equal-mind` (2.48), `ds-fruit-of-action` (2.47), `ds-krishna`, `ds-time-destroyer` (11.32), `ds-time-of-death` (8.6)
-
-## Helen Gardner, *The Composition of Four Quartets* (1978)
-
-6 use(s): `bn-composition`, `bn-they`, `ds-composition`, `ec-composition`, `lg-composition`, `lg-compound-ghost`
 
 ## W. B. Yeats, *Late poems*
 
@@ -98,6 +90,10 @@ checked against the source. Verify, add a page/section `locator`, and set `statu
 ## T. S. Eliot, *Murder in the Cathedral*
 
 2 use(s): `lg-frost-fire`, `lg-motives-late`
+
+## Christopher Ricks and Jim McCue (eds.), *The Poems of T. S. Eliot, Volume I: Collected and Uncollected Poems* (2015)
+
+1 use(s): `bn-box-circle`
 
 ## Gustave Flaubert, *La Tentation de saint Antoine*
 
