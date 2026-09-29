@@ -250,7 +250,6 @@ export function initReader(root: HTMLElement): () => void {
   root.querySelectorAll<HTMLElement>("[data-glossary]").forEach((g) => {
     const btn = g.querySelector<HTMLButtonElement>(".glossary__toggle");
     if (!btn) return;
-    btn.hidden = false;
     const onToggle = () => {
       const open = !g.classList.contains("is-open");
       g.classList.toggle("is-open", open);

@@ -128,7 +128,8 @@ const noteCount = local.size;
           ))}
           {m.glosses.length > 0 && (
             <div class="glossary" data-glossary data-pagefind-ignore>
-              <button class="glossary__toggle" type="button" aria-expanded="false" aria-controls={`glossary-${m.n}`} hidden>
+              {/* Rendered visible (hidden by CSS without scripts) so showing it never shifts the page. */}
+              <button class="glossary__toggle" type="button" aria-expanded="false" aria-controls={`glossary-${m.n}`}>
                 Words glossed · {m.roman} <span class="c">({m.glosses.length})</span>
               </button>
               <h3 class="glossary__title">Words glossed <span aria-hidden="true">·</span> {m.roman}</h3>

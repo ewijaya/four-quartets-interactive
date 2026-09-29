@@ -993,7 +993,8 @@
 .glossary__toggle:hover {
   border-color: var(--accent);
 }
-.glossary__toggle[hidden] {
+/* Without scripts the list is shown in full and needs no toggle. */
+:root:not(.js) .glossary__toggle {
   display: none;
 }
 .glossary__title {
