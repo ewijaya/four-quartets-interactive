@@ -1,6 +1,6 @@
 # Annotation coverage
 
-Text: **private** (Ricks & McCue, The Poems of T. S. Eliot I (Faber 2015)) · generated 2026-09-29T01:50:05.960Z
+Text: **private** (Ricks & McCue, The Poems of T. S. Eliot I (Faber 2015)) · generated 2026-09-29T01:53:16.001Z
 
 A line counts as *annotated* when a note's lemma or range, or a word gloss, touches it;
 *commentary* is the running paraphrase (`type: commentary`), which aims to cover every line.
@@ -76,7 +76,7 @@ archaic 9 · coinage 4 · dialect 3 · foreign 2 · name 27 · rare 7 · sense 1
 
 ## Long quotations
 
-Notes and glosses quoting more than 6 consecutive words of the poem (RIGHTS.md): **59**, listed at the top of `reports/review-queue.md`.
+Notes and glosses quoting more than 6 consecutive words of the poem (RIGHTS.md): **1**, listed at the top of `reports/review-queue.md`.
 
 ## Review
 

@@ -9,65 +9,7 @@ each citation whose locator you have checked. Re-run `npm run coverage` to refre
 RIGHTS.md allows the poem to be quoted in phrases of 6 words or fewer. Paraphrase these, or shorten the
 quotation. A run may be a public-domain source the poem itself quotes (Julian, the *Cloud*), which is fine.
 
-- [ ] `bn-dance` · 8 words from BN.2.20
-- [ ] `bn-kingfisher` · 8 words from BN.2.16
-- [ ] `bn-sunlight-pool` · 8 words from DS.5.24
-- [ ] `bn-three-moments` · 9 words from BN.2.40
-- [ ] `bn-yew` · 16 words from LG.5.19
-- [ ] `ds-annunciation` · 8 words from DS.2.5
-- [ ] `ds-composition` · 9 words from DS.5.18
-- [ ] `ds-daemonic` · 8 words from DS.5.43
-- [ ] `ds-fare-forward` · 7 words from DS.3.21, 8 words from DS.3.23
-- [ ] `ds-fruit-of-action` · 8 words from DS.3.38
-- [ ] `ds-incarnation` · 8 words from DS.5.32, 7 words from DS.5.35
-- [ ] `ds-intersection-timeless` · 8 words from DS.5.19, 8 words from DS.5.20, 10 words from LG.1.54
-- [ ] `ds-krishna` · 14 words from DS.3.6
-- [ ] `ds-moments-of-happiness` · 8 words from DS.2.45, 9 words from DS.2.46
-- [ ] `ds-music-heard-deeply` · 8 words from DS.5.28, 11 words from DS.5.23, 11 words from DS.5.27, 7 words from DS.5.29
-- [ ] `ds-ragged-rock` · 10 words from DS.2.72
-- [ ] `ds-scry` · 7 words from DS.5.15
-- [ ] `ds-sea-creation` · 8 words from DS.1.19
-- [ ] `ds-sestina` · 7 words from DS.2.1
-- [ ] `ds-strong-brown-god` · 7 words from DS.1.1
-- [ ] `ds-time-of-death` · 7 words from DS.3.36
-- [ ] `ds-tolling-bell` · 8 words from DS.1.48
-- [ ] `ds-way-up-down` · 7 words from DS.3.6
-- [ ] `ec-dark-wood` · 12 words from EC.2.39
-- [ ] `ec-darkness-of-god` · 7 words from EC.3.12, 7 words from EC.3.12
-- [ ] `ec-in-order-to-arrive` · 11 words from EC.3.39, 15 words from EC.3.41
-- [ ] `ec-old-men-explorers` · 7 words from EC.2.43
-- [ ] `ec-periphrastic` · 7 words from EC.2.20
-- [ ] `ec-raid-inarticulate` · 9 words from EC.5.4
-- [ ] `ec-ruined-millionaire` · 12 words from EC.4.13
-- [ ] `ec-trying` · 8 words from DS.3.38
-- [ ] `ec-tube-train` · 8 words from EC.3.21
-- [ ] `ec-wounded-surgeon` · 8 words from EC.4.3
-- [ ] `lg-ash-old-man` · 8 words from LG.2.1
-- [ ] `lg-beginning-end` · 7 words from LG.5.3, 16 words from LG.5.2
-- [ ] `lg-blowing-horn` · 7 words from LG.2.96
-- [ ] `lg-children-apple-tree` · 8 words from LG.5.37
-- [ ] `lg-compound-ghost` · 8 words from LG.2.40
-- [ ] `lg-dark-dove` · 7 words from LG.2.28
-- [ ] `lg-dialect-tribe` · 7 words from LG.2.75
-- [ ] `lg-dove-descending` · 10 words from LG.4.3
-- [ ] `lg-drawing-of-love` · 11 words from LG.5.25
-- [ ] `lg-england-nowhere` · 8 words from DS.5.18, 7 words from LG.1.55
-- [ ] `lg-every-phrase` · 10 words from LG.5.8, 11 words from LG.5.11
-- [ ] `lg-exploration` · 21 words from LG.5.27
-- [ ] `lg-history-now` · 7 words from LG.5.23, 11 words from LG.5.22
-- [ ] `lg-king-nightfall` · 7 words from LG.3.25
-- [ ] `lg-kneel` · 7 words from LG.1.47
-- [ ] `lg-last-years-language` · 11 words from LG.2.65
-- [ ] `lg-little-gidding` · 7 words from LG.5.23
-- [ ] `lg-pentecostal-fire` · 9 words from LG.1.52
-- [ ] `lg-refining-fire` · 7 words from LG.2.93
-- [ ] `lg-rose-fire-one` · 7 words from LG.5.46
 - [ ] `lg-sin-behovely` · 12 words from LG.3.18
-- [ ] `lg-spectre-rose` · 7 words from LG.3.35
-- [ ] `lg-step-to-block` · 7 words from LG.5.18
-- [ ] `lg-three-conditions` · 7 words from LG.3.2
-- [ ] `lg-world-end` · 12 words from LG.1.36, 10 words from LG.1.38, 10 words from LG.1.39
-- [ ] `lg-yew-rose` · 9 words from LG.5.20
 
 ## Burnt Norton
 
