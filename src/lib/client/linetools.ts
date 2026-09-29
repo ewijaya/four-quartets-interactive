@@ -73,7 +73,8 @@ export function initLineTools(root: HTMLElement, quartetId: string): () => void 
       pop.innerHTML = `
         <button type="button" data-act="copy">Copy link</button>
         <button type="button" data-act="bookmark">${isBookmarked(id) ? "Remove bookmark" : "Bookmark"}</button>
-        <button type="button" data-act="note">Add a note</button>`;
+        <button type="button" data-act="note">Add a note</button>
+        <button type="button" data-act="words">Words in this line</button>`;
     } else {
       pop.innerHTML = `
         <label class="line-pop__label" for="line-pop-text">${existing ? "Edit your note" : `Your note on line ${n}`}</label>
@@ -114,6 +115,10 @@ export function initLineTools(root: HTMLElement, quartetId: string): () => void 
         close();
       } else if (act === "note") {
         openFor(popLine, "note");
+      } else if (act === "words") {
+        const line = popLine;
+        close(false);
+        root.dispatchEvent(new CustomEvent("sp:words", { detail: { line, from: line.querySelector<HTMLElement>("a.ln") } }));
       } else if (act === "save") {
         const text = pop.querySelector<HTMLTextAreaElement>("textarea")!.value;
         if (text.trim()) {

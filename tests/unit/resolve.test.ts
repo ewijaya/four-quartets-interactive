@@ -115,4 +115,17 @@ describe("segmentLine", () => {
     const html = renderSegments(segmentLine("a < b & c", [{ id: "n1", start: 4, end: 5, approximate: true, level: "reader" }]));
     expect(html).toBe('a &lt; <a class="anchor anchor--approx" href="#n-n1" data-notes="n1" data-level="reader">b</a> &amp; c');
   });
+
+  it("renders glosses as their own links, but never inside or splitting a note", () => {
+    const text = "the grimpen and the Erhebung without motion";
+    const marks = [
+      { id: "g1", start: 4, end: 11, approximate: false, level: "reader" as const, kind: "gloss" as const },
+      { id: "g2", start: 20, end: 28, approximate: false, level: "reader" as const, kind: "gloss" as const },
+      { id: "n1", start: 20, end: 43, approximate: false, level: "scholar" as const },
+    ];
+    expect(renderSegments(segmentLine(text, marks))).toBe(
+      'the <a class="gl" href="#g-g1" data-glosses="g1">grimpen</a> and the ' +
+        '<a class="anchor" href="#n-n1" data-notes="n1" data-level="scholar">Erhebung without motion</a>',
+    );
+  });
 });

@@ -1,14 +1,14 @@
 # Anchor resolution report
 
-Text: **private** (Ricks & McCue, The Poems of T. S. Eliot I (Faber 2015)) · generated 2026-09-29T01:00:46.934Z
+Text: **private** (Ricks & McCue, The Poems of T. S. Eliot I (Faber 2015)) · generated 2026-09-29T01:09:54.829Z
 
 | | Count |
 |---|---|
 | Annotations | 174 |
-| Lemma anchors (annotations, motifs, cues) | 279 |
-| Resolved exactly | 279 |
+| Lemma anchors (annotations, glosses, motifs, cues) | 286 |
+| Resolved exactly | 286 |
 | **Unresolved** | **0** |
-| Glosses | 0 |
+| Glosses | 7 |
 | Matched more than once, placed by the nearest match to `hint` | 0 |
 | **Ambiguous** (hint missing or equally near two matches) | **0** |
 | Matched a variant spelling (check the edition) | 0 |

@@ -282,8 +282,18 @@
   background: color-mix(in srgb, var(--accent) 38%, transparent);
   transition: background-color var(--t-1) var(--ease);
 }
-:root:not([data-density="clean"]) .line--ranged.is-range-active::after {
+:root:not([data-density="clean"]) .line--ranged.is-range-active::after,
+:root:not([data-density="clean"]) .line[data-passage].is-range-active::after {
   background: var(--accent);
+}
+/* Commentary passages show their bracket only while their note is open or hovered. */
+:root:not([data-density="clean"]) .line[data-passage]:not(.line--ranged).is-range-active::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -0.7rem;
+  width: 2px;
 }
 
 /* Anchors (lemmas) */
@@ -897,6 +907,295 @@
   font-size: 0.75rem;
   color: var(--ink-faint);
 }
+/* --------------------------------------------------------- word glosses and the word popover */
+
+/* A glossed word: a faint dotted rule, quieter than a note's underline. */
+.gl {
+  color: inherit;
+  text-decoration-line: underline;
+  text-decoration-style: dotted;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.26em;
+  text-decoration-color: color-mix(in srgb, var(--ink-faint) 75%, transparent);
+  border-radius: 2px;
+}
+.gl[href] {
+  cursor: pointer;
+}
+.gl[href]:hover {
+  text-decoration-color: var(--accent);
+  background: color-mix(in srgb, var(--accent-glow) 14%, transparent);
+}
+.gl:not([href]),
+:root[data-density="clean"] .gl {
+  text-decoration: none;
+  background: none;
+}
+
+.glossary {
+  margin: var(--s-4) 0 0;
+  font-family: var(--font-ui-stack);
+  font-size: var(--note-size);
+  line-height: 1.5;
+  color: var(--ink-soft);
+  font-variant-numeric: normal;
+  font-feature-settings: normal;
+}
+:root[data-density="clean"] .glossary {
+  display: none;
+}
+.glossary__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 2rem;
+  padding: 0.2rem 0.75rem;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink-soft);
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+.glossary__toggle:hover {
+  border-color: var(--accent);
+}
+.glossary__toggle[hidden] {
+  display: none;
+}
+.glossary__title {
+  margin: 0 0 var(--s-3);
+  font-size: 0.78rem;
+  color: var(--ink-faint);
+}
+.js .glossary__title {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.glossary__list {
+  list-style: none;
+  margin: var(--s-3) 0 0;
+  padding: 0;
+  columns: 2 18rem;
+  column-gap: var(--s-5);
+}
+.js .glossary:not(.is-open) .glossary__list {
+  display: none;
+}
+.gloss {
+  break-inside: avoid;
+  margin: 0 0 var(--s-3);
+}
+.gloss__lemma {
+  font-family: var(--font-poem-stack);
+  font-style: italic;
+  font-size: 1.05em;
+  color: var(--ink);
+}
+.gloss__loc {
+  font-size: 0.78rem;
+  color: var(--ink-faint);
+}
+.gloss__body p {
+  margin: 0.1rem 0 0;
+}
+.gloss__kind {
+  font-size: 0.78rem;
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.1em;
+  color: var(--ink-faint);
+}
+.gloss__say {
+  font-size: 0.85rem;
+  color: var(--ink-faint);
+}
+.gloss .citations {
+  margin: 0.15rem 0 0;
+  font-size: 0.8rem;
+}
+.note__glosses {
+  margin: 0 0 var(--s-3);
+  padding: 0 0 var(--s-3);
+  border-bottom: 1px solid var(--rule);
+}
+.gloss--inline {
+  margin: 0 0 0.3rem;
+}
+.gloss--inline p {
+  margin: 0;
+}
+
+.word-pop {
+  position: relative;
+  z-index: 20;
+  width: min(36rem, 100%);
+  margin: 0.35rem 0 0.7rem;
+  padding: 0.55rem 0.8rem 0.7rem;
+  border: 1px solid var(--rule-strong);
+  border-radius: 6px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  font-family: var(--font-ui-stack);
+  font-size: 0.9rem;
+  line-height: 1.4;
+  text-indent: 0;
+  color: var(--ink-soft);
+  font-variant-numeric: normal;
+  font-feature-settings: normal;
+}
+.word-pop:focus {
+  outline: none;
+}
+.word-pop__head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.2rem;
+  margin: 0 0 0.35rem;
+}
+.word-pop__title {
+  font-family: var(--font-poem-stack);
+  font-style: italic;
+  font-size: 1.2rem;
+  color: var(--ink);
+}
+.word-pop__count {
+  font-size: 0.82rem;
+  color: var(--ink-faint);
+}
+.word-pop__close {
+  margin-left: auto;
+  min-width: 2rem;
+  min-height: 2rem;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  color: var(--ink-soft);
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.word-pop__close:hover {
+  color: var(--accent);
+}
+.word-pop__gloss {
+  margin: 0 0 0.5rem;
+  padding: 0 0 0.5rem;
+  border-bottom: 1px solid var(--rule);
+  color: var(--ink);
+}
+.word-pop__gloss p {
+  margin: 0.1rem 0 0;
+}
+.word-pop__gloss .citations {
+  font-size: 0.8rem;
+}
+.word-pop__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: min(18rem, 50vh);
+  overflow-y: auto;
+}
+.word-pop__list li {
+  padding: 0.1rem 0;
+}
+.word-pop__q {
+  margin-top: 0.35rem;
+  font-size: 0.75rem;
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.12em;
+  color: var(--ink-faint);
+}
+.word-pop__list a {
+  display: inline-flex;
+  align-items: center;
+  min-width: 3.4rem;
+  min-height: 24px;
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+.word-pop__list a[aria-current] {
+  color: var(--accent);
+  font-weight: 600;
+}
+.word-pop__kwic {
+  font-family: var(--font-poem-stack);
+  font-size: 0.98rem;
+  color: var(--ink);
+}
+.word-pop__kwic mark {
+  background: color-mix(in srgb, var(--accent-glow) 32%, transparent);
+  color: inherit;
+  border-radius: 2px;
+}
+.word-pop__more,
+.word-pop__rel button,
+.word-pop__words button {
+  min-height: 2rem;
+  padding: 0.2rem 0.7rem;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  cursor: pointer;
+}
+.word-pop__more {
+  margin-top: 0.4rem;
+}
+.word-pop__more:hover,
+.word-pop__rel button:hover,
+.word-pop__words button:hover {
+  border-color: var(--accent);
+}
+.word-pop__rel,
+.word-pop__words {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem;
+  margin: 0.5rem 0 0;
+}
+.word-pop__words {
+  margin: 0;
+}
+.word-pop__rel > span {
+  margin-right: 0.2rem;
+  font-size: 0.75rem;
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.12em;
+  color: var(--ink-faint);
+}
+.word-pop__rel button span {
+  color: var(--ink-soft);
+  font-size: 0.85em;
+}
+.word-pop__note {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+}
+@media print {
+  .word-pop,
+  .glossary__toggle {
+    display: none !important;
+  }
+  .js .glossary .glossary__list {
+    display: block;
+  }
+  .js .glossary__title {
+    position: static !important;
+    width: auto;
+    height: auto;
+    clip-path: none;
+  }
+}
+
 .my-note {
   display: block;
   margin: 0.2rem 0 0.5rem 1.75em;

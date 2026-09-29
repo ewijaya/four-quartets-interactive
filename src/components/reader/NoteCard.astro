@@ -3,6 +3,7 @@ import { render } from "astro:content";
 import Citations from "../notes/Citations.astro";
 import Ref from "../notes/Ref.astro";
 import Cite from "../notes/Cite.astro";
+import GlossItem from "./GlossItem.astro";
 import { TYPE_LABEL, getNotes, type NoteVM } from "../../lib/reader-model";
 import { MOTIFS_BY_ID } from "../../data/motifs";
 import { QUARTET_BY_CODE } from "../../data/quartets";
@@ -65,6 +66,15 @@ const quartetTitle = QUARTET_BY_CODE[m.anchor.quartet].title;
     </a>
   </div>
   <div class="note__body" id={`n-${m.id}-body`}>
+    {
+      note.glosses.length > 0 && (
+        <div class="note__glosses" aria-label="Words">
+          {note.glosses.map((g) => (
+            <GlossItem item={g} as="inline" />
+          ))}
+        </div>
+      )
+    }
     <div class="note__content">
       <Content components={{ Ref, Cite }} />
     </div>

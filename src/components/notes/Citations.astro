@@ -1,24 +1,12 @@
 ---
-import { BIB_BY_ID } from "../../data/bibliography";
-import { SOURCE_BY_ID } from "../../data/sources";
 import { url } from "../../lib/url";
+import { citeLabel as label } from "../../lib/cite";
 import type { Citation } from "../../lib/model";
 
 interface Props {
   items: Citation[];
 }
 const { items } = Astro.props;
-const label = (c: Citation) => {
-  const b = BIB_BY_ID[c.ref];
-  if (b) {
-    const who = b.author.replace(/\s*\(eds?\.\)/, "");
-    const short = who.includes(" and ") ? who.split(" and ").map((x) => x.trim().split(" ").pop()).join(" & ") : who.split(" ").pop();
-    return `${short} ${b.year}`;
-  }
-  const s = SOURCE_BY_ID[c.ref];
-  if (s) return s.author.startsWith("Anonymous") || s.author.startsWith("The ") ? s.work : s.author;
-  throw new Error(`Unknown citation ref "${c.ref}"`);
-};
 ---
 
 {

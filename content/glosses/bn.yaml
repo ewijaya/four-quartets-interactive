@@ -1,0 +1,76 @@
+# Burnt Norton — word glosses. One entry per word or short phrase (lemma ≤ 6 words,
+# exactly as printed). `hint` is the line number in its movement; `kind` is one of
+# sense, archaic, rare, dialect, technical, foreign, name, coinage. `say` records
+# Eliot's pronunciation on his 1946–47 recording when it is documented.
+# Glosses are our own words: short, factual, cited. See CONTRIBUTING.md.
+
+- movement: 1
+  lemma: "lotos"
+  hint: 38
+  kind: name
+  gloss: "The sacred water-lily of Egypt and India (*Nymphaea lotus*), which opens on the water at sunrise; not the fruit of Homer's lotus-eaters, which brings forgetfulness."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "i 912"
+      status: verified
+
+- movement: 2
+  lemma: "lymph"
+  hint: 7
+  kind: technical
+  gloss: "The clear fluid that circulates through the body's tissues beside the blood. In older botany the word also meant the sap of plants."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "i 916"
+      status: verified
+
+- movement: 2
+  lemma: "Erhebung"
+  hint: 28
+  kind: foreign
+  gloss: "German: ‘elevation’, ‘exaltation’, a word with a philosophical, Hegelian ring."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "i 917"
+      status: verified
+
+- movement: 2
+  lemma: "smokefall"
+  hint: 42
+  kind: coinage
+  gloss: "Formed like *nightfall*: the evening hour when, as Helen Gardner explained it, the wind drops and smoke that has risen sinks back. The *OED* records the word from this line alone."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "i 917"
+      status: verified
+
+- movement: 3
+  lemma: "Eructation"
+  hint: 19
+  kind: rare
+  gloss: "Belching; the discharge of wind from the stomach."
+  say: "ear-uctation"
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "i 918"
+      status: verified
+
+- movement: 3
+  lemma: "Inoperancy"
+  hint: 32
+  kind: rare
+  gloss: "The state of not working or taking effect. The word was not in the first edition of the *OED*; it was added later with this line as its only example."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "i 919–20"
+      status: verified
+
+- movement: 3
+  lemma: "appetency"
+  hint: 36
+  kind: technical
+  gloss: "Craving, instinctive desire; of things, a natural tendency. Stressed on the first syllable. The word renders Aristotle's *orexis*, and I. A. Richards had made it central to a psychology of value that Eliot criticised."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "i 920"
+      status: verified

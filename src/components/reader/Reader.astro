@@ -7,6 +7,7 @@
 import Emblem from "../chrome/Emblem.astro";
 import "../../styles/reader.css";
 import NoteCard from "./NoteCard.astro";
+import GlossItem from "./GlossItem.astro";
 import Epigraphs from "./Epigraphs.astro";
 import { QUARTETS, ORDINAL_WORD, ROMAN } from "../../data/quartets";
 import { movementUrl, quartetUrl, url } from "../../lib/url";
@@ -111,7 +112,8 @@ const noteCount = local.size;
                   id={idFor(m.n, l.n)}
                   data-line={l.id}
                   data-n={l.n}
-                  data-ranges={l.inRanges.length ? l.inRanges.join(" ") : undefined}
+                  data-ranges={l.inRanges.length || l.inPassages.length ? [...l.inRanges, ...l.inPassages].join(" ") : undefined}
+                  data-passage={l.inPassages.length ? "" : undefined}
                   data-cue-start={l.cueStart.length ? l.cueStart.join(" ") : undefined}
                   data-cue-end={l.cueEnd.length ? l.cueEnd.join(" ") : undefined}
                   style={l.indent ? `--indent:${l.indent}` : undefined}
@@ -124,6 +126,19 @@ const noteCount = local.size;
               ))}
             </p>
           ))}
+          {m.glosses.length > 0 && (
+            <div class="glossary" data-glossary data-pagefind-ignore>
+              <button class="glossary__toggle" type="button" aria-expanded="false" aria-controls={`glossary-${m.n}`} hidden>
+                Words glossed · {m.roman} <span class="c">({m.glosses.length})</span>
+              </button>
+              <h3 class="glossary__title">Words glossed <span aria-hidden="true">·</span> {m.roman}</h3>
+              <ol class="glossary__list" id={`glossary-${m.n}`}>
+                {m.glosses.map((g) => (
+                  <GlossItem item={g} />
+                ))}
+              </ol>
+            </div>
+          )}
         </div>
         {m.notes.length > 0 && (
           <aside class="notes" aria-label={`Notes to ${q.title} ${m.roman}`} data-movement-notes={m.n} data-pagefind-ignore>
