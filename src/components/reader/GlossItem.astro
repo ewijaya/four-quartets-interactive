@@ -6,6 +6,7 @@
 import Citations from "../notes/Citations.astro";
 import { glossHtml } from "../../lib/annotations/glosses";
 import type { GlossVM } from "../../lib/reader-model";
+import { lineUrl } from "../../lib/url";
 
 interface Props {
   item: GlossVM;
@@ -36,7 +37,7 @@ const kind = KIND[g.kind];
           {kind && <span class="gloss__kind">{kind}</span>} <Fragment set:html={glossHtml(g.gloss)} />
         </p>
         {g.say && <p class="gloss__say">Eliot's recording: <i>{g.say}</i></p>}
-        <Citations items={g.sources} />
+        <Citations items={g.sources} from={lineUrl(g.quartet, g.movement, item.n)} />
       </div>
     </li>
   ) : (

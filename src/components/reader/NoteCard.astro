@@ -7,7 +7,7 @@ import GlossItem from "./GlossItem.astro";
 import { TYPE_LABEL, getNotes, type NoteVM } from "../../lib/reader-model";
 import { MOTIFS_BY_ID } from "../../data/motifs";
 import { QUARTET_BY_CODE } from "../../data/quartets";
-import { lineUrl, movementUrl, noteUrl, quartetUrl, url } from "../../lib/url";
+import { lineUrl, movementUrl, noteInTextUrl, noteUrl, quartetUrl, url } from "../../lib/url";
 
 interface Props {
   note: NoteVM;
@@ -90,7 +90,7 @@ const quartetTitle = QUARTET_BY_CODE[m.anchor.quartet].title;
         ))
       }
     </div>
-    <Citations items={m.sources} />
+    <Citations items={m.sources} from={noteInTextUrl(m.anchor.quartet, m.anchor.movement, m.id)} />
     {
       related.length > 0 && (
         <p class="note__related">

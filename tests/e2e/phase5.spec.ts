@@ -115,6 +115,28 @@ test.describe("search, notes, atlas, sound, print", () => {
     void errors;
   });
 
+  test("sources: a source followed from a note leads back to the note in the poem", async ({ page, errors }) => {
+    // Every source link in a note says where it was followed from.
+    await page.goto("/burnt-norton/2");
+    const cite = page.locator('#n-bn-still-point .citations a[href*="#dante"]');
+    await expect(cite).toHaveAttribute("href", /\/sources\?from=%2Fburnt-norton%2F2%23n-bn-still-point#dante$/);
+    await page.goto((await cite.getAttribute("href"))!);
+    const back = page.locator("[data-return-link]");
+    await expect(back).toBeVisible();
+    await expect(back).toHaveText(/Back to Burnt Norton II · The still point/);
+    await expect(page.locator('#dante .source__uses a[data-note="bn-still-point"]')).toHaveAttribute("aria-current", "true");
+    // "Cited in" goes to the passage, not only to the note's own page.
+    await expect(page.locator('#dante a[data-note="lg-compound-ghost"]')).toHaveAttribute("href", /\/little-gidding\/2#n-lg-compound-ghost$/);
+    await back.click();
+    await expect(page).toHaveURL(/\/burnt-norton\/2\/?#n-bn-still-point$/);
+    // Only this site's pages are offered as a way back.
+    await page.goto("/sources?from=%2F%2Fexample.com%2F#dante");
+    await expect(page.locator("[data-return]")).toBeHidden();
+    await page.goto("/sources#dante");
+    await expect(page.locator("[data-return]")).toBeHidden();
+    void errors;
+  });
+
   test("soundscape toggles on and off without errors", async ({ page, errors }) => {
     test.skip((page.viewportSize()?.width ?? 0) < 520, "the header button is desktop-only; the menu has one");
     await setPrefs(page, { scenes: false });

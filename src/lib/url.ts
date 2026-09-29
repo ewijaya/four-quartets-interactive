@@ -15,3 +15,11 @@ export const lineUrlFromId = (lineId: string) => {
   return lineUrl(q as QuartetCode, Number(m) as MovementN, Number(n));
 };
 export const noteUrl = (id: string) => url(`/notes/${id}`);
+/** A note in the poem: the reader scrolls to its lines and opens it beside them. */
+export const noteInTextUrl = (code: QuartetCode, m: 0 | MovementN, id: string) =>
+  `${m === 0 ? quartetUrl(QUARTET_BY_CODE[code].id) : movementUrl(QUARTET_BY_CODE[code].id, m)}#n-${id}`;
+/**
+ * A source on the Sources page. `from` is the page (and fragment) the link sits in, so the
+ * Sources page can offer the way back to it.
+ */
+export const sourceUrl = (id: string, from?: string) => `${url("/sources")}${from ? `?from=${encodeURIComponent(from)}` : ""}#${id}`;
