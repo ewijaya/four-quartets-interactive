@@ -84,6 +84,11 @@ are kept too. Search needs a connection.
   build. Its version is a hash of the whole build, so each deploy replaces the old cache.
   Pages are fetched network-first, so a new deploy shows as soon as the reader is online.
 
+Link previews (X, WhatsApp, Facebook, LinkedIn, iMessage) use the share cards in
+`public/og/`: one for the site and one per quartet, which that quartet's pages and notes
+show. `npm run og` redraws them (`scripts/make-og.ts`; set `CHROMIUM_PATH` if Playwright's
+own browser is not installed). The cards carry no text of the poem.
+
 ## Deployment
 
 Cloudflare Pages automatically builds and deploys pushes to `main`. Production uses

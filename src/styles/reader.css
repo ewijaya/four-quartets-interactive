@@ -441,6 +441,13 @@
   cursor: pointer;
   border-radius: 2px;
 }
+/* Touch screens: a taller target to aim at. Vertical padding on an inline box
+   enlarges what can be tapped without moving any text. */
+@media (pointer: coarse) {
+  .note__toggle {
+    padding-block: 3px;
+  }
+}
 .note__toggle:focus-visible {
   outline: 2px solid var(--focus);
   outline-offset: 2px;
