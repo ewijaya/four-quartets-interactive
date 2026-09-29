@@ -41,9 +41,11 @@ the gaps that remain).
   turn per quartet, each cut into the same five movements so the movements line up in
   columns; hover a light for a preview, open its card and step along the notes, or follow
   a motif as a thread up the helix (`/spiral?motif=rose` opens with one already followed).
-  The Atlas globe zooms from the whole world to a few hundred kilometres across (pinch,
-  double-click, Ctrl/⌘ + scroll or the buttons), and choosing a place frames it with the
-  places joined to it.
+  The Atlas globe zooms from the whole world to about 100 km across (pinch, double-click,
+  Ctrl/⌘ + scroll or the buttons) and puts every source on the map. Its lines are drawn from
+  the notes' citations, heavier the more notes cite a source in a quartet; choosing a line
+  lists those notes with the lines they gloss. The places the notes describe (the drained
+  pool, Gloucester Road, the Lady's shrine, Iona) are a second layer that appears as you zoom in.
 - **Soundscape and search** — a generated drone per quartet (off by default) and
   Pagefind search over lines, notes and motifs.
 

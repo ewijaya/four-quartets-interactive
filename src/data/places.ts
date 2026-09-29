@@ -4,7 +4,8 @@ import type { Place } from "../lib/model";
  * Places for the Atlas: the four quartets' places, places in Eliot's life that the
  * poems draw on, and where the sources came from. Coordinates are approximate where
  * marked; blurbs are our own. `illustrationPrompt` describes the card's sketch, which
- * is drawn in code (src/lib/viz/sketch.ts), never a photograph.
+ * is drawn in code (src/lib/viz/sketch.ts), never a photograph. The lines on the globe
+ * are not listed here: they are drawn from the notes' citations (src/lib/atlas.ts).
  */
 export interface AtlasPlace extends Place {
   /** Sketch composition key used by sketch.ts. */
@@ -65,7 +66,7 @@ export const PLACES: AtlasPlace[] = [
     blurb:
       "A hamlet in Huntingdonshire where Nicholas Ferrar founded a household of prayer in 1626. Eliot visited in May 1936; the small church, rebuilt in the eighteenth century, still stands.",
     illustrationPrompt: "A small plain church with a bell-cote at the end of a path between trees, in winter; ink with sparse hatching.",
-    sources: ["nicholas-ferrar"],
+    sources: ["nicholas-ferrar", "civil-war"],
   },
   {
     id: "st-louis",
@@ -89,6 +90,7 @@ export const PLACES: AtlasPlace[] = [
     sketch: "shore-house",
     blurb: "The Eliot family's summer house on Cape Ann, where Eliot spent boyhood summers and learned to sail.",
     illustrationPrompt: "A wooden house on a rocky shore with a small sailing boat offshore; ink and hatching.",
+    sources: ["eliot-landscapes"],
   },
   {
     id: "russell-square",
@@ -211,23 +213,253 @@ export const PLACES: AtlasPlace[] = [
     illustrationPrompt: "An open early printed book on a table; ink and hatching.",
     sources: ["elyot-governour"],
   },
+  {
+    id: "westminster",
+    name: "Westminster (the King James Bible)",
+    lat: 51.4993,
+    lng: -0.1273,
+    kind: "source",
+    precision: "approximate",
+    sketch: "abbey",
+    blurb:
+      "The Authorized Version of 1611 was made by six companies of translators meeting at Westminster, Oxford and Cambridge; the Westminster company met in the Jerusalem Chamber of the Abbey. It is the Bible the quartets quote and echo.",
+    illustrationPrompt: "The west front of an abbey church with two square towers; ink and hatching.",
+    sources: ["bible"],
+  },
+  {
+    id: "jerusalem",
+    name: "Jerusalem (Ecclesiastes)",
+    lat: 31.7767,
+    lng: 35.2345,
+    kind: "source",
+    precision: "uncertain",
+    sketch: "city-walls",
+    blurb:
+      "Ecclesiastes presents itself as the words of the Preacher, son of David, king in Jerusalem. Scholars date it centuries after Solomon and cannot say where it was written; the city stands here for the tradition.",
+    illustrationPrompt: "A walled city on a hill, a dome above the walls; ink.",
+    sources: ["ecclesiastes"],
+  },
+  {
+    id: "athens",
+    name: "Athens (Aristotle)",
+    lat: 37.975,
+    lng: 23.744,
+    kind: "source",
+    precision: "approximate",
+    sketch: "temple-hill",
+    blurb:
+      "Aristotle taught at the Lyceum, the school he founded outside the walls of Athens in 335 BCE. The Metaphysics, with its unmoved mover, comes down to us as lecture notes gathered after his death.",
+    illustrationPrompt: "A temple on a rocky hill above low roofs; ink.",
+    sources: ["aristotle-metaphysics"],
+  },
+  {
+    id: "rome",
+    name: "Rome (Ovid)",
+    lat: 41.8925,
+    lng: 12.4853,
+    kind: "source",
+    precision: "approximate",
+    sketch: "arches",
+    blurb:
+      "Ovid finished the Metamorphoses in Rome about 8 CE, the year Augustus banished him to Tomis on the Black Sea. Book IX tells how the shirt of Nessus burned Hercules.",
+    illustrationPrompt: "A row of Roman arches with a pine beyond; ink.",
+    sources: ["ovid-nessus"],
+  },
+  {
+    id: "globe-bankside",
+    name: "The Globe, Bankside (Shakespeare)",
+    lat: 51.5066,
+    lng: -0.0943,
+    kind: "source",
+    precision: "approximate",
+    sketch: "playhouse",
+    blurb:
+      "Hamlet was written about 1600 for the Lord Chamberlain's Men, whose playhouse, the Globe, stood on the south bank of the Thames. Its ghost, who fades at cock-crow, is recalled in the dawn encounter of Little Gidding II.",
+    illustrationPrompt: "A many-sided timber playhouse with a flag above it, the river in front; ink.",
+    sources: ["shakespeare-hamlet"],
+  },
+  {
+    id: "fotheringhay",
+    name: "Fotheringhay (Mary, Queen of Scots)",
+    lat: 52.5256,
+    lng: -0.4431,
+    kind: "source",
+    precision: "uncertain",
+    sketch: "castle-mound",
+    blurb:
+      "Mary, Queen of Scots, is said to have had her motto, in French, embroidered on her cloth of state during her long captivity in England. The captivity moved from house to house and ended at Fotheringhay Castle, where she was executed in 1587, under ten miles from Little Gidding.",
+    illustrationPrompt: "A grassy castle mound by a river, a church tower beyond; ink.",
+    sources: ["mary-stuart"],
+  },
+  {
+    id: "st-pauls",
+    name: "St Paul's, London (Donne)",
+    lat: 51.5138,
+    lng: -0.0984,
+    kind: "source",
+    precision: "uncertain",
+    sketch: "old-st-pauls",
+    blurb:
+      "Donne was Dean of St Paul's from 1621 until his death in 1631. His Songs and Sonnets, “The Extasie” among them, circulated in manuscript and were first printed in London in 1633; where and when that poem was written is not known.",
+    illustrationPrompt: "A long Gothic cathedral with a squat central tower; ink and hatching.",
+    sources: ["donne-extasie"],
+  },
+  {
+    id: "bunhill",
+    name: "Bunhill Fields, London (Milton)",
+    lat: 51.5231,
+    lng: -0.0877,
+    kind: "source",
+    precision: "uncertain",
+    sketch: "terrace",
+    blurb:
+      "Milton, blind since the early 1650s, spent his last years in a house in Artillery Walk beside Bunhill Fields. Samson Agonistes was published in 1671; when he wrote it is debated.",
+    illustrationPrompt: "A plain brick terrace beside an open field with a few trees; ink.",
+    sources: ["milton-samson"],
+  },
+  {
+    id: "lambeth",
+    name: "Lambeth (Blake)",
+    lat: 51.494,
+    lng: -0.114,
+    kind: "source",
+    precision: "approximate",
+    sketch: "press",
+    blurb:
+      "Blake lived at Hercules Buildings, Lambeth, from 1790 to 1800, and there he and his wife Catherine etched, printed and coloured the Songs of Experience (1794), “Ah! Sun-flower” among them.",
+    illustrationPrompt: "A small house with a printing press in the foreground and a sunflower; ink.",
+    sources: ["blake-sunflower"],
+  },
+  {
+    id: "hampstead-keats",
+    name: "Hampstead (Keats)",
+    lat: 51.556,
+    lng: -0.168,
+    kind: "source",
+    precision: "approximate",
+    sketch: "villa-tree",
+    blurb:
+      "Keats wrote his odes of 1819 while living at Wentworth Place, Hampstead, then a village on London's northern edge. His urn, its figures forever in motion and forever still, is recalled in Burnt Norton I and V.",
+    illustrationPrompt: "A small white villa behind a garden tree; ink.",
+    sources: ["keats-urn"],
+  },
+  {
+    id: "somersby",
+    name: "Somersby (Tennyson)",
+    lat: 53.2167,
+    lng: 0.0333,
+    kind: "source",
+    precision: "approximate",
+    sketch: "rectory",
+    blurb:
+      "Tennyson wrote “Ulysses” in the autumn of 1833, soon after hearing of the death of his friend Arthur Hallam, while he was living at his family's rectory at Somersby in Lincolnshire. It was published in 1842.",
+    illustrationPrompt: "A low rectory with tall chimneys beside a small church; ink.",
+    sources: ["tennyson-ulysses"],
+  },
+  {
+    id: "st-beunos",
+    name: "St Beuno's, north Wales (Hopkins)",
+    lat: 53.244,
+    lng: -3.366,
+    kind: "source",
+    precision: "uncertain",
+    sketch: "valley-college",
+    blurb:
+      "Hopkins trained for the Jesuit priesthood at St Beuno's College above the Vale of Clwyd from 1874 to 1877, the years of his great nature sonnets; “As kingfishers catch fire” is usually dated to about then. It was not published until 1918.",
+    illustrationPrompt: "A stone college on a hillside above a wide valley, a kingfisher on a branch; ink.",
+    sources: ["hopkins-kingfishers"],
+  },
+  {
+    id: "batemans",
+    name: "Bateman's, Sussex (Kipling)",
+    lat: 50.989,
+    lng: 0.393,
+    kind: "source",
+    precision: "approximate",
+    sketch: "gabled-house",
+    blurb:
+      "Kipling's house in the Sussex Weald from 1902. “They” (1904) is set in a Sussex manor whose garden holds the voices of children; Kipling's own daughter Josephine had died in 1899.",
+    illustrationPrompt: "A gabled stone house with tall chimneys behind a clipped yew hedge; ink.",
+    sources: ["kipling-they"],
+  },
+  {
+    id: "dartmoor",
+    name: "Dartmoor (Conan Doyle)",
+    lat: 50.5436,
+    lng: -3.9905,
+    kind: "source",
+    precision: "approximate",
+    sketch: "moor",
+    blurb:
+      "The Devon moor where The Hound of the Baskervilles is set. Conan Doyle toured it in 1901, staying at Princetown, before writing the novel; its Grimpen Mire lies behind the grimpen of East Coker II.",
+    illustrationPrompt: "Open moorland with a granite tor on the skyline and tussocks in the foreground; ink.",
+    sources: ["doyle-hound"],
+  },
+  {
+    id: "canterbury",
+    name: "Canterbury Cathedral",
+    lat: 51.2798,
+    lng: 1.083,
+    kind: "source",
+    precision: "approximate",
+    sketch: "cathedral",
+    blurb:
+      "Eliot wrote Murder in the Cathedral for the Canterbury Festival; it was first performed in the Chapter House in June 1935, near where Becket was killed in 1170. Burnt Norton grew in part from lines cut from the play.",
+    illustrationPrompt: "A great cathedral with a tall central tower over a close; ink and hatching.",
+    sources: ["murder-in-the-cathedral"],
+  },
+  {
+    id: "lausanne",
+    name: "Lausanne (The Waste Land)",
+    lat: 46.5197,
+    lng: 6.6323,
+    kind: "source",
+    precision: "approximate",
+    sketch: "lake",
+    blurb:
+      "Eliot drafted The Waste Land in London and at Margate in 1921 and finished it that winter at Lausanne, where he had gone for a rest cure; its last section was written there. Its hyacinth garden and fragmented voices are answered in the quartets.",
+    illustrationPrompt: "A lake shore with mountains beyond and a town climbing the hill; ink.",
+    sources: ["waste-land"],
+  },
+  {
+    id: "croisset",
+    name: "Croisset (Flaubert)",
+    lat: 49.4636,
+    lng: 1.0336,
+    kind: "source",
+    precision: "approximate",
+    sketch: "river-house",
+    blurb:
+      "Flaubert wrote nearly all his books at his house at Croisset on the Seine below Rouen, and worked on La Tentation de saint Antoine there on and off for almost thirty years before its publication in 1874.",
+    illustrationPrompt: "A riverside house with a small pavilion on the bank of a broad river; ink.",
+    sources: ["flaubert-antoine"],
+  },
+  {
+    id: "dublin-yeats",
+    name: "Dublin (Yeats)",
+    lat: 53.295,
+    lng: -6.284,
+    kind: "source",
+    precision: "approximate",
+    sketch: "georgian-door",
+    blurb:
+      "From 1932 Yeats lived at Riversdale, a house at Rathfarnham on the edge of Dublin, where he wrote most of his last poems. Eliot gave the first annual Yeats lecture in Dublin in 1940, while he was at work on Little Gidding.",
+    illustrationPrompt: "A Georgian doorway with a fanlight, railings and steps; ink.",
+    sources: ["yeats"],
+  },
+  {
+    id: "washington",
+    name: "Washington (Whitman)",
+    lat: 38.8899,
+    lng: -77.0091,
+    kind: "source",
+    precision: "approximate",
+    sketch: "capitol",
+    blurb:
+      "Whitman was working in Washington as a government clerk, and visiting the wounded in its army hospitals, when Lincoln was shot there in April 1865. His elegy for Lincoln appeared later that year.",
+    illustrationPrompt: "A domed capitol above bare trees, a lilac bush in the foreground; ink.",
+    sources: ["whitman-lilacs"],
+  },
 ];
 
 export const PLACE_BY_ID = Object.fromEntries(PLACES.map((p) => [p.id, p])) as Record<string, AtlasPlace>;
-
-/** Arcs: where each source or life-place enters a quartet. */
-export const CONNECTIONS: Array<[from: string, to: string]> = [
-  ["ephesus", "burnt-norton"],
-  ["toledo", "burnt-norton"],
-  ["toledo", "east-coker"],
-  ["vienna", "burnt-norton"],
-  ["london-berthelet", "east-coker"],
-  ["st-louis", "dry-salvages"],
-  ["eastern-point", "dry-salvages"],
-  ["kurukshetra", "dry-salvages"],
-  ["norwich", "little-gidding"],
-  ["cloud-east-midlands", "little-gidding"],
-  ["florence", "little-gidding"],
-  ["paris", "little-gidding"],
-  ["russell-square", "little-gidding"],
-];

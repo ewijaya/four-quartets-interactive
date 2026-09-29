@@ -1052,6 +1052,13 @@ body.spiral-static .spiral__controls {
 .atlas__stage {
   position: relative;
 }
+/* On wide screens the globe stays in view while the cards and the lists beside it scroll. */
+@media (min-width: 900px) {
+  .atlas__globe-wrap {
+    position: sticky;
+    top: calc(var(--header-h) + var(--s-3));
+  }
+}
 /* "Use Ctrl + scroll to zoom": shown briefly when a plain scroll passes over the globe. */
 .atlas__nudge {
   position: absolute;
@@ -1137,18 +1144,26 @@ body.spiral-static .spiral__controls {
   stroke: var(--ink-soft);
   stroke-width: 0.7;
 }
+/* Line width (--w) grows with the number of notes behind the line. */
 .globe__arcs path {
   fill: none;
   stroke: var(--ink-faint);
-  stroke-width: 0.9;
+  stroke-width: var(--w, 0.9px);
   stroke-dasharray: 3 4;
   opacity: 0.7;
   transition: stroke var(--t-1) var(--ease);
 }
 .globe__arcs path.is-on {
   stroke: var(--rubric);
-  stroke-width: 1.4;
+  stroke-width: calc(var(--w, 0.9px) + 0.5px);
   opacity: 1;
+}
+.globe__hits path {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 9px;
+  pointer-events: stroke;
+  cursor: pointer;
 }
 .globe__place {
   cursor: pointer;
@@ -1173,6 +1188,26 @@ body.spiral-static .spiral__controls {
 }
 .globe__place.is-selected .dot {
   fill: var(--rubric);
+}
+/* The places in the notes: small open diamonds in the quartet's colour, fanned out on hair lines when they share a spot. */
+.globe__place--note .dot {
+  fill: var(--bg);
+  stroke: var(--accent);
+  stroke-width: 1.5;
+}
+.globe__place--note.is-selected .dot {
+  fill: var(--accent);
+}
+.globe__place--note .halo {
+  stroke: var(--accent);
+  stroke-dasharray: 2 3;
+}
+.globe__place--note .label {
+  font-style: italic;
+}
+.globe__place .leader {
+  stroke: var(--ink-faint);
+  stroke-width: 0.7;
 }
 .globe__place .label {
   font-family: var(--font-display-stack);
@@ -1224,8 +1259,20 @@ body.spiral-static .spiral__controls {
   background: none;
   border: 1px solid var(--ink-soft);
 }
+.atlas__mark--note {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 0;
+  background: none;
+  border: 1.5px solid var(--accent);
+  transform: rotate(45deg);
+}
+.atlas__layer {
+  margin-left: var(--s-2);
+  font-size: 0.875rem;
+}
 .atlas__cards {
-  margin-top: var(--s-5);
+  margin-bottom: var(--s-5);
   display: grid;
   gap: var(--s-5);
 }
@@ -1257,11 +1304,67 @@ body.spiral-static .spiral__controls {
   line-height: 1.55;
   color: var(--ink-soft);
 }
+.place-card__lemma {
+  font-family: var(--font-poem-stack);
+  font-style: italic;
+  color: var(--ink-soft);
+  margin: 0.2rem 0;
+}
+.place-card__section {
+  margin-top: var(--s-4);
+  padding-top: var(--s-3);
+  border-top: 1px solid var(--rule);
+}
+.place-card__section h3 {
+  margin: 0 0 var(--s-2);
+}
+.place-card__joins,
+.place-card__notes {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.45rem;
+  font-size: 0.95rem;
+}
+.place-card__notes {
+  margin-top: var(--s-3);
+}
+.place-card__notes li {
+  display: grid;
+  gap: 0.1rem;
+}
+.place-card__n {
+  font-size: 0.82rem;
+  color: var(--ink-faint);
+}
+.place-card__n a {
+  color: inherit;
+}
+.place-card__q {
+  font-style: italic;
+}
+.place-card--link h2 {
+  flex-wrap: wrap;
+  font-size: 1.5rem;
+}
+.place-card--link h2 a {
+  color: inherit;
+  text-decoration: none;
+}
 .place-card__links {
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem 1rem;
   font-size: 0.9rem;
+}
+/* A card's sketch is fetched when the card first opens; until then its room is kept. Without JavaScript there is none. */
+.sketch-slot:empty {
+  aspect-ratio: 320 / 200;
+  margin-bottom: var(--s-3);
+}
+.atlas:not(.atlas--js) .sketch-slot {
+  display: none;
 }
 .sketch {
   display: block;

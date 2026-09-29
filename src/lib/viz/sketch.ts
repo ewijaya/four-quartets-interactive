@@ -274,6 +274,152 @@ const COMPOSITIONS: Record<string, (p: Primitives) => void> = {
     p.add(p.rc.line(10, 160, 310, 160, p.o({ strokeWidth: 1.2 })));
     p.book(90, 86);
   },
+  abbey: (p) => {
+    p.ground();
+    p.tower(96, 34, 104, "crenel");
+    p.tower(190, 34, 104, "crenel");
+    p.add(p.rc.rectangle(130, GROUND - 78, 60, 78, p.fill(p.k.wash, 6)));
+    p.add(p.rc.arc(160, GROUND - 38, 26, 40, Math.PI, Math.PI * 2, false, p.o({ strokeWidth: 1 })));
+    p.add(p.rc.circle(160, GROUND - 60, 16, p.fill(p.k.accent, 2)));
+  },
+  "city-walls": (p) => {
+    p.add(p.rc.curve([[8, 176], [90, 150], [230, 150], [312, 176]], p.o()));
+    p.add(p.rc.rectangle(40, 110, 240, 44, p.fill(p.k.wash, 6)));
+    for (let i = 0; i < 12; i++) p.add(p.rc.rectangle(42 + i * 20, 102, 9, 8, p.o({ strokeWidth: 0.8 })));
+    p.add(p.rc.arc(160, 110, 70, 70, Math.PI, Math.PI * 2, false, p.fill(p.k.accent, 4)));
+    p.add(p.rc.arc(160, 154, 22, 34, Math.PI, Math.PI * 2, false, p.o({ strokeWidth: 1 })));
+  },
+  "temple-hill": (p) => {
+    p.add(p.rc.curve([[8, 186], [70, 150], [110, 112], [210, 108], [250, 150], [312, 186]], p.fill(p.k.wash, 6)));
+    for (let i = 0; i < 6; i++) p.add(p.rc.line(118 + i * 16, 106, 118 + i * 16, 74, p.o({ strokeWidth: 1.2 })));
+    p.add(p.rc.polygon([[110, 74], [160, 54], [210, 74]], p.fill(p.k.accent, 4)));
+    p.add(p.rc.line(110, 106, 210, 106, p.o()));
+    p.house(30, 40, 20, 0.3, 1);
+    p.house(250, 44, 18, 0.3, 1);
+  },
+  arches: (p) => {
+    p.ground();
+    p.add(p.rc.rectangle(20, 70, 230, 16, p.fill(p.k.wash, 5)));
+    for (let i = 0; i < 5; i++) {
+      p.add(p.rc.rectangle(20 + i * 46, 86, 12, GROUND - 86, p.fill(p.k.wash, 5, { hachureAngle: 90 })));
+      p.add(p.rc.arc(55 + i * 46, 110, 34, 46, Math.PI, Math.PI * 2, false, p.o({ strokeWidth: 1 })));
+    }
+    p.add(p.rc.line(284, GROUND, 284, 84, p.o({ strokeWidth: 1.3 })));
+    p.add(p.rc.ellipse(284, 74, 64, 26, p.fill(p.k.accent, 5)));
+  },
+  playhouse: (p) => {
+    p.waves(170, 2, 2);
+    p.add(p.rc.polygon([[90, 160], [90, 96], [130, 80], [190, 80], [230, 96], [230, 160]], p.fill(p.k.wash, 6)));
+    p.add(p.rc.polygon([[84, 96], [130, 72], [190, 72], [236, 96], [190, 84], [130, 84]], p.fill(p.k.accent, 3)));
+    p.add(p.rc.line(160, 72, 160, 40, p.o({ strokeWidth: 1.2 })));
+    p.add(p.rc.polygon([[160, 40], [190, 46], [160, 54]], p.fill(p.k.accent, 3)));
+    for (const x of [110, 160, 210]) p.add(p.rc.line(x, 100, x, 160, p.o({ strokeWidth: 0.7 })));
+  },
+  "castle-mound": (p) => {
+    p.add(p.rc.curve([[8, 170], [60, 166], [110, 118], [170, 114], [220, 164], [312, 170]], p.fill(p.k.accent, 6, { hachureAngle: 20 })));
+    p.waves(178, 2, 2);
+    p.tower(250, 26, 80, "crenel");
+    p.add(p.rc.line(8, GROUND, 312, GROUND, p.o({ strokeWidth: 0.6, roughness: 1.8 })));
+  },
+  "old-st-pauls": (p) => {
+    p.ground();
+    p.add(p.rc.rectangle(30, GROUND - 60, 260, 60, p.fill(p.k.wash, 7)));
+    p.add(p.rc.polygon([[26, GROUND - 60], [160, GROUND - 86], [294, GROUND - 60]], p.fill(p.k.accent, 5)));
+    p.tower(140, 40, 110, "crenel");
+    for (let i = 0; i < 8; i++) p.add(p.rc.arc(48 + i * 32, GROUND - 22, 14, 30, Math.PI, Math.PI * 2, false, p.o({ strokeWidth: 0.8 })));
+  },
+  terrace: (p) => {
+    p.ground();
+    for (let i = 0; i < 4; i++) p.house(14 + i * 44, 42, 72, 0.05, 1);
+    p.tree(238, 64, 22);
+    p.tree(290, 54, 16);
+  },
+  press: (p) => {
+    p.ground();
+    p.house(20, 90, 64, 0.35, 2);
+    p.add(p.rc.rectangle(150, 96, 70, 62, p.o({ strokeWidth: 1.2 })));
+    p.add(p.rc.line(150, 124, 220, 124, p.o()));
+    p.add(p.rc.line(185, 96, 185, 70, p.o({ strokeWidth: 1.4 })));
+    p.add(p.rc.line(165, 70, 205, 70, p.o({ strokeWidth: 1.4 })));
+    p.add(p.rc.line(268, GROUND, 268, 80, p.o({ strokeWidth: 1.2 })));
+    p.add(p.rc.circle(268, 72, 26, p.fill(p.k.accent, 3)));
+  },
+  "villa-tree": (p) => {
+    p.ground();
+    p.house(120, 110, 60, 0.2, 3);
+    p.tree(70, 92, 30);
+    p.hedge(236, 64, 12);
+  },
+  rectory: (p) => {
+    p.ground();
+    p.house(30, 140, 54, 0.3, 4);
+    for (const x of [48, 150]) p.add(p.rc.rectangle(x, GROUND - 90, 10, 22, p.fill(p.k.wash, 3)));
+    p.tower(230, 26, 70, "crenel");
+    p.house(254, 44, 36, 0.4, 1);
+  },
+  "valley-college": (p) => {
+    p.add(p.rc.curve([[8, 120], [80, 96], [160, 104], [240, 70], [312, 84]], p.o()));
+    p.add(p.rc.curve([[8, 188], [120, 150], [200, 160], [312, 130]], p.fill(p.k.wash, 7)));
+    p.house(200, 80, 34, 0.5, 3);
+    p.add(p.rc.line(40, 176, 110, 168, p.o({ strokeWidth: 1.2 })));
+    p.add(p.rc.ellipse(78, 160, 22, 12, p.fill(p.k.accent, 2)));
+  },
+  "gabled-house": (p) => {
+    p.ground();
+    p.add(p.rc.rectangle(70, 88, 180, 70, p.fill(p.k.wash, 7)));
+    for (const x of [70, 130, 190]) p.add(p.rc.polygon([[x, 88], [x + 30, 56], [x + 60, 88]], p.fill(p.k.accent, 4)));
+    for (const x of [110, 200]) p.add(p.rc.rectangle(x, 40, 10, 28, p.fill(p.k.wash, 3)));
+    p.hedge(20, 280, 14);
+  },
+  moor: (p) => {
+    p.add(p.rc.curve([[8, 130], [90, 118], [160, 124], [240, 110], [312, 126]], p.o()));
+    p.add(p.rc.polygon([[196, 116], [206, 96], [222, 92], [232, 100], [240, 112]], p.fill(p.k.wash, 4)));
+    for (let i = 0; i < 9; i++) {
+      const x = 22 + i * 34;
+      const y = 150 + (i % 3) * 12;
+      for (const dx of [-5, 0, 5]) p.add(p.rc.line(x, y, x + dx, y - 10, p.o({ strokeWidth: 0.8 })));
+    }
+    p.add(p.rc.ellipse(110, 180, 90, 14, p.fill(p.k.accent, 3)));
+  },
+  cathedral: (p) => {
+    p.ground();
+    p.add(p.rc.rectangle(20, GROUND - 56, 280, 56, p.fill(p.k.wash, 7)));
+    p.tower(138, 44, 136, "crenel");
+    p.tower(40, 26, 82, "spire");
+    p.tower(254, 26, 82, "spire");
+    for (let i = 0; i < 6; i++) p.add(p.rc.arc(76 + i * 36 + (i > 2 ? 30 : 0), GROUND - 18, 12, 26, Math.PI, Math.PI * 2, false, p.o({ strokeWidth: 0.8 })));
+  },
+  lake: (p) => {
+    p.add(p.rc.polygon([[8, 110], [70, 40], [120, 90], [170, 30], [240, 96], [312, 60], [312, 110]], p.o()));
+    p.add(p.rc.line(8, 118, 312, 118, p.o({ strokeWidth: 0.9 })));
+    p.waves(132, 3, 2);
+    for (let i = 0; i < 3; i++) p.house(200 + i * 34, 28, 26 + i * 8, 0.5, 1);
+  },
+  "river-house": (p) => {
+    p.waves(166, 3, 2);
+    p.add(p.rc.line(8, 156, 312, 156, p.o()));
+    p.house(40, 120, 60, 0.35, 4);
+    p.add(p.rc.rectangle(210, 118, 34, 38, p.fill(p.k.wash, 4)));
+    p.add(p.rc.polygon([[204, 118], [227, 96], [250, 118]], p.fill(p.k.accent, 3)));
+    p.tree(286, 62, 18);
+  },
+  "georgian-door": (p) => {
+    p.ground();
+    p.add(p.rc.rectangle(90, 30, 140, 128, p.fill(p.k.wash, 8)));
+    p.add(p.rc.rectangle(136, 84, 48, 74, p.o({ strokeWidth: 1.2 })));
+    p.add(p.rc.arc(160, 84, 48, 40, Math.PI, Math.PI * 2, false, p.fill(p.k.accent, 3)));
+    for (let i = 0; i < 5; i++) p.add(p.rc.line(160, 84, 160 + Math.cos(Math.PI + (i + 1) * (Math.PI / 6)) * 22, 84 + Math.sin(Math.PI + (i + 1) * (Math.PI / 6)) * 18, p.o({ strokeWidth: 0.6 })));
+    for (let i = 0; i < 9; i++) p.add(p.rc.line(20 + i * 7, GROUND, 20 + i * 7, GROUND - 30, p.o({ strokeWidth: 0.8 })));
+    p.add(p.rc.line(18, GROUND - 30, 82, GROUND - 30, p.o({ strokeWidth: 0.8 })));
+  },
+  capitol: (p) => {
+    p.ground();
+    p.add(p.rc.rectangle(40, 110, 240, 48, p.fill(p.k.wash, 7)));
+    p.add(p.rc.rectangle(122, 84, 76, 26, p.fill(p.k.wash, 4, { hachureAngle: 90 })));
+    p.add(p.rc.arc(160, 84, 70, 76, Math.PI, Math.PI * 2, false, p.fill(p.k.accent, 4)));
+    p.add(p.rc.line(160, 46, 160, 30, p.o()));
+    for (const [dx, dy] of [[0, 0], [8, -6], [-7, -5], [3, 6]] as const) p.add(p.rc.circle(28 + dx, 140 + dy, 12, p.fill(p.k.accent, 2)));
+  },
   default: (p) => {
     p.ground();
     p.sun(160, 80, 20);

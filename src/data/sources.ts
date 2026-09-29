@@ -99,6 +99,7 @@ export const SOURCES: Source[] = [
     work: "Motto: En ma fin est mon commencement",
     date: "16th century",
     note: "The motto (‘In my end is my beginning’), which Mary is said to have had embroidered on her cloth of state, is inverted and restored at the start and close of East Coker.",
+    placeId: "fotheringhay",
   },
   {
     id: "milton-samson",
@@ -106,6 +107,7 @@ export const SOURCES: Source[] = [
     work: "Samson Agonistes",
     date: "1671",
     note: "Blind Samson's lament begins with the thrice-repeated ‘dark’ that opens East Coker III.",
+    placeId: "bunhill",
   },
   {
     id: "ecclesiastes",
@@ -113,6 +115,7 @@ export const SOURCES: Source[] = [
     work: "Ecclesiastes",
     date: "c. 3rd century BCE (debated)",
     note: "‘To every thing there is a season’: the catalogue of times in chapter 3 underlies the cycles of building and falling in East Coker I.",
+    placeId: "jerusalem",
   },
   {
     id: "twain-huck",
@@ -128,6 +131,7 @@ export const SOURCES: Source[] = [
     work: "Murder in the Cathedral",
     date: "1935",
     note: "Eliot's verse play for Canterbury. Burnt Norton grew partly from lines cut from it, and one of the poem's best-known sentences first appears in the play.",
+    placeId: "canterbury",
   },
   {
     id: "waste-land",
@@ -135,6 +139,7 @@ export const SOURCES: Source[] = [
     work: "The Waste Land",
     date: "1922",
     note: "Eliot's earlier long poem. Its hyacinth garden, its thrush and its fragmented voices are recalled, and answered, in the quartets.",
+    placeId: "lausanne",
   },
   {
     id: "kipling-they",
@@ -142,6 +147,7 @@ export const SOURCES: Source[] = [
     work: "“They”",
     date: "1904",
     note: "A short story (in Traffics and Discoveries) in which a visitor to an English country house senses the ghosts of children in its garden. Eliot admired Kipling and edited A Choice of Kipling's Verse (1941).",
+    placeId: "batemans",
   },
   {
     id: "keats-urn",
@@ -149,6 +155,7 @@ export const SOURCES: Source[] = [
     work: "“Ode on a Grecian Urn”",
     date: "1819",
     note: "The ode on a painted vase whose figures are forever in motion and forever still, and whose melodies are sweeter for being unheard.",
+    placeId: "hampstead-keats",
   },
   {
     id: "donne-extasie",
@@ -156,6 +163,7 @@ export const SOURCES: Source[] = [
     work: "“The Extasie”",
     date: "published 1633",
     note: "A metaphysical love poem in which the lovers' eye-beams twist together into a single thread. Eliot's essays did much to revive Donne's reputation.",
+    placeId: "st-pauls",
   },
   {
     id: "mallarme-mintroduire",
@@ -171,6 +179,7 @@ export const SOURCES: Source[] = [
     work: "“Ah! Sun-flower”",
     date: "1794",
     note: "From Songs of Experience: the sunflower, weary of time, counting the steps of the sun.",
+    placeId: "lambeth",
   },
   {
     id: "hopkins-kingfishers",
@@ -178,6 +187,7 @@ export const SOURCES: Source[] = [
     work: "“As kingfishers catch fire”",
     date: "written c. 1877; published 1918",
     note: "A sonnet in which each creature, like the kingfisher flashing in the light, expresses its own nature.",
+    placeId: "st-beunos",
   },
   {
     id: "flaubert-antoine",
@@ -185,6 +195,7 @@ export const SOURCES: Source[] = [
     work: "La Tentation de saint Antoine",
     date: "1874",
     note: "A dramatic prose work in which the desert hermit Anthony is assailed by visions; near its end the Chimera and the Sphinx converse.",
+    placeId: "croisset",
   },
   {
     id: "bible",
@@ -192,6 +203,7 @@ export const SOURCES: Source[] = [
     work: "Authorized (King James) Version",
     date: "1611",
     note: "Quoted and alluded to throughout the sequence: Ecclesiastes, the Gospels, the Pentecost of Acts 2.",
+    placeId: "westminster",
   },
   {
     id: "aristotle-metaphysics",
@@ -199,6 +211,7 @@ export const SOURCES: Source[] = [
     work: "Metaphysics, Book XII (Lambda)",
     date: "4th century BCE",
     note: "Sets out the idea of an unmoved mover: an eternal first cause that moves all things as an object of love and desire, without itself moving.",
+    placeId: "athens",
   },
   {
     id: "doyle-hound",
@@ -206,6 +219,7 @@ export const SOURCES: Source[] = [
     work: "The Hound of the Baskervilles",
     date: "1901–02",
     note: "Sherlock Holmes novel set on Dartmoor, where the Grimpen Mire swallows those who stray from the safe path. Eliot was a lifelong reader of the Holmes stories.",
+    placeId: "dartmoor",
   },
   {
     id: "civil-war",
@@ -221,6 +235,7 @@ export const SOURCES: Source[] = [
     work: "Hamlet",
     date: "c. 1600",
     note: "The play opens with the watch on the battlements of Elsinore, where the dead King's ghost appears and fades away at cock-crow.",
+    placeId: "globe-bankside",
   },
   {
     id: "ovid-nessus",
@@ -228,6 +243,7 @@ export const SOURCES: Source[] = [
     work: "Metamorphoses, Book IX",
     date: "8 CE",
     note: "The death of Hercules: Deianira sends him a shirt steeped in the blood of the centaur Nessus, believing it a love charm; it burns into his flesh, and he has himself laid on a pyre on Mount Oeta. Sophocles tells the same story in The Women of Trachis.",
+    placeId: "rome",
   },
   {
     id: "yeats",
@@ -235,6 +251,7 @@ export const SOURCES: Source[] = [
     work: "Late poems",
     date: "1930s",
     note: "Irish poet (1865–1939), whose last poems speak with open rage about old age. He died in January 1939; many readers see him among the features of the ‘familiar compound ghost’ in Little Gidding II. Eliot gave the first annual Yeats lecture in Dublin in 1940.",
+    placeId: "dublin-yeats",
   },
   {
     id: "tennyson-ulysses",
@@ -242,6 +259,7 @@ export const SOURCES: Source[] = [
     work: "“Ulysses”",
     date: "1842",
     note: "The aged Ulysses, home in Ithaca, resolves to sail once more beyond the known world rather than rust in idleness.",
+    placeId: "somersby",
   },
   {
     id: "whitman-lilacs",
@@ -249,6 +267,7 @@ export const SOURCES: Source[] = [
     work: "“When Lilacs Last in the Dooryard Bloom'd”",
     date: "1865",
     note: "Whitman's elegy for Lincoln, which begins with lilacs blooming in a dooryard in spring. Eliot's attitude to Whitman moved from distaste to a guarded respect.",
+    placeId: "washington",
   },
   {
     id: "eliot-landscapes",
