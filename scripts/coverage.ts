@@ -74,7 +74,7 @@ const quoteIdx = sample ? undefined : quoteIndex(bundle.quartets);
 const quoted: Array<{ id: string; runs: LongQuote[] }> = [];
 if (quoteIdx) {
   for (const f of files) {
-    const runs = longQuotes(`${f.meta!.title}\n${f.body}`, quoteIdx);
+    const runs = [...longQuotes(f.meta!.title, quoteIdx), ...longQuotes(f.body, quoteIdx)];
     if (runs.length) quoted.push({ id: f.meta!.id, runs });
   }
   for (const g of glosses) {
