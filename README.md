@@ -1,8 +1,8 @@
-# still-point — an interactive, annotated *Four Quartets*
+# still-point: an interactive, annotated *Four Quartets*
 
 A reading edition of T. S. Eliot's *Four Quartets*: the poem at the centre, with
 margin notes, elemental scenes, a soundscape and maps that deepen slow reading.
-Contemplative and restrained — illuminated manuscript meets planetarium.
+Contemplative and restrained: illuminated manuscript meets planetarium.
 
 > **Readable poem text is not in this repository.** A fresh checkout uses placeholder
 > lines in the exact shape of the sequence. Production builds decrypt the hosted
@@ -15,28 +15,28 @@ Contemplative and restrained — illuminated manuscript meets planetarium.
 Built in phases (see [docs/PLAN.md](docs/PLAN.md); screenshots and reviews in
 [docs/progress/](docs/progress/)).
 
-- [x] 0 — Plan
-- [x] 1 — Scaffold, data model, sample text, importer, reader with margin notes
-- [x] 2 — Burnt Norton annotation corpus, anchor resolver and report
-- [x] 3 — Elemental scenes and tile transitions
-- [x] 4 — Still Point home, Movement Map, Time Spiral, Motif Tracer
-- [x] 5 — Atlas, soundscape, search, notes
-- [x] 6 — Audits, annotations for all four quartets, docs
+- [x] 0. Plan
+- [x] 1. Scaffold, data model, sample text, importer, reader with margin notes
+- [x] 2. Burnt Norton annotation corpus, anchor resolver and report
+- [x] 3. Elemental scenes and tile transitions
+- [x] 4. Still Point home, Movement Map, Time Spiral, Motif Tracer
+- [x] 5. Atlas, soundscape, search, notes
+- [x] 6. Audits, annotations for all four quartets, docs
 
 Where it stands: [docs/CHECKLIST.md](docs/CHECKLIST.md) (the definition of done, with
 the gaps that remain).
 
 ## What's in it
 
-- **Reader** — each quartet as one continuous scroll, margin notes on wide screens and a
+- **Reader:** each quartet as one continuous scroll, margin notes on wide screens and a
   bottom sheet on phones, three densities (Clean, Reader, Scholar), deep links to lines
   and ranges, bookmarks and personal notes, print/PDF with endnotes.
-- **174 annotations** across the four quartets — allusions, sources, places, history,
-  prosody — each marked *established* or *interpretive*, with citations
+- **174 annotations** across the four quartets (allusions, sources, places, history,
+  prosody), each marked *established* or *interpretive*, with citations
   ([/sources](https://four-quartets-interactive.pages.dev/sources)).
-- **Scenes** — one WebGL scene per element (air, earth, water, fire), tile transitions
+- **Scenes:** one WebGL scene per element (air, earth, water, fire), tile transitions
   at movement boundaries, illustrated stills for reduced motion.
-- **Explore** — the Still Point home, a Movement Map and side-by-side comparison, a
+- **Explore:** the Still Point home, a Movement Map and side-by-side comparison, a
   Time Spiral, a Motif Tracer and an Atlas of places and sources. The Time Spiral has one
   turn per quartet, each cut into the same five movements so the movements line up in
   columns; hover a light for a preview, open its card and step along the notes, or follow
@@ -46,7 +46,7 @@ the gaps that remain).
   the notes' citations, heavier the more notes cite a source in a quartet; choosing a line
   lists those notes with the lines they gloss. The places the notes describe (the drained
   pool, Gloucester Road, the Lady's shrine, Iona) are a second layer that appears as you zoom in.
-- **Soundscape and search** — a generated drone per quartet (off by default) and
+- **Soundscape and search:** a generated drone per quartet (off by default) and
   Pagefind search over lines, notes and motifs.
 
 Lighthouse on the production build: performance 93–100, accessibility, best practices
@@ -66,7 +66,7 @@ npm run lighthouse          # audit the production build → reports/lighthouse/
 
 ```sh
 # put burnt-norton.txt, east-coker.txt, the-dry-salvages.txt, little-gidding.txt
-# (or one combined file) in content/text-private/ — see docs/TEXT-FORMAT.md
+# (or one combined file) in content/text-private/; see docs/TEXT-FORMAT.md
 npm run import-text         # → content/text-private/quartets.json (git-ignored)
 npm run resolve-anchors     # → reports/unresolved-anchors.md
 npm run dev
