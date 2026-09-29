@@ -1,25 +1,44 @@
 /**
  * Atlas globe (d3-geo, SVG): an orthographic globe drawn as ink — coastlines wobbled
- * by an SVG turbulence filter — with the places, and great-circle arcs from each
- * source to the quartet it enters. Drag to turn. Pinch, double-click, Ctrl (⌘) + scroll
- * or the buttons zoom in, to about 400 km across; zoomed in, the globe is seen through a
- * fixed round lens, the coastlines switch to finer data, the graticule tightens and every
- * place in view is labelled where there is room. A plain scroll still scrolls the page, as
- * with a map embedded in a page. Choosing a place flies to it, framing it with the places
- * it is joined to, and shows its card. The place list and cards are the accessible interface.
+ * by an SVG turbulence filter — with the places, great-circle lines from each source to
+ * the quartets whose notes cite it (heavier the more notes), and, as a second layer, the
+ * places the notes describe (◇), which appear once the globe is zoomed in. Drag to turn.
+ * Pinch, double-click, Ctrl (⌘) + scroll or the buttons zoom in, to about 100 km across;
+ * zoomed in, the globe is seen through a fixed round lens, the coastlines switch to finer
+ * data, the graticule tightens and every place in view is labelled where there is room.
+ * A plain scroll still scrolls the page, as with a map embedded in a page. Choosing a
+ * place, a note or a line flies to it, framed with what it is joined to, and shows its
+ * card. The lists and cards are the accessible interface.
  */
-import { geoCentroid, geoDistance, geoGraticule, geoGraticule10, geoInterpolate, geoOrthographic, geoPath } from "d3-geo";
+import { geoDistance, geoGraticule, geoGraticule10, geoInterpolate, geoOrthographic, geoPath } from "d3-geo";
 import type { GeoPermissibleObjects } from "d3-geo";
 import { select } from "d3-selection";
+import { symbol, symbolCircle, symbolDiamond } from "d3-shape";
 import type { MultiPolygon, Position } from "geojson";
 import { feature } from "topojson-client";
 import type { GeometryObject, Topology } from "topojson-specification";
 
 interface AtlasData {
   places: Array<{ id: string; name: string; lat: number; lng: number; kind: string; precision: string; element: string | null }>;
-  links: Array<[string, string]>;
+  /** Notes of type "place", each with the points it names. */
+  notes: Array<{ id: string; element: string; place?: string; points: Array<{ name: string; lat: number; lng: number; precision: string }> }>;
+  /** Lines from a source's place to a quartet's place; `n` notes stand behind each. */
+  links: Array<{ id: string; from: string; to: string; n: number; name: string }>;
 }
-type Place = AtlasData["places"][number];
+type Link = AtlasData["links"][number];
+/** A mark on the globe: a place, or one point of a note. `item` is what choosing it selects. */
+interface Mark {
+  key: string;
+  item: string;
+  /** For a note: the place it is about, if any. */
+  host?: string;
+  name: string;
+  lat: number;
+  lng: number;
+  kind: string;
+  precision: string;
+  element: string | null;
+}
 type Pt = [number, number];
 
 const reduced = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -35,14 +54,20 @@ const LABEL: Record<string, Spot> = {
   "dry-salvages": [0, 26, "middle"],
 };
 
-/** Zoom: 1 shows the whole globe; at MAX_K the lens is about 400 km across. */
-const MAX_K = 32;
+/** Zoom: 1 shows the whole globe; at MAX_K the lens is about 100 km across, enough to part London's places. */
+const MAX_K = 128;
+/** The places in the notes show from this zoom; a chosen note's, and those about a chosen place, always. */
+const NOTE_K = 6;
 /** Past this zoom the coastlines come from the 1:50m data (fetched when first needed). */
 const FINE_K = 2;
 /** From this zoom every place in view is labelled, where labels do not collide. */
 const LABEL_ALL_K = 1.8;
 const EARTH_KM = 6371;
-const PRIORITY: Record<string, number> = { quartet: 0, life: 1, source: 2 };
+const PRIORITY: Record<string, number> = { quartet: 0, life: 1, source: 2, note: 3 };
+/** Stroke width of a line with `n` notes behind it: 0.7 for one, 1.5 for four, about 2.5 for ten. */
+const lineWidth = (n: number) => 0.7 + 0.8 * (Math.sqrt(n) - 1);
+const dotPath = (kind: string) =>
+  kind === "note" ? symbol(symbolDiamond, 42)()! : symbol(symbolCircle, kind === "quartet" ? 95 : 45)()!;
 /** Where else a label may go when its usual place is taken: right, left, above, below. */
 const SPOTS: Spot[] = [
   [9, 4, "start"],
@@ -123,7 +148,17 @@ function setupGlobe(root: HTMLElement, topo: Topology): () => void {
   const scaleBar = root.querySelector<HTMLElement>("[data-scale-bar]");
   const scaleLabel = root.querySelector<HTMLElement>("[data-scale-label]");
   const nudge = root.querySelector<HTMLElement>("[data-globe-nudge]");
+  const layer = root.querySelector<HTMLInputElement>('[data-layer="notes"]');
   const byId = new Map(data.places.map((p) => [p.id, p]));
+  const linkById = new Map(data.links.map((l) => [l.id, l]));
+  const noteById = new Map(data.notes.map((n) => [n.id, n]));
+  const allMarks: Mark[] = [
+    ...data.places.map((p) => ({ ...p, key: p.id, item: p.id })),
+    ...data.notes.flatMap((n) =>
+      n.points.map((pt, i) => ({ key: `${n.id}~${i}`, item: n.id, host: n.place, name: pt.name, lat: pt.lat, lng: pt.lng, kind: "note", precision: pt.precision, element: n.element })),
+    ),
+  ];
+  let notesOn = layer?.checked ?? true;
   const coarse = feature(topo, topo.objects.land as GeometryObject);
   let fine: Piece[] | null = null;
   let fineRequested = false;
@@ -157,6 +192,8 @@ function setupGlobe(root: HTMLElement, topo: Topology): () => void {
   const landPath = inLens.append("path").attr("class", "globe__land").attr("filter", "url(#ink)");
   const rim = svg.append("circle").attr("class", "globe__rim");
   const arcs = svg.append("g").attr("class", "globe__arcs").attr("clip-path", "url(#globe-lens)");
+  // Wide, invisible strokes over the lines, so that a line is easy to hit.
+  const hits = svg.append("g").attr("class", "globe__hits").attr("clip-path", "url(#globe-lens)");
   const marks = svg.append("g").attr("class", "globe__marks");
   const graticule10 = geoGraticule10();
 
@@ -177,7 +214,7 @@ function setupGlobe(root: HTMLElement, topo: Topology): () => void {
   /** A 10° graticule for the whole globe; zoomed in, a finer one around the centre. */
   function graticule([lng, lat]: Pt): GeoPermissibleObjects {
     if (k < 4) return graticule10;
-    const step = k < 10 ? 2 : k < 20 ? 1 : 0.5;
+    const step = k < 10 ? 2 : k < 20 ? 1 : k < 50 ? 0.5 : 0.1;
     const r = Math.asin(1 / k) / RAD + step;
     const lat0 = Math.max(-89, lat - r);
     const lat1 = Math.min(89, lat + r);
@@ -210,39 +247,39 @@ function setupGlobe(root: HTMLElement, topo: Topology): () => void {
    * the first spot inside the lens that clears the labels already placed and the other places' dots. Quartets and the chosen
    * place are always labelled; the rest only where there is room.
    */
-  function labels(vis: Place[], at: Map<string, Pt>): Map<string, Spot> {
+  function labels(vis: Mark[], at: Map<string, Pt>, emph: Set<string>): Map<string, Spot> {
     type Box = [number, number, number, number];
     const hit = (a: Box, b: Box) => a[0] < b[2] && b[0] < a[2] && a[1] < b[3] && b[1] < a[3];
     const fs = small.matches ? 12 : 14;
     const dots = vis.map((p) => {
-      const [x, y] = at.get(p.id)!;
+      const [x, y] = at.get(p.key)!;
       const r = (p.kind === "quartet" ? 5.5 : 3.8) + 1;
-      return { id: p.id, box: [x - r, y - r, x + r, y + r] as Box };
+      return { id: p.key, box: [x - r, y - r, x + r, y + r] as Box };
     });
     const mid = size / 2;
     const inLens = (b: Box) => [b[0], b[2]].every((bx) => [b[1], b[3]].every((by) => (bx - mid) ** 2 + (by - mid) ** 2 < (base + 4) ** 2));
     const placed: Box[] = [];
     const out = new Map<string, Spot>();
     const order = vis
-      .filter((p) => k >= LABEL_ALL_K || p.kind === "quartet" || p.id === selected)
-      .sort((a, b) => Number(b.id === selected) - Number(a.id === selected) || (PRIORITY[a.kind] ?? 3) - (PRIORITY[b.kind] ?? 3));
+      .filter((p) => k >= LABEL_ALL_K || p.kind === "quartet" || emph.has(p.item))
+      .sort((a, b) => Number(emph.has(b.item)) - Number(emph.has(a.item)) || (PRIORITY[a.kind] ?? 4) - (PRIORITY[b.kind] ?? 4));
     for (const p of order) {
-      const [x, y] = at.get(p.id)!;
+      const [x, y] = at.get(p.key)!;
       const w = p.name.length * fs * 0.46;
       const boxAt = ([dx, dy, anchor]: Spot): Box => {
         const x0 = x + dx - (anchor === "end" ? w : anchor === "middle" ? w / 2 : 0);
         const y0 = y + dy - fs * 0.8;
         return [x0, y0, x0 + w, y0 + fs];
       };
-      const spots = LABEL[p.id] ? [LABEL[p.id]!, ...SPOTS] : SPOTS;
+      const spots = LABEL[p.key] ? [LABEL[p.key]!, ...SPOTS] : SPOTS;
       const free = (s: Spot) => {
         const b = boxAt(s);
-        return inLens(b) && !placed.some((o) => hit(o, b)) && !dots.some((d) => d.id !== p.id && hit(d.box, b));
+        return inLens(b) && !placed.some((o) => hit(o, b)) && !dots.some((d) => d.id !== p.key && hit(d.box, b));
       };
-      const spot = spots.find(free) ?? (p.kind === "quartet" || p.id === selected ? spots[0] : undefined);
+      const spot = spots.find(free) ?? (p.kind === "quartet" || emph.has(p.item) ? spots[0] : undefined);
       if (!spot) continue;
       placed.push(boxAt(spot));
-      out.set(p.id, spot);
+      out.set(p.key, spot);
     }
     return out;
   }
@@ -261,6 +298,41 @@ function setupGlobe(root: HTMLElement, topo: Topology): () => void {
     scaleLabel.textContent = `${km.toLocaleString("en-GB")} km`;
   }
 
+  /**
+   * Notes at the same spot as each other, or as a place, would hide one another: fan them out around
+   * it. Moves the marks in `at` and returns, for each moved one, the way back to where it really is.
+   */
+  function fanOut(vis: Mark[], at: Map<string, Pt>): Map<string, Pt> {
+    const near = (a: Pt, b: Pt) => Math.hypot(a[0] - b[0], a[1] - b[1]) < 8;
+    const hosts = vis.filter((m) => m.kind !== "note");
+    const groups: Array<{ c: Pt; keys: string[]; host: boolean }> = [];
+    for (const m of vis) {
+      if (m.kind !== "note") continue;
+      const xy = at.get(m.key)!;
+      let g = groups.find((x) => near(x.c, xy));
+      if (!g) {
+        const h = hosts.find((x) => near(at.get(x.key)!, xy));
+        g = { c: h ? at.get(h.key)! : xy, keys: [], host: !!h };
+        groups.push(g);
+      }
+      g.keys.push(m.key);
+    }
+    const lead = new Map<string, Pt>();
+    for (const g of groups) {
+      if (g.keys.length === 1 && !g.host) continue;
+      const n = g.keys.length;
+      const r = (g.host ? 15 : 9) + n * 1.5;
+      g.keys.forEach((key, i) => {
+        const a = -Math.PI / 4 + (i * 2 * Math.PI) / n;
+        const xy = at.get(key)!;
+        const to: Pt = [g.c[0] + r * Math.cos(a), g.c[1] + r * Math.sin(a)];
+        at.set(key, to);
+        lead.set(key, [xy[0] - to[0], xy[1] - to[1]]);
+      });
+    }
+    return lead;
+  }
+
   function render() {
     // The lens edge is the small circle asin(1 / k) from the centre, so clipping there (with a little to spare)
     // spares the projection every point outside the lens.
@@ -270,49 +342,74 @@ function setupGlobe(root: HTMLElement, topo: Topology): () => void {
     const centre: Pt = [-rotation[0], -rotation[1]];
     grat.attr("d", path(graticule(centre)) ?? "");
     landPath.attr("d", path(k >= FINE_K && fine ? near(fine, centre, clip * RAD) : coarse) ?? "");
+    const on = (l: Link) => l.id === selected || l.from === selected || l.to === selected;
+    const d = (l: Link) => {
+      const pa = byId.get(l.from)!;
+      const pb = byId.get(l.to)!;
+      return path({ type: "LineString", coordinates: [[pa.lng, pa.lat], [pb.lng, pb.lat]] }) ?? "";
+    };
     arcs
-      .selectAll<SVGPathElement, [string, string]>("path")
-      .data(data.links)
+      .selectAll<SVGPathElement, Link>("path")
+      .data(data.links, (l) => l.id)
       .join("path")
-      .attr("d", ([a, b]) => {
-        const pa = byId.get(a)!;
-        const pb = byId.get(b)!;
-        return path({ type: "LineString", coordinates: [[pa.lng, pa.lat], [pb.lng, pb.lat]] }) ?? "";
+      .attr("d", d)
+      .attr("data-link", (l) => l.id)
+      .attr("style", (l) => `--w: ${lineWidth(l.n).toFixed(2)}px`)
+      .attr("class", (l) => (on(l) ? "is-on" : ""));
+    hits
+      .selectAll<SVGPathElement, Link>("path")
+      .data(data.links, (l) => l.id)
+      .join((enter) => {
+        const e = enter.append("path");
+        e.append("title").text((l) => l.name);
+        return e;
       })
-      .attr("class", ([a, b]) => (a === selected || b === selected ? "is-on" : ""));
+      .attr("d", d)
+      .on("click", (_ev, l) => choose(l.id, true));
     const mid = size / 2;
     const at = new Map<string, Pt>();
-    for (const p of data.places) {
+    const showNotes = notesOn && k >= NOTE_K;
+    for (const p of allMarks) {
+      if (p.kind === "note" && !showNotes && p.item !== selected && !(notesOn && p.host && p.host === selected)) continue;
       if (geoDistance([p.lng, p.lat], centre) >= Math.PI / 2 - 0.02) continue;
       const xy = projection([p.lng, p.lat]);
-      if (xy && (xy[0] - mid) ** 2 + (xy[1] - mid) ** 2 < (base - 3) ** 2) at.set(p.id, xy);
+      if (xy && (xy[0] - mid) ** 2 + (xy[1] - mid) ** 2 < (base - 3) ** 2) at.set(p.key, xy);
     }
-    const vis = data.places.filter((p) => at.has(p.id));
-    const shown = labels(vis, at);
+    const vis = allMarks.filter((p) => at.has(p.key));
+    const lead = fanOut(vis, at);
+    const link = linkById.get(selected);
+    const emph = new Set(link ? [link.from, link.to] : [selected]);
+    const shown = labels(vis, at, emph);
     const g = marks
-      .selectAll<SVGGElement, Place>("g")
-      .data(vis, (d) => d.id)
+      .selectAll<SVGGElement, Mark>("g")
+      .data(vis, (m) => m.key)
       .join((enter) => {
         const e = enter.append("g");
+        e.append("line").attr("class", "leader");
         e.append("circle").attr("class", "halo");
-        e.append("circle").attr("class", "dot");
+        e.append("path").attr("class", "dot");
         e.append("text").attr("class", "label");
         return e;
       });
-    g.attr("class", (d) => `globe__place globe__place--${d.kind}${d.id === selected ? " is-selected" : ""}`)
-      .attr("data-element", (d) => d.element)
-      .attr("transform", (d) => {
-        const [x, y] = at.get(d.id)!;
+    g.attr("class", (m) => `globe__place globe__place--${m.kind}${emph.has(m.item) ? " is-selected" : ""}`)
+      .attr("data-element", (m) => m.element)
+      .attr("transform", (m) => {
+        const [x, y] = at.get(m.key)!;
         return `translate(${x},${y})`;
       })
-      .on("click", (_ev, d) => choose(d.id, true));
-    g.select<SVGCircleElement>("circle.halo").attr("r", (d) => (d.precision === "uncertain" ? 16 : d.kind === "quartet" ? 11 : 0));
-    g.select<SVGCircleElement>("circle.dot").attr("r", (d) => (d.kind === "quartet" ? 5.5 : 3.8));
+      .on("click", (_ev, m) => choose(m.item, true));
+    g.select<SVGLineElement>("line.leader")
+      .attr("x2", (m) => lead.get(m.key)?.[0] ?? 0)
+      .attr("y2", (m) => lead.get(m.key)?.[1] ?? 0);
+    g.select<SVGCircleElement>("circle.halo").attr("r", (m) =>
+      m.precision === "uncertain" ? (m.kind === "note" ? 10 : 16) : m.kind === "quartet" ? 11 : 0,
+    );
+    g.select<SVGPathElement>("path.dot").attr("d", (m) => dotPath(m.kind));
     g.select<SVGTextElement>("text.label")
-      .text((d) => (shown.has(d.id) ? d.name : ""))
-      .attr("x", (d) => shown.get(d.id)?.[0] ?? 9)
-      .attr("y", (d) => shown.get(d.id)?.[1] ?? 4)
-      .attr("text-anchor", (d) => shown.get(d.id)?.[2] ?? "start");
+      .text((m) => (shown.has(m.key) ? m.name : ""))
+      .attr("x", (m) => shown.get(m.key)?.[0] ?? 9)
+      .attr("y", (m) => shown.get(m.key)?.[1] ?? 4)
+      .attr("text-anchor", (m) => shown.get(m.key)?.[2] ?? "start");
     host.dataset.zoom = k.toFixed(2);
     updateScale();
   }
@@ -382,19 +479,50 @@ function setupGlobe(root: HTMLElement, topo: Topology): () => void {
     raf = requestAnimationFrame(step);
   }
 
-  /** The view for a place: framed with the places joined to it, or, when those span half the world, the whole globe turned to it. */
-  function frame(id: string): { centre: Pt; k: number } {
-    const p = byId.get(id)!;
-    const here: Pt = [p.lng, p.lat];
-    const pts: Pt[] = [here];
-    for (const [a, b] of data.links) {
-      const q = a === id ? byId.get(b) : b === id ? byId.get(a) : undefined;
-      if (q) pts.push([q.lng, q.lat]);
+  /**
+   * A view that frames weighted points: centred on their weighted mean and zoomed so that
+   * most of the weight (and `here`) is in the lens. When that takes half the world, the
+   * whole globe turned to `here`.
+   */
+  function fit(pts: Array<[Pt, number]>, here: Pt, cap: number): { centre: Pt; k: number } {
+    const s = pts.reduce<Vec>((a, [[lng, lat], w]) => {
+      const v = unit(lng, lat);
+      return [a[0] + v[0] * w, a[1] + v[1] * w, a[2] + v[2] * w];
+    }, [0, 0, 0]);
+    const n = Math.hypot(...s);
+    const centre: Pt = n > 1e-6 ? [Math.atan2(s[1], s[0]) / RAD, Math.asin(s[2] / n) / RAD] : here;
+    const total = pts.reduce((a, [, w]) => a + w, 0);
+    let reach = geoDistance(centre, here);
+    let acc = 0;
+    for (const [d, w] of pts.map(([p, w]) => [geoDistance(centre, p), w] as const).sort((a, b) => a[0] - b[0])) {
+      reach = Math.max(reach, d);
+      acc += w;
+      if (acc >= 0.8 * total) break;
     }
-    if (pts.length < 2) return { centre: here, k: Math.max(k, 3) };
-    const centre = geoCentroid({ type: "MultiPoint", coordinates: pts }) as Pt;
-    const fit = Math.min(6, fitK(Math.max(...pts.map((q) => geoDistance(centre, q)))));
-    return fit < 1.5 ? { centre: here, k: 1 } : { centre, k: fit };
+    const kk = Math.min(cap, fitK(reach));
+    return kk < 1.5 ? { centre: here, k: 1 } : { centre, k: kk };
+  }
+
+  /** The view for a place (with the places joined to it, weighted by notes), a note (its points) or a line (its two ends). */
+  function frame(id: string): { centre: Pt; k: number } {
+    const ll = (p: { lng: number; lat: number }): Pt => [p.lng, p.lat];
+    const link = linkById.get(id);
+    if (link) {
+      const a = ll(byId.get(link.from)!);
+      const b = ll(byId.get(link.to)!);
+      const view = fit([[a, 1], [b, 1]], a, 12);
+      return view.k > 1 ? view : { centre: geoInterpolate(a, b)(0.5), k: 1 };
+    }
+    const note = noteById.get(id);
+    if (note) {
+      const pts = note.points.map((p) => [ll(p), 1] as [Pt, number]);
+      // A single spot: close enough in to see its fan of notes, not so close as to lose the country around it.
+      return pts.length === 1 ? { centre: pts[0]![0], k: 10 } : fit(pts, pts[0]![0], 96);
+    }
+    const p = byId.get(id)!;
+    const joined = data.links.flatMap((l) => (l.from === id ? [[ll(byId.get(l.to)!), l.n] as [Pt, number]] : l.to === id ? [[ll(byId.get(l.from)!), l.n] as [Pt, number]] : []));
+    if (!joined.length) return { centre: ll(p), k: Math.max(k, 4) };
+    return fit([[ll(p), Math.max(...joined.map(([, w]) => w))], ...joined], ll(p), 6);
   }
 
   // A slow idle drift: ≤ 30 fps, only while visible, and only for the first 20 s.
@@ -414,16 +542,33 @@ function setupGlobe(root: HTMLElement, topo: Topology): () => void {
   const io = new IntersectionObserver(([e]) => (visible = !!e?.isIntersecting));
   io.observe(host);
 
+  /** Show one card, fetching its sketch the first time it opens. */
+  function showCard(id: string) {
+    cards.forEach((c) => (c.hidden = c.dataset.card !== id));
+    const slot = cards.find((c) => c.dataset.card === id)?.querySelector<HTMLElement>("[data-sketch]");
+    if (!slot || slot.dataset.state) return;
+    slot.dataset.state = "loading";
+    fetch(slot.dataset.sketch!)
+      .then((r) => (r.ok ? r.text() : Promise.reject(new Error(String(r.status)))))
+      .then((svg) => {
+        // Our own drawing, from this site: inlined so the theme's ink colours apply to it.
+        if (!dead) slot.innerHTML = svg;
+        slot.dataset.state = "done";
+      })
+      .catch(() => delete slot.dataset.state);
+  }
+
   function choose(id: string, scroll: boolean) {
-    const p = byId.get(id);
-    if (!p) return;
+    if (!known(id)) return;
     selected = id;
     const view = frame(id);
     flyTo(view.centre, view.k);
-    cards.forEach((c) => (c.hidden = c.dataset.card !== id));
+    showCard(id);
     buttons.forEach((b) => b.setAttribute("aria-current", b.dataset.place === id ? "true" : "false"));
     const card = cards.find((c) => c.dataset.card === id);
-    if (scroll && card && window.innerWidth < 900) card.scrollIntoView({ behavior: reduced() ? "auto" : "smooth", block: "nearest" });
+    // Bring the card's top into view when it is off screen (cards can be taller than the window).
+    const top = card?.getBoundingClientRect().top ?? 0;
+    if (scroll && card && (top < 0 || top > window.innerHeight * 0.7)) card.scrollIntoView({ behavior: reduced() ? "auto" : "smooth", block: "start" });
     history.replaceState(history.state, "", `#place-${id}`);
   }
 
@@ -443,6 +588,11 @@ function setupGlobe(root: HTMLElement, topo: Topology): () => void {
     else flyTo([-rotation[0], -rotation[1]], 1);
   };
   views.forEach((b) => b.addEventListener("click", onView));
+  const onLayer = () => {
+    notesOn = layer?.checked ?? true;
+    render();
+  };
+  layer?.addEventListener("change", onLayer);
 
   // ---- Gestures: one pointer turns the globe, two pinch (zoom) and pan.
   const toView = (e: { clientX: number; clientY: number }): Pt => {
@@ -553,12 +703,14 @@ function setupGlobe(root: HTMLElement, topo: Topology): () => void {
   node.addEventListener("gesturechange", onGestureChange);
 
   // With JavaScript, one card at a time; start from the hash or Burnt Norton.
-  const initial = location.hash.startsWith("#place-") ? location.hash.slice(7) : "burnt-norton";
-  cards.forEach((c) => (c.hidden = c.dataset.card !== initial));
+  const known = (id: string) => byId.has(id) || noteById.has(id) || linkById.has(id);
+  const asked = location.hash.startsWith("#place-") ? location.hash.slice(7) : "";
+  const initial = known(asked) ? asked : "burnt-norton";
+  showCard(initial);
   root.classList.add("atlas--js");
   if (tools) tools.hidden = false;
   resize();
-  if (byId.has(initial) && location.hash) choose(initial, false);
+  if (asked === initial) choose(initial, false);
   else {
     selected = initial;
     buttons.forEach((b) => b.setAttribute("aria-current", b.dataset.place === initial ? "true" : "false"));
@@ -579,6 +731,7 @@ function setupGlobe(root: HTMLElement, topo: Topology): () => void {
     window.removeEventListener("pointercancel", onUp);
     buttons.forEach((b) => b.removeEventListener("click", onButton));
     views.forEach((b) => b.removeEventListener("click", onView));
+    layer?.removeEventListener("change", onLayer);
     host.replaceChildren();
   };
 }

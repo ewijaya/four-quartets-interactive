@@ -1,12 +1,46 @@
 ---
 import Base from "../layouts/Base.astro";
-import Sketch from "../components/viz/Sketch.astro";
 import Emblem from "../components/chrome/Emblem.astro";
-import { CONNECTIONS, PLACES } from "../data/places";
-import { QUARTET_BY_CODE } from "../data/quartets";
-import { SOURCE_BY_ID } from "../data/sources";
-import { quartetUrl, url } from "../lib/url";
+import { PLACES, PLACE_BY_ID } from "../data/places";
+import { NOTE_PLACES } from "../data/note-places";
+import { QUARTETS, QUARTET_BY_CODE, ROMAN } from "../data/quartets";
+import { SOURCES, SOURCE_BY_ID } from "../data/sources";
+import { atlasLinks } from "../lib/atlas";
+import { excerpt } from "../lib/excerpt";
+import { getNotes, type NoteVM } from "../lib/reader-model";
+import type { QuartetCode } from "../lib/model";
+import { lineUrl, movementUrl, noteUrl, quartetUrl, url } from "../lib/url";
 import "../styles/viz.css";
+
+const notes = await getNotes();
+const noteById = new Map(notes.map((n) => [n.meta.id, n]));
+const quartetPlace = Object.fromEntries(QUARTETS.map((q) => [q.code, q.placeId])) as Record<QuartetCode, string>;
+const links = atlasLinks(
+  notes.map((n) => ({ id: n.meta.id, quartet: n.meta.anchor.quartet, sources: n.meta.sources.map((s) => s.ref) })),
+  SOURCES,
+  quartetPlace,
+);
+// Notes of type "place", in reading order, with where they are.
+const noteOrder = (n: NoteVM) => QUARTETS.findIndex((q) => q.code === n.meta.anchor.quartet) * 1e7 + n.meta.anchor.movement * 1e6 + n.order;
+const notePlaces = NOTE_PLACES.flatMap((np) => {
+  const n = noteById.get(np.note);
+  return n ? [{ ...np, key: `note-${np.note}`, vm: n }] : [];
+}).sort((a, b) => noteOrder(a.vm) - noteOrder(b.vm));
+
+const where = (n: NoteVM) => {
+  const q = QUARTET_BY_CODE[n.meta.anchor.quartet];
+  if (n.meta.anchor.movement === 0) return q.title;
+  const lines = n.firstLine ? (n.lastLine && n.lastLine !== n.firstLine ? `, lines ${n.firstLine}–${n.lastLine}` : `, line ${n.firstLine}`) : "";
+  return `${q.title} ${ROMAN[n.meta.anchor.movement]}${lines}`;
+};
+const context = (n: NoteVM) => {
+  const m = n.meta.anchor;
+  const q = QUARTET_BY_CODE[m.quartet];
+  if (m.movement === 0) return quartetUrl(q.id);
+  return n.firstLine ? lineUrl(m.quartet, m.movement, n.firstLine, n.lastLine) : movementUrl(q.id, m.movement);
+};
+const placeName = (id: string) => PLACE_BY_ID[id]?.name ?? id;
+const plural = (n: number, one: string, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
 
 const groups = [
   { key: "quartet", title: "The four places" },
@@ -15,7 +49,8 @@ const groups = [
 ] as const;
 const data = {
   places: PLACES.map((p) => ({ id: p.id, name: p.name, lat: p.lat, lng: p.lng, kind: p.kind, precision: p.precision, element: p.quartet ? QUARTET_BY_CODE[p.quartet].element : null })),
-  links: CONNECTIONS,
+  notes: notePlaces.map((np) => ({ id: np.key, element: QUARTET_BY_CODE[np.vm.meta.anchor.quartet].element, place: np.place, points: np.points })),
+  links: links.map((l) => ({ id: l.id, from: l.from, to: l.to, n: l.notes.length, name: `${placeName(l.from)} → ${placeName(l.to)} · ${plural(l.notes.length, "note")}` })),
 };
 const json = JSON.stringify(data).replace(/</g, "\\u003c");
 const fmt = (v: number, pos: string, neg: string) => `${Math.abs(v).toFixed(2)}° ${v >= 0 ? pos : neg}`;
@@ -27,7 +62,8 @@ const fmt = (v: number, pos: string, neg: string) => `${Math.abs(v).toFixed(2)}�
     <h1>Atlas</h1>
     <p class="lede">
       Four places give the quartets their names; others — a river, a coast, a city under bombardment — run through them; and the voices
-      the poem answers come from Ephesus to Kurukshetra. Lines on the globe join each source to the quartet it enters.
+      the poem answers come from Ephesus to Kurukshetra. Lines on the globe join each source to the quartets whose notes cite it, heavier
+      the more notes there are; zoom in to find the places the notes describe.
     </p>
     <div class="atlas__grid">
       <div class="atlas__globe-wrap">
@@ -39,15 +75,141 @@ const fmt = (v: number, pos: string, neg: string) => `${Math.abs(v).toFixed(2)}�
           <button class="icon-btn" type="button" data-view="in" aria-label="Zoom in" title="Zoom in">+</button>
           <button class="icon-btn" type="button" data-view="out" aria-label="Zoom out" title="Zoom out">−</button>
           <button class="btn" type="button" data-view="whole">Whole globe</button>
+          <label class="switch atlas__layer"><input type="checkbox" data-layer="notes" checked /> <span>Places in the notes</span></label>
           <span class="atlas__scale" data-scale aria-hidden="true" hidden><span class="atlas__scale-bar" data-scale-bar></span><span data-scale-label></span></span>
         </div>
         <p class="atlas__hint">
           <span class="atlas__hint-fine">Drag to turn the globe; pinch, double-click or <span data-mod>Ctrl</span> + scroll to zoom.</span>
           <span class="atlas__hint-touch">Drag to turn the globe; pinch to zoom.</span>
-          Choose a place to see it with the places it is joined to.
+          Choose a place to see it with the places it is joined to, or a line for the notes it stands for. The places in the notes
+          (◇) appear as you zoom in, and around a place you choose.
         </p>
       </div>
       <div class="atlas__side">
+        <div class="atlas__cards">
+          {
+            PLACES.map((p) => {
+              const q = p.quartet ? QUARTET_BY_CODE[p.quartet] : null;
+              const mine = links.filter((l) => l.from === p.id || l.to === p.id);
+              const cited = new Set(mine.filter((l) => l.from === p.id).flatMap((l) => l.notes)).size;
+              const here = notePlaces.filter((np) => np.place === p.id);
+              return (
+                <article class="place-card" id={`place-${p.id}`} data-card={p.id} data-element={q?.element} tabindex="-1">
+                  <div class="sketch-slot" data-sketch={url(`/atlas/sketch/${p.sketch}.svg`)} role="img" aria-label={p.illustrationPrompt} />
+                  <p class="eyebrow">
+                    {p.kind === "quartet" ? "Quartet" : p.kind === "life" ? "Eliot's life" : "Source"}
+                    {p.precision !== "exact" && ` · location ${p.precision}`}
+                  </p>
+                  <h2>
+                    {q && <Emblem element={q.element} size={22} />} {p.name}
+                  </h2>
+                  <p class="place-card__coords">
+                    {fmt(p.lat, "N", "S")}, {fmt(p.lng, "E", "W")}
+                  </p>
+                  <p class="place-card__blurb">{p.blurb}</p>
+                  <p class="place-card__links">
+                    {q && <a href={quartetUrl(q.id)}>Read {q.title}</a>}
+                    {(p.sources ?? []).map((sid) =>
+                      SOURCE_BY_ID[sid] ? <a href={url(`/sources#${sid}`)}>{SOURCE_BY_ID[sid]!.author}</a> : null,
+                    )}
+                  </p>
+                  {mine.length > 0 && (
+                    <section class="place-card__section">
+                      <h3 class="eyebrow">
+                        {p.kind === "quartet" ? `Joined to ${plural(mine.length, "place")}` : `Cited in ${plural(cited, "note")}`}
+                      </h3>
+                      <ul class="place-card__joins">
+                        {mine.map((l) => (
+                          <li>
+                            <a href={`#place-${l.id}`} data-place={l.id}>
+                              {l.from === p.id ? placeName(l.to) : placeName(l.from)}
+                            </a>{" "}
+                            <span class="place-card__n">{plural(l.notes.length, "note")}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </section>
+                  )}
+                  {here.length > 0 && (
+                    <section class="place-card__section">
+                      <h3 class="eyebrow">In the notes</h3>
+                      <ul class="place-card__joins">
+                        {here.map((np) => (
+                          <li>
+                            <a href={`#place-${np.key}`} data-place={np.key}>
+                              {np.vm.meta.title}
+                            </a>{" "}
+                            <span class="place-card__n">{where(np.vm)}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </section>
+                  )}
+                </article>
+              );
+            })
+          }
+          {
+            notePlaces.map((np) => {
+              const q = QUARTET_BY_CODE[np.vm.meta.anchor.quartet];
+              const uncertain = np.points.every((pt) => pt.precision === "uncertain");
+              return (
+                <article class="place-card place-card--note" id={`place-${np.key}`} data-card={np.key} data-element={q.element} tabindex="-1">
+                  <p class="eyebrow">
+                    Note · {where(np.vm)}
+                    {uncertain && " · location uncertain"}
+                  </p>
+                  <h2>
+                    <Emblem element={q.element} size={22} /> {np.vm.meta.title}
+                  </h2>
+                  {np.vm.meta.anchor.lemma && <p class="place-card__lemma">“{np.vm.meta.anchor.lemma}”</p>}
+                  <p class="place-card__coords">{np.points.map((pt) => pt.name).join(" · ")}</p>
+                  <p class="place-card__blurb">{excerpt(np.vm.entry.body ?? "", 260, 140)}</p>
+                  <p class="place-card__links">
+                    <a href={noteUrl(np.vm.meta.id)}>Read the note</a>
+                    <a href={context(np.vm)}>Read in context</a>
+                    {np.place && (
+                      <a href={`#place-${np.place}`} data-place={np.place}>
+                        {placeName(np.place)}
+                      </a>
+                    )}
+                  </p>
+                </article>
+              );
+            })
+          }
+          {
+            links.map((l) => {
+              const q = QUARTETS.find((x) => x.placeId === l.to);
+              return (
+                <article class="place-card place-card--link" id={`place-${l.id}`} data-card={l.id} data-element={q?.element} tabindex="-1">
+                  <p class="eyebrow">Line · {plural(l.notes.length, "note")}</p>
+                  <h2>
+                    <a href={`#place-${l.from}`} data-place={l.from}>{placeName(l.from)}</a> <span aria-hidden="true">→</span>
+                    <span class="sr-only">to</span> <a href={`#place-${l.to}`} data-place={l.to}>{placeName(l.to)}</a>
+                  </h2>
+                  <p class="place-card__coords">
+                    {l.sources.map((sid) => SOURCE_BY_ID[sid]).map((s) => s && `${s.author}, ${s.work}`).filter(Boolean).join(" · ")}
+                  </p>
+                  <ol class="place-card__notes">
+                    {l.notes.map((id) => {
+                      const n = noteById.get(id)!;
+                      return (
+                        <li>
+                          <a href={noteUrl(id)}>{n.meta.title}</a>
+                          <span class="place-card__n">
+                            <a href={context(n)}>{where(n)}</a>
+                            {n.meta.anchor.lemma && <span class="place-card__q"> · “{n.meta.anchor.lemma}”</span>}
+                          </span>
+                        </li>
+                      );
+                    })}
+                  </ol>
+                </article>
+              );
+            })
+          }
+        </div>
         <nav class="atlas__list" aria-label="Places">
           {
             groups.map((g) => (
@@ -66,36 +228,22 @@ const fmt = (v: number, pos: string, neg: string) => `${Math.abs(v).toFixed(2)}�
               </section>
             ))
           }
+          <section>
+            <h2 class="eyebrow">Places in the notes</h2>
+            <ul>
+              {
+                notePlaces.map((np) => (
+                  <li>
+                    <a href={`#place-${np.key}`} data-place={np.key} data-element={QUARTET_BY_CODE[np.vm.meta.anchor.quartet].element}>
+                      <span class="atlas__mark atlas__mark--note" aria-hidden="true" />
+                      {np.vm.meta.title}
+                    </a>
+                  </li>
+                ))
+              }
+            </ul>
+          </section>
         </nav>
-        <div class="atlas__cards">
-          {
-            PLACES.map((p) => {
-              const q = p.quartet ? QUARTET_BY_CODE[p.quartet] : null;
-              return (
-                <article class="place-card" id={`place-${p.id}`} data-card={p.id} data-element={q?.element} tabindex="-1">
-                  <Sketch sketch={p.sketch} label={p.illustrationPrompt} />
-                  <p class="eyebrow">
-                    {p.kind === "quartet" ? "Quartet" : p.kind === "life" ? "Eliot's life" : "Source"}
-                    {p.precision !== "exact" && ` · location ${p.precision}`}
-                  </p>
-                  <h2>
-                    {q && <Emblem element={q.element} size={22} />} {p.name}
-                  </h2>
-                  <p class="place-card__coords">
-                    {fmt(p.lat, "N", "S")}, {fmt(p.lng, "E", "W")}
-                  </p>
-                  <p class="place-card__blurb">{p.blurb}</p>
-                  <p class="place-card__links">
-                    {q && <a href={quartetUrl(q.id)}>Read {q.title}</a>}
-                    {(p.sources ?? []).map((sid) =>
-                      SOURCE_BY_ID[sid] ? <a href={url(`/sources#${sid}`)}>{SOURCE_BY_ID[sid]!.author}</a> : null,
-                    )}
-                  </p>
-                </article>
-              );
-            })
-          }
-        </div>
       </div>
     </div>
     <script type="application/json" data-atlas-data set:html={json} />

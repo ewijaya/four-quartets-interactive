@@ -43,7 +43,7 @@ test.describe("search, notes, atlas, sound, print", () => {
   test("atlas: choosing a place shows its card and sketch", async ({ page, errors }) => {
     await page.goto("/atlas");
     await expect(page.locator(".globe")).toBeVisible();
-    await page.locator('[data-place="little-gidding"]').click();
+    await page.locator('.atlas__list [data-place="little-gidding"]').click();
     const card = page.locator('[data-card="little-gidding"]');
     await expect(card).toBeVisible();
     await expect(card.locator("svg.sketch path").first()).toBeAttached();
@@ -64,10 +64,10 @@ test.describe("search, notes, atlas, sound, print", () => {
     await page.locator('[data-view="whole"]').click();
     await expect(globe).toHaveAttribute("data-zoom", "1.00");
     // Little Gidding's sources are all in western Europe, so the globe closes in on them.
-    await page.locator('[data-place="little-gidding"]').click();
+    await page.locator('.atlas__list [data-place="little-gidding"]').click();
     await expect.poll(zoom).toBeGreaterThan(3);
     // Kurukshetra is joined to Cape Ann, half a world away: the whole globe again.
-    await page.locator('[data-place="kurukshetra"]').click();
+    await page.locator('.atlas__list [data-place="kurukshetra"]').click();
     await expect(globe).toHaveAttribute("data-zoom", "1.00");
     if (!isMobile) {
       const box = (await globe.boundingBox())!;
@@ -83,6 +83,35 @@ test.describe("search, notes, atlas, sound, print", () => {
       await page.keyboard.up("Control");
       await expect.poll(zoom).toBeGreaterThan(1.2);
     }
+    void errors;
+  });
+
+  test("atlas: a line lists the notes behind it, and the places in the notes are on the map", async ({ page, errors }) => {
+    await page.goto("/atlas#place-florence");
+    const globe = page.locator("[data-globe]");
+    await expect(globe).toHaveAttribute("data-zoom", /\d/);
+    // Lines are weighted by the notes behind them: Dante's line to Little Gidding outweighs Vienna's to Burnt Norton.
+    const w = (style: string | null) => parseFloat((style ?? "").replace(/^[^\d]*/, ""));
+    const heavy = w(await page.locator('.globe__arcs path[data-link="link-florence--little-gidding"]').getAttribute("style"));
+    const light = w(await page.locator('.globe__arcs path[data-link="link-vienna--burnt-norton"]').getAttribute("style"));
+    expect(heavy).toBeGreaterThan(light * 2);
+    const card = page.locator('[data-card="florence"]');
+    await expect(card).toBeVisible();
+    await card.locator('[data-place="link-florence--little-gidding"]').click();
+    const line = page.locator('[data-card="link-florence--little-gidding"]');
+    await expect(line).toBeVisible();
+    expect(await line.locator(".place-card__notes li").count()).toBeGreaterThan(5);
+    await expect(line.locator('a[href$="/notes/lg-compound-ghost"]')).toBeVisible();
+    await expect(page).toHaveURL(/#place-link-florence--little-gidding$/);
+    // A place in the notes: its card opens and its mark is drawn on the globe.
+    await page.locator('.atlas__list [data-place="note-ds-lady-shrine"]').click();
+    const note = page.locator('[data-card="note-ds-lady-shrine"]');
+    await expect(note).toBeVisible();
+    await expect(note.locator('a[href$="/notes/ds-lady-shrine"]')).toBeVisible();
+    await expect(page.locator(".globe__place--note.is-selected").first()).toBeAttached();
+    // Turning the layer off hides the other notes' marks but keeps the chosen one.
+    await page.locator('[data-layer="notes"]').uncheck();
+    await expect(page.locator(".globe__place--note:not(.is-selected)")).toHaveCount(0);
     void errors;
   });
 
