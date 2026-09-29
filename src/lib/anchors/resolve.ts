@@ -148,6 +148,8 @@ export interface Resolution {
   problem?: string;
   /** Set when the lemma matched only approximately (edit distance), e.g. an edition's variant spelling. */
   fuzzy?: { distance: number; window: string };
+  /** Several matches and no explicit occurrence: true when the hint could not decide between two. */
+  tie?: boolean;
 }
 
 export interface LemmaTarget {
@@ -175,21 +177,26 @@ export function resolveLemma(q: QuartetText, t: LemmaTarget): Resolution {
   }
   let pick: [number, number] | undefined;
   let problem: string | undefined;
+  let tie: boolean | undefined;
   if (all.length) {
     if (t.occurrence) {
       pick = all[t.occurrence - 1];
       if (!pick) problem = `occurrence ${t.occurrence} requested but only ${all.length} match(es)`;
     } else if (t.hint && all.length > 1) {
-      pick = [...all].sort(
-        (a, b) => Math.abs(s.lines[s.lineOf[a[0]]!]!.n - t.hint!) - Math.abs(s.lines[s.lineOf[b[0]]!]!.n - t.hint!),
-      )[0];
+      const dist = (a: [number, number]) => Math.abs(s.lines[s.lineOf[a[0]]!]!.n - t.hint!);
+      const ranked = [...all].sort((a, b) => dist(a) - dist(b));
+      pick = ranked[0];
+      tie = dist(ranked[0]!) === dist(ranked[1]!);
     } else {
       pick = all[0];
+      if (all.length > 1) tie = true;
     }
   }
   if (pick) {
     const spans = spansFor(s, pick[0], pick[1]);
-    return { resolved: { kind: "lemma", lines: spans.map((x) => x.line), spans, approximate: false }, matches: all.length };
+    const res: Resolution = { resolved: { kind: "lemma", lines: spans.map((x) => x.line), spans, approximate: false }, matches: all.length };
+    if (tie !== undefined) res.tie = tie;
+    return res;
   }
   // Editions differ in small ways (a hyphen, a plural, a misprint): accept a close match.
   if (!problem) {

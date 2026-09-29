@@ -1,0 +1,262 @@
+# Burnt Norton — word glosses. One entry per word or short phrase (lemma ≤ 6 words,
+# exactly as printed). `hint` is the line number in its movement; `kind` is one of
+# sense, archaic, rare, dialect, technical, foreign, name, coinage. `say` records
+# Eliot's pronunciation on his 1946–47 recording when it is documented.
+# Glosses are our own words: short, factual, cited. See CONTRIBUTING.md.
+
+- movement: 1
+  lemma: "lotos"
+  hint: 38
+  kind: name
+  gloss: "The sacred water-lily of Egypt and India (*Nymphaea lotus*), which opens on the water at sunrise; not the fruit of Homer's lotus-eaters, which brings forgetfulness."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 912"
+      status: verified
+
+- movement: 2
+  lemma: "lymph"
+  hint: 7
+  kind: technical
+  gloss: "The clear fluid that circulates through the body's tissues beside the blood. In older botany the word also meant the sap of plants."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 916"
+      status: verified
+
+- movement: 2
+  lemma: "Erhebung"
+  hint: 28
+  kind: foreign
+  gloss: "German: ‘elevation’, ‘exaltation’, a word with a philosophical, Hegelian ring."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 917"
+      status: verified
+
+- movement: 2
+  lemma: "smokefall"
+  hint: 42
+  kind: coinage
+  gloss: "Formed like *nightfall*: the evening hour when, as Helen Gardner explained it, the wind drops and smoke that has risen sinks back. The *OED* records the word from this line alone."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 917"
+      status: verified
+
+- movement: 3
+  lemma: "Eructation"
+  hint: 19
+  kind: rare
+  gloss: "Belching; the discharge of wind from the stomach."
+  say: "ear-uctation"
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 918"
+      status: verified
+
+- movement: 3
+  lemma: "Inoperancy"
+  hint: 32
+  kind: rare
+  gloss: "The state of not working or taking effect. The word was not in the first edition of the *OED*; it was added later with this line as its only example."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, pp. 919–20"
+      status: verified
+
+- movement: 3
+  lemma: "appetency"
+  hint: 36
+  kind: technical
+  gloss: "Craving, instinctive desire; of things, a natural tendency. Stressed on the first syllable. The word renders Aristotle's *orexis*, and I. A. Richards had made it central to a psychology of value that Eliot criticised."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 920"
+      status: verified
+
+- movement: 1
+  lemma: "unredeemable"
+  hint: 5
+  kind: sense
+  gloss: "That cannot be redeemed: bought back, rescued from loss, or turned to good. St Paul tells Christians to be ‘redeeming the time, because the days are evil’ (Ephesians 5:16)."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 908"
+      status: verified
+
+- movement: 1
+  lemma: "speculation"
+  hint: 8
+  kind: sense
+  gloss: "Abstract reasoning, theorising: the realm of what might be rather than what is."
+
+- movement: 1
+  lemma: "Towards"
+  hint: 13
+  kind: sense
+  gloss: "Spoken as a single syllable in Eliot's recording, the older pronunciation."
+  say: "t'ords"
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 909"
+      status: verified
+
+- movement: 1
+  lemma: "vibrant air"
+  hint: 27
+  kind: sense
+  gloss: "Air that quivers with heat and sound: *vibrant* keeps its physical sense of vibrating."
+
+- movement: 2
+  lemma: "axle-tree"
+  hint: 2
+  kind: archaic
+  gloss: "The fixed bar on which a cart's wheels turn: an old word for the axle."
+
+- movement: 2
+  lemma: "inveterate"
+  hint: 4
+  kind: sense
+  gloss: "Deep-rooted, long established; of scars, old and hardened (from Latin *vetus*, old)."
+  say: "inveterert"
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 915"
+      status: verified
+
+- movement: 2
+  lemma: "figured leaf"
+  hint: 11
+  kind: sense
+  gloss: "A leaf marked with a pattern. Tennyson used the phrase for a written page (*In Memoriam* XLIII), so a page of a book may lie behind the leaf of the tree."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 916"
+      status: verified
+
+- movement: 2
+  lemma: "arbour"
+  hint: 41
+  kind: sense
+  gloss: "A shady retreat in a garden, formed by trellis-work or trees covered with climbing plants."
+
+- movement: 3
+  lemma: "disaffection"
+  hint: 1
+  kind: sense
+  gloss: "Loss or absence of affection; estrangement and discontent, especially towards authority."
+
+- movement: 3
+  lemma: "plenitude"
+  hint: 10
+  kind: sense
+  gloss: "Fullness, abundance: the opposite of the vacancy that follows."
+  say: "pleenitude"
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 918"
+      status: verified
+
+- movement: 3
+  lemma: "Tumid"
+  hint: 14
+  kind: sense
+  gloss: "Swollen, bloated; of style or manner, pompous and inflated."
+
+- movement: 3
+  lemma: "torpid"
+  hint: 20
+  kind: sense
+  gloss: "Sluggish and numb, like an animal in hibernation."
+
+- movement: 3
+  lemma: "Campden"
+  hint: 22
+  kind: name
+  gloss: "Campden Hill in Kensington, near where Eliot lived, not Camden Town."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 919"
+      status: verified
+
+- movement: 3
+  lemma: "Primrose"
+  hint: 23
+  kind: name
+  gloss: "Primrose Hill, north of Regent's Park. With Highgate and Ludgate it completes a list of London's hills; John Hayward pencilled ‘7 hills’ beside the line, as if thinking of Rome."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, pp. 918–19"
+      status: verified
+
+- movement: 3
+  lemma: "twittering"
+  hint: 24
+  kind: sense
+  gloss: "Making thin chirping sounds. In Homer's *Odyssey* (book XXIV) the ghosts of the dead go down to Hades twittering like bats, which gives the underground scene a touch of the underworld."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 919"
+      status: verified
+
+- movement: 3
+  lemma: "destitution"
+  hint: 29
+  kind: sense
+  gloss: "Complete want; being stripped of everything, here of all property, the poverty of spirit the mystics recommend."
+
+- movement: 3
+  lemma: "Evacuation"
+  hint: 31
+  kind: sense
+  gloss: "Emptying out, voiding."
+
+- movement: 3
+  lemma: "metalled"
+  hint: 36
+  kind: sense
+  gloss: "Surfaced with broken stone, as a road is *metalled*; the phrase also suggests the steel rails of the Underground."
+
+- movement: 4
+  lemma: "clematis"
+  hint: 3
+  kind: name
+  gloss: "A climbing plant with large bright flowers that clings by twisting its leaf-stalks round a support. Eliot's hostess at Chipping Campden, a keen gardener, grew it, and he saw masses of it in a rectory garden near Kelham in 1935."
+  sources:
+    - ref: gardner-1978
+      locator: "pp. 36, 38"
+      status: verified
+
+- movement: 4
+  lemma: "tendril and spray"
+  hint: 4
+  kind: sense
+  gloss: "A tendril is the coiling thread by which a climbing plant holds on; a spray is a slender shoot with its leaves and flowers."
+
+- movement: 5
+  lemma: "disconsolate"
+  hint: 21
+  kind: sense
+  gloss: "Beyond comfort, inconsolable. St John of the Cross advised choosing, of two things, the one that brings no consolation."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 923"
+      status: verified
+
+- movement: 5
+  lemma: "chimera"
+  hint: 21
+  kind: name
+  gloss: "In Greek myth a fire-breathing monster, part lion, part goat, part serpent; hence any wild fancy or illusion."
+  say: "ky-MEER-a"
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, pp. 922–23"
+      status: verified
+
+- movement: 5
+  lemma: "un-being"
+  hint: 31
+  kind: sense
+  gloss: "Non-existence: the hyphen makes a noun of pure negation to set against *being*."

@@ -56,6 +56,13 @@ describe("resolveLemma", () => {
     expect(near.resolved.lines).toEqual(["EC.1.3"]);
   });
 
+  it("flags a tie only when the hint cannot decide", () => {
+    expect(resolveLemma(q, { movement: 1, lemma: "the lantern swings", hint: 3 }).tie).toBe(false);
+    expect(resolveLemma(q, { movement: 1, lemma: "the lantern swings", hint: 2 }).tie).toBe(true);
+    expect(resolveLemma(q, { movement: 1, lemma: "the lantern swings" }).tie).toBe(true);
+    expect(resolveLemma(q, { movement: 1, lemma: "the lantern swings", occurrence: 1 }).tie).toBeUndefined();
+  });
+
   it("falls back to the hint line and reports a problem", () => {
     const r = resolveLemma(q, { movement: 1, lemma: "the lamplit yard", hint: 2 });
     expect(r.matches).toBe(0);
@@ -107,5 +114,18 @@ describe("segmentLine", () => {
   it("escapes text and emits anchor spans", () => {
     const html = renderSegments(segmentLine("a < b & c", [{ id: "n1", start: 4, end: 5, approximate: true, level: "reader" }]));
     expect(html).toBe('a &lt; <a class="anchor anchor--approx" href="#n-n1" data-notes="n1" data-level="reader">b</a> &amp; c');
+  });
+
+  it("renders glosses as their own links, but never inside or splitting a note", () => {
+    const text = "the grimpen and the Erhebung without motion";
+    const marks = [
+      { id: "g1", start: 4, end: 11, approximate: false, level: "reader" as const, kind: "gloss" as const },
+      { id: "g2", start: 20, end: 28, approximate: false, level: "reader" as const, kind: "gloss" as const },
+      { id: "n1", start: 20, end: 43, approximate: false, level: "scholar" as const },
+    ];
+    expect(renderSegments(segmentLine(text, marks))).toBe(
+      'the <a class="gl" href="#g-g1" data-glosses="g1">grimpen</a> and the ' +
+        '<a class="anchor" href="#n-n1" data-notes="n1" data-level="scholar">Erhebung without motion</a>',
+    );
   });
 });

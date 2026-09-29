@@ -1,0 +1,413 @@
+# East Coker — word glosses. See the header of bn.yaml for the fields.
+
+- movement: 1
+  lemma: "by-pass"
+  hint: 4
+  kind: sense
+  gloss: "A road built to take traffic round a town rather than through it. The *OED*'s earliest example is from 1922, so it was a new word; Eliot considered other endings for the line and kept this one."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 929"
+      status: verified
+
+- movement: 1
+  lemma: "generation"
+  hint: 10
+  kind: sense
+  gloss: "Begetting, the producing of offspring, as well as a generation of people."
+
+- movement: 1
+  lemma: "wainscot"
+  hint: 12
+  kind: sense
+  gloss: "Wooden panelling on the lower part of a room's walls."
+  say: "wainsk't"
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 931"
+      status: verified
+
+- movement: 1
+  lemma: "arras"
+  hint: 13
+  kind: sense
+  gloss: "A tapestry wall-hanging, named from Arras in Flanders, famous for its weaving. The first printing used the Tudor spelling *aresse*, taken from Sir Thomas Elyot; Eliot modernised it because it puzzled readers."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 931"
+      status: verified
+
+- movement: 1
+  lemma: "electric heat"
+  hint: 19
+  kind: sense
+  gloss: "Charged, thundery heat. Eliot recalled walking from East to West Coker ‘in great heat’ in August 1937."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, pp. 926, 932"
+      status: verified
+
+- movement: 1
+  lemma: "refracted"
+  hint: 21
+  kind: sense
+  gloss: "Bent or broken, as light is when it passes from one medium into another. Eliot later admitted the word puzzled readers: he wanted the old sense ‘broken back’, and rejected *reflected* because it suggested the glare of a mirror."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 932"
+      status: verified
+
+- movement: 1
+  lemma: "dahlias"
+  hint: 22
+  kind: name
+  gloss: "Late-summer garden flowers with large many-petalled heads."
+  say: "daylias"
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 932"
+      status: verified
+
+- movement: 1
+  lemma: "daunsinge"
+  hint: 30
+  kind: archaic
+  gloss: "Dancing, in the spelling of Sir Thomas Elyot's *The Governour* (1531), from which this and the next lines are taken. Eliot's recording simply says *dancing*."
+  say: "dancing"
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, pp. 933–34"
+      status: verified
+
+- movement: 1
+  lemma: "commodious"
+  hint: 31
+  kind: archaic
+  gloss: "Beneficial, advantageous: the Tudor sense, not ‘roomy’."
+
+- movement: 1
+  lemma: "coniunction"
+  hint: 32
+  kind: archaic
+  gloss: "Conjunction, in Tudor spelling (*i* for *j*): a joining together, here of man and woman in marriage."
+
+- movement: 1
+  lemma: "betokeneth concorde"
+  hint: 34
+  kind: archaic
+  gloss: "Signifies harmony."
+
+- movement: 1
+  lemma: "loam"
+  hint: 38
+  kind: sense
+  gloss: "Rich, crumbly soil of clay, sand and decayed plant matter."
+
+- movement: 1
+  lemma: "Dawn points"
+  hint: 48
+  kind: sense
+  gloss: "Dawn begins to show. F. R. Leavis traced the phrase to the French *poindre* and *point du jour*, daybreak; Milton has ‘the point of dawn’."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, pp. 934–35"
+      status: verified
+
+- movement: 2
+  lemma: "hollyhocks"
+  hint: 5
+  kind: name
+  gloss: "Tall cottage-garden flowers that grow in spikes on long stems."
+
+- movement: 2
+  lemma: "Simulates"
+  hint: 9
+  kind: sense
+  gloss: "Imitates, gives a false appearance of."
+
+- movement: 2
+  lemma: "triumphal cars"
+  hint: 9
+  kind: sense
+  gloss: "The chariots of a Roman triumph, the victory procession of a conquering general; in poetry, also the chariots of the sun and moon."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 936"
+      status: verified
+
+- movement: 2
+  lemma: "constellated"
+  hint: 10
+  kind: sense
+  gloss: "Formed into constellations: the wars are fought out among the star groups."
+
+- movement: 2
+  lemma: "Scorpion"
+  hint: 11
+  kind: name
+  gloss: "Scorpio, the constellation of the zodiac through which the sun passes from late October to late November."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 937"
+      status: verified
+
+- movement: 2
+  lemma: "Leonids"
+  hint: 13
+  kind: name
+  gloss: "The meteor shower that seems to radiate from the constellation Leo each November. Newspapers of the 1930s promised fine displays in late November."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 936"
+      status: verified
+
+- movement: 2
+  lemma: "vortex"
+  hint: 15
+  kind: technical
+  gloss: "A whirlpool or whirlwind; in older astronomy, a whirling mass of matter that carries the planets round."
+
+- movement: 2
+  lemma: "ice-cap"
+  hint: 17
+  kind: sense
+  gloss: "A permanent sheet of ice, as over the poles: the world is imagined ending first in fire, then in ice."
+
+- movement: 2
+  lemma: "periphrastic"
+  hint: 19
+  kind: sense
+  gloss: "Roundabout; saying something in more words than it needs."
+
+- movement: 2
+  lemma: "receipt"
+  hint: 27
+  kind: archaic
+  gloss: "A recipe or formula: something that can be bequeathed, as Eliot pointed out when John Hayward queried the word."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 938"
+      status: verified
+
+- movement: 2
+  lemma: "hebetude"
+  hint: 28
+  kind: rare
+  gloss: "Dullness, lethargy of mind."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 938"
+      status: verified
+
+- movement: 2
+  lemma: "grimpen"
+  hint: 41
+  kind: coinage
+  gloss: "A treacherous bog: Eliot's common noun made from the Grimpen Mire in Conan Doyle's *The Hound of the Baskervilles*."
+  say: "grimpin"
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, pp. 938–39"
+      status: verified
+
+- movement: 2
+  lemma: "fancy lights"
+  hint: 42
+  kind: sense
+  gloss: "Illusory lights, like the will-o'-the-wisp that lures night travellers into bogs; Milton compares Satan to one."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 939"
+      status: verified
+
+- movement: 3
+  lemma: "interstellar"
+  hint: 2
+  kind: technical
+  gloss: "Between the stars: an astronomer's word for the empty regions of space."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 941"
+      status: verified
+
+- movement: 3
+  lemma: "Almanach de Gotha"
+  hint: 7
+  kind: name
+  gloss: "The annual directory of Europe's royal and noble families, published at Gotha from 1763 to 1944."
+  say: "Allmanack de Goater"
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 942"
+      status: verified
+
+- movement: 3
+  lemma: "Stock Exchange Gazette"
+  hint: 8
+  kind: name
+  gloss: "A weekly financial newspaper, first published in 1901."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 942"
+      status: verified
+
+- movement: 3
+  lemma: "Directory of Directors"
+  hint: 8
+  kind: name
+  gloss: "An annual guide to the directors of companies in the City of London, first published in 1879."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 942"
+      status: verified
+
+- movement: 3
+  lemma: "panorama"
+  hint: 16
+  kind: sense
+  gloss: "A painted landscape backdrop; here the stage scenery being rolled away in the dark."
+
+- movement: 3
+  lemma: "under ether"
+  hint: 22
+  kind: technical
+  gloss: "Under the anaesthetic ether, inhaled before surgery: conscious, but conscious of nothing."
+
+- movement: 3
+  lemma: "wild thyme"
+  hint: 30
+  kind: name
+  gloss: "A low, fragrant herb of banks and heaths, remembered from Oberon's ‘bank where the wild thyme blows’ (*A Midsummer Night's Dream*)."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 944"
+      status: verified
+
+- movement: 4
+  lemma: "plies"
+  hint: 1
+  kind: sense
+  gloss: "Works steadily with (a tool)."
+
+- movement: 4
+  lemma: "distempered"
+  hint: 2
+  kind: sense
+  gloss: "Diseased, disordered; in older medicine, with the body's humours out of balance. Milton uses the word of Adam after the Fall."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 948"
+      status: verified
+
+- movement: 4
+  lemma: "fever chart"
+  hint: 5
+  kind: sense
+  gloss: "The chart at a hospital bed that records a patient's temperature."
+
+- movement: 4
+  lemma: "Adam's curse"
+  hint: 9
+  kind: name
+  gloss: "The punishment laid on Adam and all his descendants after the Fall: toil, suffering and death (Genesis 3)."
+
+- movement: 4
+  lemma: "Endowed"
+  hint: 12
+  kind: sense
+  gloss: "Given a permanent fund, as a benefactor endows a hospital."
+
+- movement: 4
+  lemma: "prevents"
+  hint: 15
+  kind: archaic
+  gloss: "In the old theological sense, ‘goes before’: God's grace anticipates and guides us, as in the Prayer Book's prayer ‘that thy grace may always prevent and follow us’. Eliot changed the word from *torments* after first publication."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 949"
+      status: verified
+
+- movement: 4
+  lemma: "purgatorial"
+  hint: 19
+  kind: sense
+  gloss: "Of purgatory, where in Catholic teaching souls are cleansed by suffering before they enter heaven."
+
+- movement: 4
+  lemma: "briars"
+  hint: 20
+  kind: sense
+  gloss: "Thorny stems of the wild rose: flame and smoke, rose and thorn together."
+
+- movement: 4
+  lemma: "substantial"
+  hint: 24
+  kind: sense
+  gloss: "Solid, real. The phrase also has a history in old arguments over whether Christ's ‘substantial flesh and blood’ is eaten in the Eucharist."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, pp. 949–50"
+      status: verified
+
+- movement: 5
+  lemma: "l'entre deux guerres"
+  hint: 2
+  kind: foreign
+  gloss: "French, ‘between the two wars’: here 1919 to 1939. It had been the title of Léon Daudet's memoirs (1915) of an earlier interval."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, pp. 950–51"
+      status: verified
+
+- movement: 5
+  lemma: "squads"
+  hint: 11
+  kind: sense
+  gloss: "Small military units: the emotions are pictured as raw, undrilled recruits."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, pp. 952–53"
+      status: verified
+
+- movement: 5
+  lemma: "emulate"
+  hint: 14
+  kind: sense
+  gloss: "To try to equal or surpass."
+
+- movement: 5
+  lemma: "unpropitious"
+  hint: 17
+  kind: sense
+  gloss: "Unfavourable, unpromising: written early in 1940, in wartime."
+
+- movement: 5
+  lemma: "old stones"
+  hint: 25
+  kind: sense
+  gloss: "Gravestones. Eliot noted beside this line the churchyard at East Coker, whose oldest stones can no longer be read."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 957"
+      status: verified
+
+- movement: 5
+  lemma: "desolation"
+  hint: 36
+  kind: sense
+  gloss: "Barren emptiness; grief."
+  say: "dezolation"
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 957"
+      status: verified
+
+- movement: 5
+  lemma: "petrel"
+  hint: 38
+  kind: name
+  gloss: "A seabird of the open ocean, said to be named after St Peter because it seems to walk on the water. The explorer William Dampier, who reported the story, was born at East Coker."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 958"
+      status: verified

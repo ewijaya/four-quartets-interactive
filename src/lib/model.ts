@@ -79,6 +79,7 @@ export const ANNOTATION_TYPES = [
   "theme",
   "crossref",
   "textual",
+  "commentary",
 ] as const;
 export type AnnotationType = (typeof ANNOTATION_TYPES)[number];
 
@@ -106,6 +107,23 @@ export interface Citation {
   locator?: string;
   note?: string;
   status: "verified" | "to-verify";
+}
+
+/** A short word gloss (content/glosses/*.yaml): lighter than an annotation. */
+export interface Gloss {
+  id: string;
+  quartet: QuartetCode;
+  movement: MovementN;
+  /** The glossed word or phrase as printed (≤ 6 words, usually one). */
+  lemma: string;
+  hint: number;
+  occurrence?: number;
+  kind: "sense" | "archaic" | "rare" | "dialect" | "technical" | "foreign" | "name" | "coinage";
+  gloss: string;
+  /** Eliot's pronunciation in his recordings, when documented. */
+  say?: string;
+  sources: Citation[];
+  reviewed: boolean;
 }
 
 export const MOTIF_IDS = [

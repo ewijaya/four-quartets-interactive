@@ -177,8 +177,11 @@ export function initReader(root: HTMLElement): () => void {
     });
   }
 
+  /** The first anchor of a note that is actually rendered (pilcrows are hidden on wide screens). */
+  const shownAnchor = (id: string) => (anchorsFor.get(id) ?? []).find((x) => x.getClientRects().length > 0);
+
   function anchorY(n: NoteInfo, asideTop: number): number {
-    const a = (anchorsFor.get(n.id) ?? [])[0];
+    const a = shownAnchor(n.id);
     if (a) return a.getBoundingClientRect().top - asideTop - 4;
     const first = n.lines[0];
     if (first) {
@@ -243,6 +246,19 @@ export function initReader(root: HTMLElement): () => void {
     disclosures.push(btn);
   });
 
+  // Each movement's glossary is an endnote list; with JavaScript it folds behind a button.
+  root.querySelectorAll<HTMLElement>("[data-glossary]").forEach((g) => {
+    const btn = g.querySelector<HTMLButtonElement>(".glossary__toggle");
+    if (!btn) return;
+    const onToggle = () => {
+      const open = !g.classList.contains("is-open");
+      g.classList.toggle("is-open", open);
+      btn.setAttribute("aria-expanded", String(open));
+    };
+    btn.addEventListener("click", onToggle);
+    cleanups.push(() => btn.removeEventListener("click", onToggle));
+  });
+
   const syncDisclosureCounts = () => {
     disclosures.forEach((btn) => {
       const aside = btn.parentElement!;
@@ -274,7 +290,7 @@ export function initReader(root: HTMLElement): () => void {
       const li = toggle.closest<HTMLElement>("li.note")!;
       const id = li.dataset.note!;
       if (openIds.includes(id) && pinned) clearOpen();
-      else openNotes([id], { pin: true, from: (anchorsFor.get(id) ?? [])[0] ?? null, focus: false });
+      else openNotes([id], { pin: true, from: shownAnchor(id) ?? null, focus: false });
       return;
     }
     if (toggle && !WIDE.matches) {
@@ -290,6 +306,48 @@ export function initReader(root: HTMLElement): () => void {
       e.preventDefault();
       focusNote(noteLink.dataset.noteLink!);
     }
+  });
+
+  // ------------------------------------------------------------------ words: glosses and concordance
+  // The popover module loads on first use; the reader's own script stays small.
+  let wordPop: import("./words").WordPop | null = null;
+  let wordsMod: Promise<typeof import("./words")> | null = null;
+  const words = () =>
+    (wordsMod ??= import("./words").then((m) => {
+      wordPop = new m.WordPop(root);
+      cleanups.push(() => wordPop?.destroy());
+      return m;
+    }));
+  const glossLinks = [...root.querySelectorAll<HTMLElement>(".gl[data-glosses]")];
+  const syncGlosses = () => {
+    const clean = getPrefs().density === "clean";
+    for (const g of glossLinks) {
+      if (clean) g.removeAttribute("href");
+      else g.setAttribute("href", `#g-${g.dataset.glosses!.split(" ")[0]}`);
+    }
+  };
+  on(root, "click", (e: MouseEvent) => {
+    if (e.defaultPrevented || e.button !== 0 || getPrefs().density === "clean") return;
+    const t = e.target as HTMLElement;
+    const gl = t.closest<HTMLElement>(".gl[href]");
+    if (gl) {
+      e.preventDefault();
+      const line = gl.closest<HTMLElement>(".line")!;
+      const focus = e.detail === 0;
+      void words().then(() => wordPop!.open(line, gl.textContent ?? "", { glossIds: gl.dataset.glosses!.split(" "), from: gl, focus }));
+      return;
+    }
+    if (!t.closest(".lt") || t.closest("a[href], button")) return;
+    const sel = window.getSelection();
+    if (sel && !sel.isCollapsed) return;
+    const { clientX: x, clientY: y } = e;
+    void words().then((m) => {
+      const w = m.wordAt(x, y);
+      if (w) void wordPop!.open(w.line, w.word, { key: w.key });
+    });
+  });
+  on(root, "sp:words", (e: CustomEvent<{ line: HTMLElement; from: HTMLElement | null }>) => {
+    void words().then(() => wordPop!.openLine(e.detail.line, e.detail.from));
   });
 
   // Hover opens (desktop, fine pointer); leaving closes unless pinned.
@@ -397,7 +455,7 @@ export function initReader(root: HTMLElement): () => void {
   function focusNote(id: string) {
     const n = notes.get(id);
     if (!n) return;
-    const a = (anchorsFor.get(id) ?? [])[0];
+    const a = shownAnchor(id);
     const target = a ?? (n.lines[0] ? root.querySelector<HTMLElement>(`[data-line="${n.lines[0]}"]`) : null) ?? n.el.closest("section");
     target?.scrollIntoView({ block: "center", behavior: reducedMotion() ? "auto" : "smooth" });
     if (!visible(id)) return;
@@ -500,7 +558,7 @@ export function initReader(root: HTMLElement): () => void {
     target?.scrollIntoView({ behavior: reducedMotion() ? "auto" : "smooth", block: "start" });
   };
   const anchorJump = (dir: 1 | -1) => {
-    const live = anchors.filter((a) => a.hasAttribute("href"));
+    const live = anchors.filter((a) => a.hasAttribute("href") && a.getClientRects().length > 0);
     if (!live.length) return;
     const cur = document.activeElement as HTMLElement;
     let i = live.indexOf(cur);
@@ -544,6 +602,8 @@ export function initReader(root: HTMLElement): () => void {
       if (key !== "density") return;
       openIds = openIds.filter(visible);
       syncAnchors();
+      syncGlosses();
+      if (getPrefs().density === "clean") wordPop?.close(false);
       syncDisclosureCounts();
       if (!openIds.length) clearOpen();
       layoutAll();
@@ -571,6 +631,7 @@ export function initReader(root: HTMLElement): () => void {
 
   // ------------------------------------------------------------------ first run
   syncAnchors();
+  syncGlosses();
   syncDisclosureCounts();
   layoutSteps();
   layoutAll();

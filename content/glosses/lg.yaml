@@ -1,0 +1,617 @@
+# Little Gidding — word glosses. See the header of bn.yaml for the fields.
+
+- movement: 1
+  lemma: "Sempiternal"
+  hint: 2
+  kind: sense
+  gloss: "Everlasting: a word of theology and liturgy. In Dante's *Paradiso* heaven has an everlasting spring, a *primavera sempiterna*."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 998"
+      status: verified
+
+- movement: 1
+  lemma: "sodden"
+  hint: 2
+  kind: sense
+  gloss: "Soaked through, waterlogged."
+
+- movement: 1
+  lemma: "pole and tropic"
+  hint: 3
+  kind: sense
+  gloss: "The polar regions and the tropics: the extremes of cold and heat."
+
+- movement: 1
+  lemma: "brazier"
+  hint: 9
+  kind: sense
+  gloss: "An open metal basket or pan for burning coal or charcoal, used for warmth out of doors."
+
+- movement: 1
+  lemma: "dumb spirit"
+  hint: 10
+  kind: sense
+  gloss: "The silent spirit: *dumb* in its old sense, ‘unable to speak’."
+
+- movement: 1
+  lemma: "soul's sap"
+  hint: 12
+  kind: sense
+  gloss: "The soul's life-fluid, imagined rising like sap in a tree. In Donne's poem for St Lucy's Day, the darkest day of the year, the whole world's sap has sunk."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 999"
+      status: verified
+
+- movement: 1
+  lemma: "time's covenant"
+  hint: 14
+  kind: sense
+  gloss: "The order of the seasons that God promised Noah after the Flood: while the earth remains, seedtime and harvest, cold and heat, summer and winter shall not cease (Genesis 8:22)."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 999"
+      status: verified
+
+- movement: 1
+  lemma: "hedgerow"
+  hint: 14
+  kind: sense
+  gloss: "A row of bushes and small trees along a field or road. Eliot told his French translator that it grows by the roadside and does not enclose a garden."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 999"
+      status: verified
+
+- movement: 1
+  lemma: "blanched"
+  hint: 15
+  kind: sense
+  gloss: "Whitened."
+
+- movement: 1
+  lemma: "transitory"
+  hint: 15
+  kind: sense
+  gloss: "Passing, short-lived. Eliot sounds all four syllables in his recording."
+  say: "TRAN-si-tor-y"
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 999"
+      status: verified
+
+- movement: 1
+  lemma: "Zero summer"
+  hint: 20
+  kind: coinage
+  gloss: "Eliot's own phrase: the *OED* has no *zero summer*, though it has *zero hour*, the moment an attack begins (first recorded in 1917). John Hayward wondered whether it alluded to the absolute zero of physics, the lowest possible temperature."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, pp. 999–1000"
+      status: verified
+
+- movement: 1
+  lemma: "may time"
+  hint: 24
+  kind: sense
+  gloss: "*May* is also the hawthorn, whose white blossom fills English hedges in late spring."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 1000"
+      status: verified
+
+- movement: 1
+  lemma: "voluptuary"
+  hint: 25
+  kind: sense
+  gloss: "Given over to sensual pleasure."
+
+- movement: 1
+  lemma: "façade"
+  hint: 30
+  kind: sense
+  gloss: "The front of a building: here the plain stone west front added to the chapel in 1714."
+  say: "fa-SAHD"
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 1000"
+      status: verified
+    - ref: gardner-1978
+      locator: "pp. 58–59"
+      status: verified
+
+- movement: 1
+  lemma: "husk"
+  hint: 32
+  kind: sense
+  gloss: "The dry outer covering of a seed or fruit, discarded when the seed is used."
+
+- movement: 1
+  lemma: "sea jaws"
+  hint: 37
+  kind: sense
+  gloss: "The mouth of the sea: a harsh coast facing open water. John Hayward thought of the island monasteries of Iona and Lindisfarne."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, pp. 1000–1001"
+      status: verified
+
+- movement: 1
+  lemma: "verify"
+  hint: 45
+  kind: sense
+  gloss: "Check that something is true."
+
+- movement: 1
+  lemma: "tongued with fire"
+  hint: 53
+  kind: sense
+  gloss: "Speaking in tongues of fire, as the apostles did at Pentecost (Acts 2). An early draft had *touched with fire*, recalling the live coal laid on Isaiah's lips (Isaiah 6)."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, pp. 1001–2"
+      status: verified
+
+- movement: 2
+  lemma: "wainscot"
+  hint: 6
+  kind: sense
+  gloss: "Wooden panelling on the lower walls of a room, as in *East Coker* I, where the field-mouse runs behind it."
+  say: "wainsk't"
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 1003"
+      status: verified
+
+- movement: 2
+  lemma: "drouth"
+  hint: 9
+  kind: archaic
+  gloss: "Drought: an old form, still used in Scotland and northern England. Milton has *summer drouth* in *Comus*."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 1003"
+      status: verified
+
+- movement: 2
+  lemma: "eviscerate"
+  hint: 13
+  kind: sense
+  gloss: "Disembowelled, gutted: the soil has had its life torn out."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 1003"
+      status: verified
+
+- movement: 2
+  lemma: "vanity"
+  hint: 14
+  kind: sense
+  gloss: "Futility, emptiness, as in the Preacher's ‘vanity of vanities’ (Ecclesiastes 1:2)."
+
+- movement: 2
+  lemma: "deride"
+  hint: 19
+  kind: sense
+  gloss: "Mock, scorn."
+
+- movement: 2
+  lemma: "marred"
+  hint: 22
+  kind: sense
+  gloss: "Spoiled, damaged."
+
+- movement: 2
+  lemma: "sanctuary"
+  hint: 23
+  kind: technical
+  gloss: "The part of a church around the altar. Eliot sounds all four syllables."
+  say: "SANK-tu-a-ry"
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 1004"
+      status: verified
+
+- movement: 2
+  lemma: "choir"
+  hint: 23
+  kind: technical
+  gloss: "The part of a church, between the nave and the altar, where the choir and clergy sit."
+
+- movement: 2
+  lemma: "interminable"
+  hint: 26
+  kind: sense
+  gloss: "Endless, or seeming so."
+
+- movement: 2
+  lemma: "homing"
+  hint: 29
+  kind: sense
+  gloss: "Returning home, as a homing pigeon does. German bombers flying home were likened to homing pigeons, and RAF bombers carried real ones."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 1007"
+      status: verified
+
+- movement: 2
+  lemma: "asphalt"
+  hint: 31
+  kind: sense
+  gloss: "The tarred surface of the road. Eliot pronounced it with a short *a*, as in *pal*."
+  say: "ASS-falt"
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 1008"
+      status: verified
+
+- movement: 2
+  lemma: "three districts"
+  hint: 32
+  kind: name
+  gloss: "Probably the London boroughs of Kensington, Chelsea and Westminster, which met near the part of South Kensington where Eliot was an air-raid warden."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 1008"
+      status: verified
+
+- movement: 2
+  lemma: "one walking"
+  hint: 33
+  kind: archaic
+  gloss: "*One* in the old sense ‘a person, someone’."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 1008"
+      status: verified
+
+- movement: 2
+  lemma: "scrutiny"
+  hint: 37
+  kind: sense
+  gloss: "A close, searching gaze. Eliot joked that *horizon* and *scrutiny* here were no sly reference to the literary magazines *Horizon* and *Scrutiny*."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, pp. 1007, 1009"
+      status: verified
+
+- movement: 2
+  lemma: "waning dusk"
+  hint: 38
+  kind: sense
+  gloss: "The fading dark before dawn, not the evening twilight. Eliot searched for a plain word for this half-light, rejected the Latin *antelucan* as too ornate for Dante's bare style, and accepted John Hayward's phrase."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, pp. 1009–11"
+      status: verified
+
+- movement: 2
+  lemma: "brown baked features"
+  hint: 41
+  kind: sense
+  gloss: "Scorched: from Dante's description of Brunetto Latini's *cotto aspetto*, his face baked by the rain of fire in hell (*Inferno* XV)."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, pp. 1011–12"
+      status: verified
+
+- movement: 2
+  lemma: "dead patrol"
+  hint: 54
+  kind: sense
+  gloss: "*Patrol*: an air-raid warden's round of the streets. Eliot changed *strode together* to *trod the pavement* to recall the surface of the Cromwell Road."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 1015"
+      status: verified
+
+- movement: 2
+  lemma: "rehearse"
+  hint: 58
+  kind: sense
+  gloss: "Go over again, recite."
+
+- movement: 2
+  lemma: "unappeased"
+  hint: 68
+  kind: sense
+  gloss: "Not yet satisfied or at peace."
+
+- movement: 2
+  lemma: "peregrine"
+  hint: 68
+  kind: sense
+  gloss: "Wandering, foreign, on pilgrimage. At the end of the *Vita Nuova* Dante calls the soul a *peregrino spirito*, a pilgrim spirit."
+  say: "PERR-e-gryne"
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, pp. 1019–20"
+      status: verified
+
+- movement: 2
+  lemma: "aftersight"
+  hint: 75
+  kind: rare
+  gloss: "Hindsight: looking back, as foresight looks ahead."
+
+- movement: 2
+  lemma: "expiring"
+  hint: 78
+  kind: sense
+  gloss: "Dying away."
+
+- movement: 2
+  lemma: "shadow fruit"
+  hint: 80
+  kind: sense
+  gloss: "Fruit that is only a shadow of fruit, like the fruit of Sodom that in legend turns to ashes in the mouth; in *Paradise Lost* the fallen angels chew bitter ashes."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 1023"
+      status: verified
+
+- movement: 2
+  lemma: "asunder"
+  hint: 81
+  kind: sense
+  gloss: "Apart."
+
+- movement: 2
+  lemma: "laceration"
+  hint: 83
+  kind: sense
+  gloss: "Tearing, wounding. Eliot pointed to Swift, whose epitaph says that savage indignation can tear his heart no more; John Hayward suggested the word."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 1024"
+      status: verified
+
+- movement: 2
+  lemma: "re-enactment"
+  hint: 84
+  kind: sense
+  gloss: "Acting out again. Eliot explained that to enact is to play the part of oneself on a stage, with oneself as the audience."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, pp. 993–94, 1024"
+      status: verified
+
+- movement: 2
+  lemma: "exasperated"
+  hint: 90
+  kind: sense
+  gloss: "Provoked past bearing; from the Latin for ‘roughened’."
+
+- movement: 2
+  lemma: "disfigured"
+  hint: 93
+  kind: sense
+  gloss: "Defaced, spoilt in appearance, here by the night's bombing."
+
+- movement: 2
+  lemma: "valediction"
+  hint: 94
+  kind: sense
+  gloss: "A farewell, a parting word or blessing."
+
+- movement: 3
+  lemma: "indifference"
+  hint: 4
+  kind: sense
+  gloss: "Not impartiality but not caring at all: the state that looks like detachment and is its counterfeit."
+
+- movement: 3
+  lemma: "dead nettle"
+  hint: 7
+  kind: name
+  gloss: "Not a dead nettle but the dead-nettle: a common wild plant that looks like the stinging nettle and grows beside it, but has no sting and bears flowers. Eliot refused John Hayward's suggestion to write ‘the live nettle and the dead’, which would suggest a stinging nettle that had died."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, pp. 1027–28"
+      status: verified
+
+- movement: 3
+  lemma: "servitude"
+  hint: 13
+  kind: sense
+  gloss: "Slavery, bondage."
+
+- movement: 3
+  lemma: "transfigured"
+  hint: 16
+  kind: sense
+  gloss: "Changed in form and glorified, as Christ was at the Transfiguration."
+
+- movement: 3
+  lemma: "commendable"
+  hint: 21
+  kind: sense
+  gloss: "Praiseworthy. Eliot stresses the second syllable, not the first as Shakespeare does."
+  say: "com-MEND-able"
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 1033"
+      status: verified
+
+- movement: 3
+  lemma: "peculiar genius"
+  hint: 23
+  kind: sense
+  gloss: "*Peculiar* in its old sense, ‘particular, distinctive’; *genius*, a person's gifts. In the next line, *common genius* adds the older sense of the guardian spirit of a place."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 1033"
+      status: verified
+
+- movement: 3
+  lemma: "three men, and more"
+  hint: 27
+  kind: name
+  gloss: "John Hayward identified the three executed men as Charles I, Archbishop William Laud and Thomas Wentworth, Earl of Strafford."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 1033"
+      status: verified
+
+- movement: 3
+  lemma: "blind and quiet"
+  hint: 30
+  kind: name
+  gloss: "John Milton, blind in his last years, who died in 1674 so quietly that those in the room did not notice the moment."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, pp. 1033–34"
+      status: verified
+
+- movement: 3
+  lemma: "ring the bell backward"
+  hint: 33
+  kind: technical
+  gloss: "Bells rung in reverse order, from the lowest, sounded an alarm. In Scott's song ‘Bonny Dundee’, about a rising for the exiled Stuarts, the bells are rung backward."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 1034"
+      status: verified
+
+- movement: 3
+  lemma: "incantation"
+  hint: 34
+  kind: sense
+  gloss: "A magic spell, chanted."
+
+- movement: 3
+  lemma: "factions"
+  hint: 36
+  kind: sense
+  gloss: "Parties within a state, especially quarrelsome ones."
+
+- movement: 3
+  lemma: "antique drum"
+  hint: 38
+  kind: sense
+  gloss: "An old-fashioned military drum. Eliot stresses *antique* on the second syllable."
+  say: "an-TEEK"
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 1036"
+      status: verified
+
+- movement: 3
+  lemma: "constitution of silence"
+  hint: 41
+  kind: sense
+  gloss: "*Constitution* means both make-up or temperament and a political settlement: the dead of both sides now share one silent order."
+
+- movement: 4
+  lemma: "incandescent"
+  hint: 2
+  kind: sense
+  gloss: "Glowing white with heat."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 1038"
+      status: verified
+
+- movement: 4
+  lemma: "discharge"
+  hint: 4
+  kind: sense
+  gloss: "Release, as from a debt, a duty or a prison sentence."
+
+- movement: 4
+  lemma: "pyre or pyre"
+  hint: 6
+  kind: sense
+  gloss: "A pyre is a pile of wood for burning a body or a sacrifice. Hercules climbed onto a pyre to end the torment of the burning shirt."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 1039"
+      status: verified
+
+- movement: 4
+  lemma: "suspire"
+  hint: 13
+  kind: rare
+  gloss: "Breathe; sigh."
+  say: "suh-SPIRE"
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 1039"
+      status: verified
+
+- movement: 5
+  lemma: "diffident"
+  hint: 6
+  kind: sense
+  gloss: "Shy, lacking confidence."
+
+- movement: 5
+  lemma: "ostentatious"
+  hint: 6
+  kind: sense
+  gloss: "Showy."
+
+- movement: 5
+  lemma: "commerce"
+  hint: 7
+  kind: sense
+  gloss: "Dealings, exchange: old and new words trade easily together. In ‘A Pact’ Ezra Pound offers commerce to Whitman."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, pp. 1040–41"
+      status: verified
+
+- movement: 5
+  lemma: "vulgarity"
+  hint: 8
+  kind: sense
+  gloss: "Coarseness; also, in the older sense, commonness."
+
+- movement: 5
+  lemma: "pedantic"
+  hint: 9
+  kind: sense
+  gloss: "Fussily showing off learning. John Hayward claimed to have suggested this line."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 1041"
+      status: verified
+
+- movement: 5
+  lemma: "epitaph"
+  hint: 12
+  kind: sense
+  gloss: "An inscription on a tomb. Henry Vaughan called every book an epitaph."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 1041"
+      status: verified
+
+- movement: 5
+  lemma: "illegible stone"
+  hint: 14
+  kind: sense
+  gloss: "A gravestone worn past reading, like the old stones of *East Coker* V."
+
+- movement: 5
+  lemma: "secluded chapel"
+  hint: 23
+  kind: sense
+  gloss: "A chapel set apart from the world, like Little Gidding's."
+
+- movement: 5
+  lemma: "in-folded"
+  hint: 44
+  kind: sense
+  gloss: "Folded inward, enclosed within one another."
+
+- movement: 5
+  lemma: "crowned knot"
+  hint: 45
+  kind: technical
+  gloss: "A sailor's crown knot tucks the strands of a rope over and under each other so that it cannot unravel. *The Cloud of Unknowing* speaks of knitting the spiritual knot of burning love."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, pp. 1043–44"
+      status: verified

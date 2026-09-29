@@ -1,0 +1,51 @@
+---
+/**
+ * One word gloss. In the movement's glossary it is an endnote (no JavaScript, print);
+ * the word popover and the note cards reuse its body.
+ */
+import Citations from "../notes/Citations.astro";
+import { glossHtml } from "../../lib/annotations/glosses";
+import type { GlossVM } from "../../lib/reader-model";
+
+interface Props {
+  item: GlossVM;
+  /** "list": an <li> with an id (the glossary); "inline": a compact block inside a note. */
+  as?: "list" | "inline";
+}
+const { item, as = "list" } = Astro.props;
+const g = item.gloss;
+const KIND: Record<string, string> = {
+  sense: "",
+  archaic: "Archaic",
+  rare: "Rare",
+  dialect: "Regional",
+  technical: "Term",
+  foreign: "Foreign",
+  name: "Name",
+  coinage: "Coinage",
+};
+const kind = KIND[g.kind];
+---
+
+{
+  as === "list" ? (
+    <li class="gloss" id={`g-${g.id}`} data-gloss={g.id} data-line={`${g.quartet}.${g.movement}.${item.n}`}>
+      <span class="gloss__lemma">{g.lemma}</span> <span class="gloss__loc">line {item.n}</span>
+      <div class="gloss__body">
+        <p class="gloss__text">
+          {kind && <span class="gloss__kind">{kind}</span>} <Fragment set:html={glossHtml(g.gloss)} />
+        </p>
+        {g.say && <p class="gloss__say">Eliot's recording: <i>{g.say}</i></p>}
+        <Citations items={g.sources} />
+      </div>
+    </li>
+  ) : (
+    <div class="gloss gloss--inline">
+      <p class="gloss__text">
+        <span class="gloss__lemma">{g.lemma}</span>{" "}
+        {kind && <span class="gloss__kind">{kind}</span>} <Fragment set:html={glossHtml(g.gloss)} />
+        {g.say && <span class="gloss__say"> Eliot's recording: <i>{g.say}</i>.</span>}
+      </p>
+    </div>
+  )
+}

@@ -42,6 +42,9 @@ export const annotationFrontmatter = z
   })
   .refine((a) => !a.lineEnd || (a.lineStart !== undefined && a.lineEnd >= a.lineStart), {
     message: "lineEnd requires lineStart and must not precede it.",
+  })
+  .refine((a) => a.type !== "commentary" || (a.lineStart !== undefined && !a.lemma && a.movement !== 0), {
+    message: "Commentary notes cover a passage: give lineStart (and lineEnd), not a lemma.",
   });
 
 export type AnnotationFrontmatter = z.infer<typeof annotationFrontmatter>;

@@ -1,5 +1,5 @@
 /**
- * Resolve every lemma anchor (annotations, motif occurrences, scene cues) against
+ * Resolve every lemma anchor (annotations, glosses, motif occurrences, scene cues) against
  * the imported text and write a report for fixing by hand:
  *
  *   npm run resolve-anchors            # auto: private text if present, else sample
@@ -12,6 +12,7 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { loadText } from "../src/lib/text/load";
 import { resolveAnchor, resolveLemma, suggest, wordCount, type Resolution } from "../src/lib/anchors/resolve";
 import { readAnnotationFiles } from "../src/lib/annotations/files";
+import { loadGlosses } from "../src/lib/annotations/glosses";
 import { MOTIFS } from "../src/data/motifs";
 import { CUES } from "../src/data/cues";
 import { BIB_BY_ID } from "../src/data/bibliography";
@@ -25,7 +26,7 @@ const sample = bundle.source === "sample";
 const byCode = new Map(bundle.quartets.map((q) => [q.code, q]));
 
 interface Row {
-  kind: "annotation" | "motif" | "cue";
+  kind: "annotation" | "gloss" | "motif" | "cue";
   /** An occurrence was given explicitly, so multiple matches are not ambiguous. */
   explicit?: boolean;
   id: string;
@@ -64,6 +65,14 @@ const lemmaRow = (kind: Row["kind"], id: string, q: QuartetText, m: MovementN, l
   rows.push({ kind, id, quartet: q.code, movement: m, lemma, file, res: resolveLemma(q, t), explicit: occurrence !== undefined });
 };
 
+const glossFile = loadGlosses();
+problems.push(...glossFile.errors.map((e) => `\`${e}\``));
+for (const g of glossFile.glosses) {
+  const q = byCode.get(g.quartet);
+  if (q) lemmaRow("gloss", g.id, q, g.movement, g.lemma, `content/glosses/${g.quartet.toLowerCase()}.yaml`, g.hint, g.occurrence);
+  for (const c of g.sources) if (!BIB_BY_ID[c.ref] && !SOURCE_BY_ID[c.ref]) problems.push(`gloss \`${g.id}\`: unknown citation ref \`${c.ref}\``);
+}
+
 for (const motif of MOTIFS) {
   motif.occurrences.forEach((o, i) => {
     const q = byCode.get(o.quartet);
@@ -80,7 +89,8 @@ for (const cue of CUES) {
 
 const lemmaRows = rows.filter((r) => r.lemma);
 const unresolved = lemmaRows.filter((r) => r.res.matches === 0);
-const ambiguous = lemmaRows.filter((r) => r.res.matches > 1 && !r.explicit);
+const ambiguous = lemmaRows.filter((r) => r.res.matches > 1 && !r.explicit && r.res.tie);
+const byHint = lemmaRows.filter((r) => r.res.matches > 1 && !r.explicit && !r.res.tie);
 const fuzzy = lemmaRows.filter((r) => r.res.fuzzy);
 const rangeProblems = rows.filter((r) => !r.lemma && r.res.problem);
 
@@ -105,10 +115,12 @@ md.push(
   "| | Count |",
   "|---|---|",
   `| Annotations | ${files.length} |`,
-  `| Lemma anchors (annotations, motifs, cues) | ${lemmaRows.length} |`,
+  `| Lemma anchors (annotations, glosses, motifs, cues) | ${lemmaRows.length} |`,
   `| Resolved exactly | ${lemmaRows.length - unresolved.length} |`,
   `| **Unresolved** | **${unresolved.length}** |`,
-  `| Ambiguous (matched more than once, disambiguated by hint) | ${ambiguous.length} |`,
+  `| Glosses | ${glossFile.glosses.length} |`,
+  `| Matched more than once, placed by the nearest match to \`hint\` | ${byHint.length} |`,
+  `| **Ambiguous** (hint missing or equally near two matches) | **${ambiguous.length}** |`,
   `| Matched a variant spelling (check the edition) | ${fuzzy.length} |`,
   `| Range / schema / reference problems | ${rangeProblems.length + problems.length} |`,
   "",
@@ -130,7 +142,7 @@ else {
 md.push("## Ambiguous", "");
 if (!ambiguous.length) md.push("None.", "");
 else {
-  md.push("These lemmas occur more than once in their movement. The match nearest the `hint` was used; add `occurrence:` to make it explicit.", "", "| Anchor | Where | Lemma | Matches | Chosen |", "|---|---|---|---|---|");
+  md.push("These lemmas occur more than once in their movement and the `hint` does not decide between them; add `occurrence:` or correct the `hint`.", "", "| Anchor | Where | Lemma | Matches | Chosen |", "|---|---|---|---|---|");
   for (const r of ambiguous) md.push(`| \`${r.id}\` | ${where(r)} | “${r.lemma}” | ${r.res.matches} | ${r.res.resolved.lines[0] ?? "—"} |`);
   md.push("");
 }
@@ -154,7 +166,7 @@ writeFileSync(
   JSON.stringify(
     {
       source: bundle.source,
-      counts: { annotations: files.length, lemmas: lemmaRows.length, unresolved: unresolved.length, ambiguous: ambiguous.length, problems: other.length },
+      counts: { annotations: files.length, glosses: glossFile.glosses.length, lemmas: lemmaRows.length, unresolved: unresolved.length, ambiguous: ambiguous.length, problems: other.length },
       unresolved: unresolved.map((r) => ({ id: r.id, kind: r.kind, where: where(r), lemma: r.lemma, file: r.file })),
     },
     null,
@@ -164,12 +176,15 @@ writeFileSync(
 
 // Citations to verify
 const cites = new Map<string, string[]>();
-for (const f of files) {
-  if (!f.meta) continue;
-  for (const c of f.meta.sources) {
+const citeUses = [
+  ...files.filter((f) => f.meta).map((f) => ({ id: f.meta!.id, sources: f.meta!.sources })),
+  ...glossFile.glosses.map((g) => ({ id: g.id, sources: g.sources })),
+];
+for (const u of citeUses) {
+  for (const c of u.sources) {
     if (c.status !== "to-verify") continue;
     const arr = cites.get(c.ref) ?? [];
-    arr.push(`\`${f.meta.id}\`${c.locator ? ` (${c.locator})` : ""}${c.note ? ` — ${c.note}` : ""}`);
+    arr.push(`\`${u.id}\`${c.locator ? ` (${c.locator})` : ""}${c.note ? ` — ${c.note}` : ""}`);
     cites.set(c.ref, arr);
   }
 }

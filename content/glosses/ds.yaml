@@ -1,0 +1,451 @@
+# The Dry Salvages — word glosses. See the header of bn.yaml for the fields.
+
+- movement: 1
+  lemma: "intractable"
+  hint: 2
+  kind: sense
+  gloss: "Hard to control or manage; stubborn."
+
+- movement: 1
+  lemma: "a frontier"
+  hint: 3
+  kind: sense
+  gloss: "The Mississippi was the western boundary of the United States until the Louisiana Purchase of 1803, and it still forms the border of ten states."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 964"
+      status: verified
+
+- movement: 1
+  lemma: "implacable"
+  hint: 7
+  kind: sense
+  gloss: "That cannot be appeased or pacified."
+
+- movement: 1
+  lemma: "unpropitiated"
+  hint: 9
+  kind: sense
+  gloss: "Not appeased with offerings, as ancient worshippers propitiated a god."
+  say: "unpropissiated"
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 965"
+      status: verified
+
+- movement: 1
+  lemma: "ailanthus"
+  hint: 12
+  kind: name
+  gloss: "The tree of heaven, a fast-growing Asian tree planted in American cities, with a strong smell when in flower; the name is said to mean ‘tree of the gods’. A huge one grew in the schoolyard next to Eliot's childhood home in St Louis."
+  say: "al-anthus"
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 965"
+      status: verified
+
+- movement: 1
+  lemma: "dooryard"
+  hint: 12
+  kind: dialect
+  gloss: "American: the yard or garden by a house door, as in the title of Whitman's elegy ‘When Lilacs Last in the Dooryard Bloom'd’."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 965"
+      status: verified
+
+- movement: 1
+  lemma: "horseshoe crab"
+  hint: 19
+  kind: name
+  gloss: "An ancient armoured sea creature of the North American Atlantic coast, whose empty shells litter the beaches. Eliot first wrote *hermit crab* and corrected the slip in 1945: a hermit crab has no shell of its own."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, pp. 966–67"
+      status: verified
+
+- movement: 1
+  lemma: "algae"
+  hint: 21
+  kind: technical
+  gloss: "Seaweeds and their simpler relatives. As a child Eliot dried and classified seaweeds on the Massachusetts shore."
+  say: "al-ghee"
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 968"
+      status: verified
+
+- movement: 1
+  lemma: "sea anemone"
+  hint: 21
+  kind: name
+  gloss: "A soft, flower-like animal of rock pools that opens and closes its ring of tentacles. Eliot described a child finding one for the first time as the kind of experience that can lie dormant for twenty years and then return in a poem."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, pp. 967–68"
+      status: verified
+
+- movement: 1
+  lemma: "seine"
+  hint: 22
+  kind: technical
+  gloss: "A large fishing net hung upright in the water, whose ends are drawn together to trap the fish."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, pp. 968–69"
+      status: verified
+
+- movement: 1
+  lemma: "rote"
+  hint: 32
+  kind: dialect
+  gloss: "Chiefly American: the roar of the sea or surf."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 969"
+      status: verified
+
+- movement: 1
+  lemma: "groaner"
+  hint: 34
+  kind: dialect
+  gloss: "A New England word for a whistling buoy, which groans as it rises and falls on the swell. When John Hayward took it for a kind of ship, Eliot added the explanatory note at the head of the poem."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 969"
+      status: verified
+
+- movement: 1
+  lemma: "Ground swell"
+  hint: 39
+  kind: sense
+  gloss: "The long, heavy rolling of the sea, raised by distant storms, which goes on even in calm weather."
+
+- movement: 1
+  lemma: "chronometers"
+  hint: 40
+  kind: technical
+  gloss: "Precise clocks carried at sea for finding longitude."
+
+- movement: 2
+  lemma: "unprayable"
+  hint: 5
+  kind: rare
+  gloss: "That cannot be uttered as a prayer. The *OED* records *unprayable* and *prayable* (line 35) from these lines alone."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 971"
+      status: verified
+
+- movement: 2
+  lemma: "oceanless"
+  hint: 21
+  kind: coinage
+  gloss: "Without an ocean; the *OED*'s only example is this line. The Book of Revelation promises a new earth where ‘there was no more sea’."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 971"
+      status: verified
+
+- movement: 2
+  lemma: "lowers"
+  hint: 26
+  kind: sense
+  gloss: "Looks dark and threatening, of the sky (also spelt *lours*); it rhymes with *flowers*."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 971"
+      status: verified
+
+- movement: 2
+  lemma: "erosionless"
+  hint: 27
+  kind: sense
+  gloss: "Never worn away: the fishing banks do not change."
+
+- movement: 2
+  lemma: "dockage"
+  hint: 28
+  kind: sense
+  gloss: "Room or charges for berthing at a dock; here, time in harbour."
+
+- movement: 2
+  lemma: "unpayable"
+  hint: 29
+  kind: sense
+  gloss: "That will not pay its costs: a voyage whose catch will not cover it."
+
+- movement: 2
+  lemma: "Fruition"
+  hint: 43
+  kind: sense
+  gloss: "Enjoyment of something possessed (the older sense), as well as fulfilment."
+
+- movement: 2
+  lemma: "ineffable"
+  hint: 52
+  kind: sense
+  gloss: "Too great to be put into words. Eliot insisted he meant exactly that, not ‘hardly expressible’."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 974"
+      status: verified
+
+- movement: 2
+  lemma: "attrition"
+  hint: 65
+  kind: sense
+  gloss: "Wearing away by friction."
+
+- movement: 2
+  lemma: "halcyon"
+  hint: 72
+  kind: sense
+  gloss: "Calm. The halcyon was the legendary kingfisher said to nest on the sea in midwinter and charm the waves still."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 976"
+      status: verified
+
+- movement: 2
+  lemma: "seamark"
+  hint: 73
+  kind: sense
+  gloss: "A landmark visible from the sea, used to steer by. Shakespeare's Coriolanus is ‘like a great sea-mark’."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, pp. 975–76"
+      status: verified
+
+- movement: 3
+  lemma: "Krishna"
+  hint: 1
+  kind: name
+  gloss: "A Hindu god, an incarnation of Vishnu, who in the *Bhagavad-Gita* serves as charioteer to the warrior Arjuna and teaches him how to act."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 976"
+      status: verified
+    - ref: gardner-1978
+      locator: "p. 56"
+      status: verified
+
+- movement: 3
+  lemma: "Royal Rose"
+  hint: 3
+  kind: name
+  gloss: "Not a variety of rose. Eliot said that *Rose* with a capital in these poems always refers to Charles I, with the Wars of the Roses in the background."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 977"
+      status: verified
+
+- movement: 3
+  lemma: "lavender spray"
+  hint: 3
+  kind: sense
+  gloss: "A sprig of dried lavender, kept like pressed flowers as a keepsake."
+
+- movement: 3
+  lemma: "drumming liner"
+  hint: 19
+  kind: sense
+  gloss: "An ocean liner whose deck throbs with its engines."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 979"
+      status: verified
+
+- movement: 3
+  lemma: "aerial"
+  hint: 22
+  kind: sense
+  gloss: "The ship's radio antenna, strung in the rigging."
+
+- movement: 3
+  lemma: "descanting"
+  hint: 23
+  kind: sense
+  gloss: "Singing a melody above another; also, discoursing at length on a theme."
+
+- movement: 3
+  lemma: "fructify"
+  hint: 36
+  kind: sense
+  gloss: "Bear fruit."
+
+- movement: 3
+  lemma: "Arjuna"
+  hint: 43
+  kind: name
+  gloss: "The warrior hero of the *Bhagavad-Gita*, part of the Indian epic the *Mahabharata*. On the eve of battle against his own kin he loses heart, and Krishna, his charioteer, teaches him to act without desire for the fruits of action."
+  say: "AR-juna"
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, pp. 976, 981"
+      status: verified
+    - ref: gardner-1978
+      locator: "p. 56"
+      status: verified
+
+- movement: 4
+  lemma: "promontory"
+  hint: 1
+  kind: sense
+  gloss: "A headland running out into the sea."
+  say: "prom-on-tor-y"
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 982"
+      status: verified
+
+- movement: 4
+  lemma: "lawful traffic"
+  hint: 4
+  kind: sense
+  gloss: "Honest trade: *traffic* in its older sense of commerce."
+
+- movement: 4
+  lemma: "Queen of Heaven"
+  hint: 10
+  kind: name
+  gloss: "A title of the Virgin Mary; Dante calls her *la Regina del cielo* (*Paradiso* XXXI)."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 982"
+      status: verified
+
+- movement: 5
+  lemma: "haruspicate"
+  hint: 3
+  kind: rare
+  gloss: "Foretell the future from the entrails of sacrificed animals, as the Etruscan soothsayers called *haruspices* did. The verb is not in the *OED*."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 983"
+      status: verified
+
+- movement: 5
+  lemma: "scry"
+  hint: 3
+  kind: sense
+  gloss: "See the future or hidden things in a crystal, a mirror or water."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 983"
+      status: verified
+
+- movement: 5
+  lemma: "signatures"
+  hint: 4
+  kind: technical
+  gloss: "In the old ‘doctrine of signatures’, marks on plants that were thought to show which diseases they cured. Eliot pointed a questioner to this sense in the *OED*."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 984"
+      status: verified
+
+- movement: 5
+  lemma: "sortilege"
+  hint: 7
+  kind: sense
+  gloss: "Divination by drawing lots."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 984"
+      status: verified
+
+- movement: 5
+  lemma: "pentagrams"
+  hint: 8
+  kind: technical
+  gloss: "Five-pointed stars, used as magical signs."
+
+- movement: 5
+  lemma: "barbituric acids"
+  hint: 9
+  kind: technical
+  gloss: "Barbiturates: sedative and sleeping drugs."
+  say: "barbi-TURE-ic"
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 984"
+      status: verified
+
+- movement: 5
+  lemma: "pre-conscious"
+  hint: 10
+  kind: technical
+  gloss: "In Freud's account of the mind, what lies below awareness but can be recalled to it."
+
+- movement: 5
+  lemma: "distress of nations"
+  hint: 13
+  kind: sense
+  gloss: "From Christ's prophecy of the signs of the end: ‘upon the earth distress of nations, with perplexity’ (Luke 21:25)."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 984"
+      status: verified
+
+- movement: 5
+  lemma: "Edgware Road"
+  hint: 14
+  kind: name
+  gloss: "A long London street running north-west from Marble Arch. Eliot and his first wife lived near Edgware Road station from 1916 to 1920."
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 985"
+      status: verified
+
+- movement: 5
+  lemma: "apprehend"
+  hint: 16
+  kind: sense
+  gloss: "Grasp with the mind; also, take hold of."
+
+- movement: 5
+  lemma: "unattended"
+  hint: 22
+  kind: sense
+  gloss: "Not attended to: unlooked-for, unnoticed."
+
+- movement: 5
+  lemma: "distraction fit"
+  hint: 24
+  kind: sense
+  gloss: "A fit of absent-mindedness, a lapse of attention."
+
+- movement: 5
+  lemma: "dæmonic"
+  hint: 39
+  kind: sense
+  gloss: "Of a daemon: a spirit or divine power, not necessarily evil."
+  say: "dee-monic"
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 987"
+      status: verified
+
+- movement: 5
+  lemma: "chthonic"
+  hint: 39
+  kind: technical
+  gloss: "Of the underworld or the depths of the earth, especially of old pagan deities."
+  say: "thonic"
+  sources:
+    - ref: ricks-mccue-2015
+      locator: "vol. I, p. 987"
+      status: verified
+
+- movement: 5
+  lemma: "temporal reversion"
+  hint: 47
+  kind: sense
+  gloss: "Our return to the earth in time. In law a reversion is property that returns to its original owner."
+
+- movement: 2
+  lemma: "nearly experienced"
+  hint: 61
+  kind: sense
+  gloss: "Experienced at close quarters: *nearly* in its old sense, ‘closely, intimately’, so that another's agony is felt almost as one's own."

@@ -1,8 +1,9 @@
 {
   "source": "private",
   "counts": {
-    "annotations": 174,
-    "lemmas": 279,
+    "annotations": 345,
+    "glosses": 205,
+    "lemmas": 578,
     "unresolved": 0,
     "ambiguous": 0,
     "problems": 0
