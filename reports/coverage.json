@@ -1,0 +1,193 @@
+{
+  "source": "private",
+  "totals": {
+    "lines": 887,
+    "notes": 174,
+    "glosses": 0,
+    "comm": 0,
+    "glossed": 263,
+    "commented": 0
+  },
+  "movements": [
+    {
+      "movement": "BN I",
+      "lines": 48,
+      "notes": 20,
+      "glosses": 0,
+      "commentary": 0,
+      "annotatedLines": 26,
+      "commentedLines": 0
+    },
+    {
+      "movement": "BN II",
+      "lines": 44,
+      "notes": 13,
+      "glosses": 0,
+      "commentary": 0,
+      "annotatedLines": 13,
+      "commentedLines": 0
+    },
+    {
+      "movement": "BN III",
+      "lines": 37,
+      "notes": 9,
+      "glosses": 0,
+      "commentary": 0,
+      "annotatedLines": 9,
+      "commentedLines": 0
+    },
+    {
+      "movement": "BN IV",
+      "lines": 10,
+      "notes": 5,
+      "glosses": 0,
+      "commentary": 0,
+      "annotatedLines": 4,
+      "commentedLines": 0
+    },
+    {
+      "movement": "BN V",
+      "lines": 39,
+      "notes": 13,
+      "glosses": 0,
+      "commentary": 0,
+      "annotatedLines": 13,
+      "commentedLines": 0
+    },
+    {
+      "movement": "EC I",
+      "lines": 51,
+      "notes": 9,
+      "glosses": 0,
+      "commentary": 0,
+      "annotatedLines": 9,
+      "commentedLines": 0
+    },
+    {
+      "movement": "EC II",
+      "lines": 50,
+      "notes": 8,
+      "glosses": 0,
+      "commentary": 0,
+      "annotatedLines": 8,
+      "commentedLines": 0
+    },
+    {
+      "movement": "EC III",
+      "lines": 47,
+      "notes": 7,
+      "glosses": 0,
+      "commentary": 0,
+      "annotatedLines": 7,
+      "commentedLines": 0
+    },
+    {
+      "movement": "EC IV",
+      "lines": 25,
+      "notes": 5,
+      "glosses": 0,
+      "commentary": 0,
+      "annotatedLines": 4,
+      "commentedLines": 0
+    },
+    {
+      "movement": "EC V",
+      "lines": 38,
+      "notes": 6,
+      "glosses": 0,
+      "commentary": 0,
+      "annotatedLines": 6,
+      "commentedLines": 0
+    },
+    {
+      "movement": "DS I",
+      "lines": 50,
+      "notes": 8,
+      "glosses": 0,
+      "commentary": 0,
+      "annotatedLines": 8,
+      "commentedLines": 0
+    },
+    {
+      "movement": "DS II",
+      "lines": 75,
+      "notes": 8,
+      "glosses": 0,
+      "commentary": 0,
+      "annotatedLines": 41,
+      "commentedLines": 0
+    },
+    {
+      "movement": "DS III",
+      "lines": 47,
+      "notes": 6,
+      "glosses": 0,
+      "commentary": 0,
+      "annotatedLines": 6,
+      "commentedLines": 0
+    },
+    {
+      "movement": "DS IV",
+      "lines": 15,
+      "notes": 3,
+      "glosses": 0,
+      "commentary": 0,
+      "annotatedLines": 3,
+      "commentedLines": 0
+    },
+    {
+      "movement": "DS V",
+      "lines": 50,
+      "notes": 6,
+      "glosses": 0,
+      "commentary": 0,
+      "annotatedLines": 6,
+      "commentedLines": 0
+    },
+    {
+      "movement": "LG I",
+      "lines": 55,
+      "notes": 7,
+      "glosses": 0,
+      "commentary": 0,
+      "annotatedLines": 7,
+      "commentedLines": 0
+    },
+    {
+      "movement": "LG II",
+      "lines": 96,
+      "notes": 10,
+      "glosses": 0,
+      "commentary": 0,
+      "annotatedLines": 73,
+      "commentedLines": 0
+    },
+    {
+      "movement": "LG III",
+      "lines": 50,
+      "notes": 6,
+      "glosses": 0,
+      "commentary": 0,
+      "annotatedLines": 6,
+      "commentedLines": 0
+    },
+    {
+      "movement": "LG IV",
+      "lines": 14,
+      "notes": 3,
+      "glosses": 0,
+      "commentary": 0,
+      "annotatedLines": 2,
+      "commentedLines": 0
+    },
+    {
+      "movement": "LG V",
+      "lines": 46,
+      "notes": 12,
+      "glosses": 0,
+      "commentary": 0,
+      "annotatedLines": 12,
+      "commentedLines": 0
+    }
+  ]
+}

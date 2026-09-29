@@ -21,6 +21,7 @@
     "pack:hosted": "tsx scripts/pack-hosted-text.ts",
     "make-sample": "tsx scripts/make-sample.ts",
     "resolve-anchors": "tsx scripts/resolve-anchors.ts",
+    "coverage": "tsx scripts/coverage.ts",
     "shoot": "tsx scripts/shoot.ts",
     "stills": "tsx scripts/render-stills.ts",
     "lighthouse": "tsx scripts/lighthouse.ts",

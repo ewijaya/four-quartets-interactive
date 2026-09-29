@@ -189,4 +189,5 @@ export const TYPE_LABEL: Record<AnnotationMeta["type"], string> = {
   theme: "Theme",
   crossref: "Echo",
   textual: "Text",
+  commentary: "In brief",
 };

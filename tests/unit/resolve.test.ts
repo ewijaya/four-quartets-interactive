@@ -56,6 +56,13 @@ describe("resolveLemma", () => {
     expect(near.resolved.lines).toEqual(["EC.1.3"]);
   });
 
+  it("flags a tie only when the hint cannot decide", () => {
+    expect(resolveLemma(q, { movement: 1, lemma: "the lantern swings", hint: 3 }).tie).toBe(false);
+    expect(resolveLemma(q, { movement: 1, lemma: "the lantern swings", hint: 2 }).tie).toBe(true);
+    expect(resolveLemma(q, { movement: 1, lemma: "the lantern swings" }).tie).toBe(true);
+    expect(resolveLemma(q, { movement: 1, lemma: "the lantern swings", occurrence: 1 }).tie).toBeUndefined();
+  });
+
   it("falls back to the hint line and reports a problem", () => {
     const r = resolveLemma(q, { movement: 1, lemma: "the lamplit yard", hint: 2 });
     expect(r.matches).toBe(0);
