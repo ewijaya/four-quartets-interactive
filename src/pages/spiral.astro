@@ -2,38 +2,84 @@
 import Base from "../layouts/Base.astro";
 import Emblem from "../components/chrome/Emblem.astro";
 import { getSequence } from "../lib/sequence";
-import { MOTIFS_BY_ID } from "../data/motifs";
+import { TYPE_LABEL, getNotes } from "../lib/reader-model";
+import { excerpt } from "../lib/excerpt";
+import { MOTIFS } from "../data/motifs";
 import { QUARTETS, QUARTET_BY_CODE, ROMAN } from "../data/quartets";
-import { lineUrl, movementUrl, noteUrl } from "../lib/url";
+import { lineUrl, movementUrl, noteUrl, url } from "../lib/url";
 import { loadText } from "../lib/text/load";
+import type { SpiralData } from "../lib/viz/spiral-layout";
 import "../styles/viz.css";
 
 const seq = await getSequence();
+const vms = new Map((await getNotes()).map((n) => [n.meta.id, n]));
 const where = (q: string, m: number, n: number) => `${QUARTET_BY_CODE[q as "BN"].title} ${ROMAN[m]}, line ${n}`;
 const lineIds = loadText().quartets.flatMap((q) => q.movements.flatMap((m) => m.stanzas.flatMap((s) => s.lines.map((l) => l.id))));
-const data = {
+
+// Notes in reading order, so "next note" on the card follows the poem.
+const ordered = [...seq.notes].sort((a, b) => a.g - b.g || a.id.localeCompare(b.id));
+const noteIndex = new Map(ordered.map((n, i) => [n.id, i]));
+
+const data: SpiralData = {
   total: seq.total,
-  quartets: seq.quartets,
-  movements: seq.movements.map((m) => ({ quartet: m.quartet, n: m.n, roman: m.roman, start: m.start, count: m.count, href: movementUrl(m.qid as "burnt-norton", m.n) })),
-  notes: seq.notes.map((n) => ({ g: n.g, title: n.title, where: where(n.quartet, n.movement, n.n), href: noteUrl(n.id), type: n.type })),
-  motifs: seq.motifs.map((o) => ({
-    g: o.g,
-    motif: o.motif,
-    name: MOTIFS_BY_ID[o.motif].name,
-    color: MOTIFS_BY_ID[o.motif].color,
-    lemma: o.lemma,
-    where: where(o.quartet, o.movement, o.n),
-    href: lineUrl(o.quartet, o.movement, o.n),
+  quartets: seq.quartets.map(({ code, title, element, year, start, count }) => ({ code, title, element, year, start, count })),
+  movements: seq.movements.map((m) => ({
+    quartet: m.quartet,
+    n: m.n,
+    roman: m.roman,
+    start: m.start,
+    count: m.count,
+    href: movementUrl(m.qid as "burnt-norton", m.n),
+    compare: url(`/compare/${m.n}`),
+    notes: m.notes + m.scholarNotes,
+    motifs: m.motifs,
   })),
-  lineHrefs: {},
+  notes: ordered.map((n) => {
+    const vm = vms.get(n.id)!;
+    return {
+      g: n.g,
+      id: n.id,
+      title: n.title,
+      where: where(n.quartet, n.movement, n.n),
+      href: noteUrl(n.id),
+      lineHref: lineUrl(n.quartet, n.movement, n.n),
+      type: n.type,
+      typeLabel: TYPE_LABEL[n.type as keyof typeof TYPE_LABEL] ?? n.type,
+      confidence: vm.meta.confidence,
+      excerpt: excerpt(vm.entry.body ?? ""),
+      motifs: vm.meta.motifs,
+      related: vm.meta.related.map((id) => noteIndex.get(id)).filter((i): i is number => i !== undefined),
+    };
+  }),
+  motifKinds: MOTIFS.map((m) => ({
+    id: m.id,
+    name: m.name,
+    color: m.color,
+    gloss: m.gloss,
+    counts: seq.quartets.map((q) => seq.motifs.filter((o) => o.motif === m.id && o.quartet === q.code).length),
+    href: url(`/motifs/${m.id}`),
+    tracer: url(`/motifs?m=${m.id}`),
+  })),
+  motifs: seq.motifs.map((o) => {
+    const noteVm = o.note ? vms.get(o.note) : undefined;
+    return {
+      g: o.g,
+      motif: o.motif,
+      lemma: o.lemma,
+      where: where(o.quartet, o.movement, o.n),
+      href: lineUrl(o.quartet, o.movement, o.n),
+      ...(noteVm ? { note: { title: noteVm.meta.title, href: noteUrl(noteVm.meta.id) } } : {}),
+    };
+  }),
   lineIds,
 };
 const json = JSON.stringify(data).replace(/</g, "\\u003c");
+const followable = data.motifKinds.filter((k) => k.counts.some((c) => c > 0));
 ---
 
 <Base
   title="Time Spiral"
-  description="The whole of Four Quartets as a helix — all of time visible at once, with notes and motifs as lights."
+  description="The whole of Four Quartets as a helix — one turn per quartet, each cut into the same five movements — with notes and motifs as lights you can follow."
   scene="spiral"
   bodyClass="is-spiral"
   section="spiral"
@@ -48,15 +94,24 @@ const json = JSON.stringify(data).replace(/</g, "\\u003c");
           </span>
         ))
       }
+      {
+        seq.movements.map((m, i) => (
+          <span class="spiral__label spiral__label--mv" data-spiral-mv={i} data-element={QUARTET_BY_CODE[m.quartet].element}>
+            {m.roman}
+          </span>
+        ))
+      }
       <span class="spiral__label spiral__label--here" data-spiral-here hidden>You were here</span>
+      <div class="spiral__tip" data-spiral-tip hidden></div>
     </div>
 
     <section class="spiral-ui spiral__panel" aria-labelledby="spiral-title">
       <p class="eyebrow">Explore</p>
       <h1 id="spiral-title">The Time Spiral</h1>
       <p class="spiral__lede">
-        The whole sequence at once: one turn for each quartet, rising from 1936 to 1942 around a still axis. Gold lights are notes, coloured
-        lights are motifs. Drag to turn, scroll or pinch to zoom, choose a light to read it.
+        One turn for each quartet, rising from 1936 to 1942 around a still axis. Every turn is cut into the same five movements, so each movement
+        sits directly above the last. Gold lights are notes; coloured lights are motifs. Drag to turn, scroll or pinch to zoom, choose a light to
+        read it.
       </p>
       <div class="spiral__controls" role="group" aria-label="View">
         <label class="switch"><input type="checkbox" data-layer="notes" checked /> <span>Notes</span></label>
@@ -66,6 +121,26 @@ const json = JSON.stringify(data).replace(/</g, "\\u003c");
           <button class="icon-btn" type="button" data-cue="zoom-out" aria-label="Zoom out">−</button>
           <button class="btn" type="button" data-cue="reset">Reset view</button>
         </span>
+        <button class="btn spiral__browse" type="button" data-cue="browse">Step through the notes</button>
+      </div>
+      <div class="spiral__motifs" role="group" aria-labelledby="spiral-motifs-title">
+        <p class="spiral__sub" id="spiral-motifs-title">Follow a motif</p>
+        <div class="spiral__chips">
+          {
+            followable.map((k) => {
+              const total = k.counts.reduce((a, b) => a + b, 0);
+              return (
+                <button type="button" class="motif-chip spiral__chip" data-motif={k.id} data-href={k.href} aria-pressed="false" style={`--motif: ${k.color}`}>
+                  {k.name}
+                  <span class="spiral__chip-n" aria-hidden="true">
+                    {total}
+                  </span>
+                  <span class="sr-only"> ({total} occurrences)</span>
+                </button>
+              );
+            })
+          }
+        </div>
       </div>
       <details class="spiral__list" open>
         <summary>The movements</summary>

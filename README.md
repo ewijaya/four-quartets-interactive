@@ -37,7 +37,10 @@ the gaps that remain).
 - **Scenes** — one WebGL scene per element (air, earth, water, fire), tile transitions
   at movement boundaries, illustrated stills for reduced motion.
 - **Explore** — the Still Point home, a Movement Map and side-by-side comparison, a
-  Time Spiral, a Motif Tracer and an Atlas of places and sources.
+  Time Spiral, a Motif Tracer and an Atlas of places and sources. The Time Spiral has one
+  turn per quartet, each cut into the same five movements so the movements line up in
+  columns; hover a light for a preview, open its card and step along the notes, or follow
+  a motif as a thread up the helix (`/spiral?motif=rose` opens with one already followed).
 - **Soundscape and search** — a generated drone per quartet (off by default) and
   Pagefind search over lines, notes and motifs.
 
