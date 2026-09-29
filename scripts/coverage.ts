@@ -11,6 +11,7 @@ import { loadText } from "../src/lib/text/load";
 import { resolveAnchor, resolveLemma, type LemmaTarget } from "../src/lib/anchors/resolve";
 import { readAnnotationFiles } from "../src/lib/annotations/files";
 import { loadGlosses } from "../src/lib/annotations/glosses";
+import { QUOTE_MAX, longQuotes, quoteIndex, type LongQuote } from "../src/lib/annotations/quotes";
 import { QUARTET_BY_CODE, ROMAN } from "../src/data/quartets";
 import { ANNOTATION_TYPES, QUARTET_CODES, type AnnotationMeta, type Gloss, type MovementN, type QuartetCode } from "../src/lib/model";
 
@@ -68,6 +69,22 @@ function bare(n: number, have: Set<number>, min: number): Array<[number, number]
   }
   return out;
 }
+// Quotations longer than RIGHTS.md allows (checked against the full text only).
+const quoteIdx = sample ? undefined : quoteIndex(bundle.quartets);
+const quoted: Array<{ id: string; runs: LongQuote[] }> = [];
+if (quoteIdx) {
+  for (const f of files) {
+    const runs = longQuotes(`${f.meta!.title}\n${f.body}`, quoteIdx);
+    if (runs.length) quoted.push({ id: f.meta!.id, runs });
+  }
+  for (const g of glosses) {
+    const runs = longQuotes(g.gloss, quoteIdx);
+    if (runs.length) quoted.push({ id: `gloss ${g.id}`, runs });
+  }
+}
+const quoteLine = (q: { id: string; runs: LongQuote[] }) =>
+  `- [ ] \`${q.id.replace(/^gloss /, "")}\`${q.id.startsWith("gloss ") ? " (gloss)" : ""} · ${q.runs.map((r) => `${r.words} words from ${r.line}`).join(", ")}`;
+
 const pct = (a: number, b: number) => (b ? `${Math.round((100 * a) / b)}%` : "—");
 const where = (c: Pick<Cov, "code" | "m">) => `${c.code} ${ROMAN[c.m]}`;
 const nonCommentary = (c: Cov) => c.notes.filter((n) => n.type !== "commentary");
@@ -145,6 +162,14 @@ md.push("", "Glosses by kind:", "");
 const kinds = [...new Set(glosses.map((g) => g.kind))].sort();
 md.push(kinds.length ? kinds.map((k) => `${k} ${glosses.filter((g) => g.kind === k).length}`).join(" · ") : "None yet.", "");
 
+md.push("## Long quotations", "");
+if (!quoteIdx) md.push("Not checked: needs the full text (`content/text-private/`).", "");
+else
+  md.push(
+    `Notes and glosses quoting more than ${QUOTE_MAX} consecutive words of the poem (RIGHTS.md): ${quoted.length ? `**${quoted.length}**, listed at the top of \`reports/review-queue.md\`.` : "none. ✓"}`,
+    "",
+  );
+
 // Review status
 const cites = [...notes.flatMap((n) => n.sources), ...glosses.flatMap((g) => g.sources)];
 const verified = cites.filter((c) => c.status === "verified").length;
@@ -193,6 +218,17 @@ const rq: string[] = [
   "each citation whose locator you have checked. Re-run `npm run coverage` to refresh this list.",
   "",
 ];
+if (quoted.length) {
+  rq.push(
+    `## Quotations over ${QUOTE_MAX} words`,
+    "",
+    `RIGHTS.md allows the poem to be quoted in phrases of ${QUOTE_MAX} words or fewer. Paraphrase these, or shorten the`,
+    "quotation. A run may be a public-domain source the poem itself quotes (Julian, the *Cloud*), which is fine.",
+    "",
+    ...quoted.map(quoteLine),
+    "",
+  );
+}
 const toVerify = (xs: { status: string }[]) => xs.filter((c) => c.status === "to-verify").length;
 for (const code of QUARTET_CODES) {
   const qn = notes.filter((n) => n.anchor.quartet === code && !n.reviewed);
@@ -222,6 +258,7 @@ writeFileSync("reports/review-queue.md", rq.join("\n"));
 
 console.log(
   `coverage (${bundle.source}): ${totals.glossed}/${totals.lines} lines annotated (${pct(totals.glossed, totals.lines)}), ` +
-    `${totals.commented} with commentary; ${stretches.length} bare stretch(es) of ${BARE_MIN}+ lines.`,
+    `${totals.commented} with commentary; ${stretches.length} bare stretch(es) of ${BARE_MIN}+ lines` +
+    (quoteIdx ? `; ${quoted.length} note(s) quoting more than ${QUOTE_MAX} words.` : "."),
 );
 console.log("→ reports/coverage.md, reports/coverage.json, reports/review-queue.md");
