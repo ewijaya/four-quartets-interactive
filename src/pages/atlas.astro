@@ -31,8 +31,21 @@ const fmt = (v: number, pos: string, neg: string) => `${Math.abs(v).toFixed(2)}Â
     </p>
     <div class="atlas__grid">
       <div class="atlas__globe-wrap">
-        <div class="atlas__globe" data-globe aria-hidden="true"></div>
-        <p class="atlas__hint">Drag to turn the globe. Choose a place to go to it.</p>
+        <div class="atlas__stage">
+          <div class="atlas__globe" data-globe aria-hidden="true"></div>
+          <p class="atlas__nudge" data-globe-nudge aria-hidden="true"><span>Use <span data-mod>Ctrl</span> + scroll to zoom the globe</span></p>
+        </div>
+        <div class="atlas__tools" role="group" aria-label="Globe view" data-globe-tools hidden>
+          <button class="icon-btn" type="button" data-view="in" aria-label="Zoom in" title="Zoom in">+</button>
+          <button class="icon-btn" type="button" data-view="out" aria-label="Zoom out" title="Zoom out">âˆ’</button>
+          <button class="btn" type="button" data-view="whole">Whole globe</button>
+          <span class="atlas__scale" data-scale aria-hidden="true" hidden><span class="atlas__scale-bar" data-scale-bar></span><span data-scale-label></span></span>
+        </div>
+        <p class="atlas__hint">
+          <span class="atlas__hint-fine">Drag to turn the globe; pinch, double-click or <span data-mod>Ctrl</span> + scroll to zoom.</span>
+          <span class="atlas__hint-touch">Drag to turn the globe; pinch to zoom.</span>
+          Choose a place to see it with the places it is joined to.
+        </p>
       </div>
       <div class="atlas__side">
         <nav class="atlas__list" aria-label="Places">

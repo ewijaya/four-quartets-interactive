@@ -1043,11 +1043,80 @@ body.spiral-static .spiral__controls {
   width: 100%;
   height: auto;
   cursor: grab;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.atlas__globe svg.is-dragging {
+  cursor: grabbing;
+}
+.atlas__stage {
+  position: relative;
+}
+/* "Use Ctrl + scroll to zoom": shown briefly when a plain scroll passes over the globe. */
+.atlas__nudge {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--t-1) var(--ease);
+}
+.atlas__nudge > span {
+  padding: 0.5rem 0.9rem;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--bg) 90%, transparent);
+  color: var(--ink);
+  font-size: 0.95rem;
+}
+.atlas__nudge.is-on {
+  opacity: 1;
+}
+.atlas__tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  margin-top: var(--s-2);
+}
+.atlas__tools .icon-btn {
+  font-size: 1.3rem;
+  border: 1px solid var(--rule);
+}
+.atlas__scale {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  margin-left: var(--s-3);
+  font-size: 0.75rem;
+  color: var(--ink-faint);
+  font-variant-numeric: tabular-nums;
+}
+.atlas__scale-bar {
+  display: block;
+  height: 5px;
+  border: 1px solid var(--ink-soft);
+  border-top: 0;
 }
 .atlas__hint {
   font-size: 0.82rem;
   color: var(--ink-faint);
   text-align: center;
+}
+.atlas__hint-touch {
+  display: none;
+}
+@media (pointer: coarse) {
+  .atlas__hint-fine {
+    display: none;
+  }
+  .atlas__hint-touch {
+    display: inline;
+  }
 }
 .globe__sphere {
   fill: var(--surface-2);

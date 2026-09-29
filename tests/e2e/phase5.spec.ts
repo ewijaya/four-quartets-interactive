@@ -52,6 +52,40 @@ test.describe("search, notes, atlas, sound, print", () => {
     void errors;
   });
 
+  test("atlas: the globe zooms, and a chosen place is framed with the places joined to it", async ({ page, errors, isMobile }) => {
+    await page.goto("/atlas");
+    const globe = page.locator("[data-globe]");
+    const zoom = async () => Number(await globe.getAttribute("data-zoom"));
+    await expect(globe).toHaveAttribute("data-zoom", "1.00");
+    await expect(page.locator("[data-scale]")).toBeHidden();
+    await page.locator('[data-view="in"]').click();
+    await expect.poll(zoom).toBeCloseTo(2, 1);
+    await expect(page.locator("[data-scale]")).toBeVisible();
+    await page.locator('[data-view="whole"]').click();
+    await expect(globe).toHaveAttribute("data-zoom", "1.00");
+    // Little Gidding's sources are all in western Europe, so the globe closes in on them.
+    await page.locator('[data-place="little-gidding"]').click();
+    await expect.poll(zoom).toBeGreaterThan(3);
+    // Kurukshetra is joined to Cape Ann, half a world away: the whole globe again.
+    await page.locator('[data-place="kurukshetra"]').click();
+    await expect(globe).toHaveAttribute("data-zoom", "1.00");
+    if (!isMobile) {
+      const box = (await globe.boundingBox())!;
+      await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+      // A plain scroll is left to the page; Ctrl + scroll (or a trackpad pinch) zooms.
+      await page.mouse.wheel(0, -100);
+      await expect(page.locator("[data-globe-nudge]")).toHaveClass(/is-on/);
+      await expect(globe).toHaveAttribute("data-zoom", "1.00");
+      const moved = (await globe.boundingBox())!;
+      await page.mouse.move(moved.x + moved.width / 2, moved.y + moved.height / 2);
+      await page.keyboard.down("Control");
+      await page.mouse.wheel(0, -100);
+      await page.keyboard.up("Control");
+      await expect.poll(zoom).toBeGreaterThan(1.2);
+    }
+    void errors;
+  });
+
   test("soundscape toggles on and off without errors", async ({ page, errors }) => {
     test.skip((page.viewportSize()?.width ?? 0) < 520, "the header button is desktop-only; the menu has one");
     await setPrefs(page, { scenes: false });
