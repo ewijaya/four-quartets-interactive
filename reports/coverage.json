@@ -3,56 +3,56 @@
   "totals": {
     "lines": 887,
     "notes": 174,
-    "glosses": 0,
-    "comm": 0,
-    "glossed": 263,
-    "commented": 0
+    "glosses": 30,
+    "comm": 17,
+    "glossed": 279,
+    "commented": 177
   },
   "movements": [
     {
       "movement": "BN I",
       "lines": 48,
       "notes": 20,
-      "glosses": 0,
-      "commentary": 0,
-      "annotatedLines": 26,
-      "commentedLines": 0
+      "glosses": 5,
+      "commentary": 5,
+      "annotatedLines": 28,
+      "commentedLines": 48
     },
     {
       "movement": "BN II",
       "lines": 44,
       "notes": 13,
-      "glosses": 0,
-      "commentary": 0,
-      "annotatedLines": 13,
-      "commentedLines": 0
+      "glosses": 7,
+      "commentary": 4,
+      "annotatedLines": 16,
+      "commentedLines": 44
     },
     {
       "movement": "BN III",
       "lines": 37,
       "notes": 9,
-      "glosses": 0,
-      "commentary": 0,
-      "annotatedLines": 9,
-      "commentedLines": 0
+      "glosses": 13,
+      "commentary": 3,
+      "annotatedLines": 18,
+      "commentedLines": 37
     },
     {
       "movement": "BN IV",
       "lines": 10,
       "notes": 5,
-      "glosses": 0,
-      "commentary": 0,
-      "annotatedLines": 4,
-      "commentedLines": 0
+      "glosses": 2,
+      "commentary": 1,
+      "annotatedLines": 5,
+      "commentedLines": 10
     },
     {
       "movement": "BN V",
       "lines": 39,
       "notes": 13,
-      "glosses": 0,
-      "commentary": 0,
-      "annotatedLines": 13,
-      "commentedLines": 0
+      "glosses": 3,
+      "commentary": 4,
+      "annotatedLines": 14,
+      "commentedLines": 38
     },
     {
       "movement": "EC I",

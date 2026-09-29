@@ -1,6 +1,6 @@
 # Annotation coverage
 
-Text: **private** (Ricks & McCue, The Poems of T. S. Eliot I (Faber 2015)) · generated 2026-09-29T01:00:34.327Z
+Text: **private** (Ricks & McCue, The Poems of T. S. Eliot I (Faber 2015)) · generated 2026-09-29T01:28:28.597Z
 
 A line counts as *annotated* when a note's lemma or range, or a word gloss, touches it;
 *commentary* is the running paraphrase (`type: commentary`), which aims to cover every line.
@@ -9,21 +9,21 @@ A line counts as *annotated* when a note's lemma or range, or a word gloss, touc
 
 | Quartet | Lines | Notes | Glosses | Commentary passages | Lines annotated | Lines with commentary |
 |---|---:|---:|---:|---:|---:|---:|
-| Burnt Norton | 178 | 64 | 0 | 0 | 65 (37%) | 0 (0%) |
+| Burnt Norton | 178 | 64 | 30 | 17 | 81 (46%) | 177 (99%) |
 | East Coker | 211 | 37 | 0 | 0 | 34 (16%) | 0 (0%) |
 | The Dry Salvages | 237 | 33 | 0 | 0 | 64 (27%) | 0 (0%) |
 | Little Gidding | 261 | 40 | 0 | 0 | 100 (38%) | 0 (0%) |
-| **All** | **887** | **174** | **0** | **0** | **263 (30%)** | **0 (0%)** |
+| **All** | **887** | **174** | **30** | **17** | **279 (31%)** | **177 (20%)** |
 
 ## By movement
 
 | Movement | Lines | Notes (reader / scholar) | Glosses | Annotated | Commentary | Longest stretch with no note or gloss |
 |---|---:|---:|---:|---:|---:|---|
-| BN I | 48 | 20 (12 / 8) | 0 | 54% | 0% | 18–22 (5) |
-| BN II | 44 | 13 (7 / 6) | 0 | 30% | 0% | 22–27 (6) |
-| BN III | 37 | 9 (4 / 5) | 0 | 24% | 0% | 4–11 (8) |
-| BN IV | 10 | 5 (3 / 2) | 0 | 40% | 0% | 4–6 (3) |
-| BN V | 39 | 13 (10 / 3) | 0 | 33% | 0% | 28–32 (5) |
+| BN I | 48 | 20 (12 / 8) | 5 | 58% | 100% | 18–22 (5) |
+| BN II | 44 | 13 (7 / 6) | 7 | 36% | 100% | 22–27 (6) |
+| BN III | 37 | 9 (4 / 5) | 13 | 49% | 100% | 4–9 (6) |
+| BN IV | 10 | 5 (3 / 2) | 2 | 50% | 100% | 5–6 (2) |
+| BN V | 39 | 13 (10 / 3) | 3 | 36% | 97% | 2–5 (4) |
 | EC I | 51 | 9 (7 / 2) | 0 | 18% | 0% | 16–27 (12) |
 | EC II | 50 | 8 (3 / 5) | 0 | 16% | 0% | 27–39 (13) |
 | EC III | 47 | 7 (5 / 2) | 0 | 15% | 0% | 37–47 (11) |
@@ -63,7 +63,6 @@ Runs of 8 or more lines with no note or gloss, longest first: the places to writ
 - DS V 41–49 (9 lines)
 - LG I 38–46 (9 lines)
 - LG IV 2–10 (9 lines)
-- BN III 4–11 (8 lines)
 - DS I 38–45 (8 lines)
 - DS V 19–26 (8 lines)
 - LG I 2–9 (8 lines)
@@ -73,7 +72,7 @@ Runs of 8 or more lines with no note or gloss, longest first: the places to writ
 
 ## Lines without commentary
 
-BN I 1–48 · BN II 1–44 · BN III 1–37 · BN IV 1–10 · BN V 1–39 · EC I 1–51 · EC II 1–50 · EC III 1–47 · EC IV 1–25 · EC V 1–38 · DS I 1–50 · DS II 1–75 · DS III 1–47 · DS IV 1–15 · DS V 1–50 · LG I 1–55 · LG II 1–96 · LG III 1–50 · LG IV 1–14 · LG V 1–46
+BN V 39 · EC I 1–51 · EC II 1–50 · EC III 1–47 · EC IV 1–25 · EC V 1–38 · DS I 1–50 · DS II 1–75 · DS III 1–47 · DS IV 1–15 · DS V 1–50 · LG I 1–55 · LG II 1–96 · LG III 1–50 · LG IV 1–14 · LG V 1–46
 
 ## Note types
 
@@ -88,18 +87,18 @@ BN I 1–48 · BN II 1–44 · BN III 1–37 · BN IV 1–10 · BN V 1–39 · E
 | theme | 24 | 12 | 10 | 12 | 58 |
 | crossref | 8 | 3 | 1 | 3 | 15 |
 | textual | 5 | 0 | 0 | 0 | 5 |
-| commentary | 0 | 0 | 0 | 0 | 0 |
+| commentary | 17 | 0 | 0 | 0 | 17 |
 
 Glosses by kind:
 
-None yet.
+archaic 1 · coinage 1 · foreign 1 · name 5 · rare 2 · sense 18 · technical 2
 
 ## Review
 
 | | Signed off | Waiting |
 |---|---:|---:|
-| Notes | 0 | 174 |
-| Glosses | 0 | 0 |
-| Citations | 21 verified | 106 to verify |
+| Notes | 0 | 191 |
+| Glosses | 0 | 30 |
+| Citations | 53 verified | 106 to verify |
 
 The checklist is in `reports/review-queue.md`; citations by work in `reports/citations-to-verify.md`.

@@ -15,17 +15,21 @@ each citation whose locator you have checked. Re-run `npm run coverage` to refre
 
 ### I
 
+- [ ] `bn-brief-1-1` · commentary · interpretive · ll. 1–10
 - [ ] `bn-opening-meditation` · prosody · interpretive · ll. 1–10 · 1 citation to verify
 - [ ] `bn-time-present` · theme · interpretive · l. 1 · 2 citations to verify
 - [ ] `bn-might-have-been` · theme · interpretive · l. 6 · 1 citation to verify
+- [ ] `bn-brief-1-2` · commentary · interpretive · ll. 11–18
 - [ ] `bn-footfalls` · theme · interpretive · l. 11
 - [ ] `bn-my-words-echo` · prosody · interpretive · l. 14
 - [ ] `bn-rose-garden` · allusion · interpretive · l. 14 · 3 citations to verify
 - [ ] `bn-rose-leaves` · theme · interpretive · l. 17
+- [ ] `bn-brief-1-3` · commentary · interpretive · ll. 19–29
 - [ ] `bn-first-world` · theme · interpretive · l. 23
 - [ ] `bn-thrush` · crossref · interpretive · l. 24
 - [ ] `bn-they` · allusion · interpretive · l. 25 · 2 citations to verify
 - [ ] `bn-unheard-music` · allusion · interpretive · l. 29
+- [ ] `bn-brief-1-4` · commentary · interpretive · ll. 30–41
 - [ ] `bn-eyebeam` · allusion · interpretive · l. 30 · 1 citation to verify
 - [ ] `bn-box-circle` · place · interpretive · l. 34 · 1 citation to verify
 - [ ] `bn-drained-pool` · place · interpretive · l. 35 · 1 citation to verify
@@ -33,60 +37,103 @@ each citation whose locator you have checked. Re-run `npm run coverage` to refre
 - [ ] `bn-lotos` · allusion · interpretive · l. 38 · 1 citation to verify
 - [ ] `bn-heart-of-light` · crossref · established · l. 39
 - [ ] `bn-cloud-passed` · theme · interpretive · l. 41
+- [ ] `bn-brief-1-5` · commentary · interpretive · ll. 42–48
 - [ ] `bn-children-leaves` · crossref · interpretive · l. 42 · 1 citation to verify
 - [ ] `bn-human-kind` · textual · established · l. 45 · 1 citation to verify
+- [ ] gloss `bn-1-unredeemable` · sense · l. 5
+- [ ] gloss `bn-1-speculation` · sense · l. 8
+- [ ] gloss `bn-1-towards` · sense · l. 13
+- [ ] gloss `bn-1-vibrant-air` · sense · l. 27
+- [ ] gloss `bn-1-lotos` · name · l. 38
 
 ### II
 
+- [ ] `bn-brief-2-1` · commentary · interpretive · ll. 1–15
 - [ ] `bn-garlic-sapphires` · prosody · interpretive · l. 1 · 2 citations to verify
 - [ ] `bn-axle-tree` · textual · interpretive · l. 2 · 1 citation to verify
 - [ ] `bn-trilling-wire` · theme · interpretive · l. 3
 - [ ] `bn-drift-of-stars` · theme · interpretive · l. 8
 - [ ] `bn-boarhound` · allusion · interpretive · l. 13
+- [ ] `bn-brief-2-2` · commentary · interpretive · ll. 16–23
 - [ ] `bn-still-point` · theme · interpretive · l. 16 · 2 citations to verify
 - [ ] `bn-dance` · theme · interpretive · l. 21 · 1 citation to verify
+- [ ] `bn-brief-2-3` · commentary · interpretive · ll. 24–32
 - [ ] `bn-erhebung` · textual · interpretive · l. 28
+- [ ] `bn-brief-2-4` · commentary · interpretive · ll. 33–44
 - [ ] `bn-enchainment` · theme · interpretive · l. 33
 - [ ] `bn-heaven-damnation` · theme · interpretive · l. 35
 - [ ] `bn-three-moments` · theme · interpretive · l. 41
 - [ ] `bn-smokefall` · textual · interpretive · l. 42 · 1 citation to verify
 - [ ] `bn-time-conquered` · theme · interpretive · l. 44 · 1 citation to verify
+- [ ] gloss `bn-2-axle-tree` · archaic · l. 2
+- [ ] gloss `bn-2-inveterate` · sense · l. 4
+- [ ] gloss `bn-2-lymph` · technical · l. 7
+- [ ] gloss `bn-2-figured-leaf` · sense · l. 11
+- [ ] gloss `bn-2-erhebung` · foreign · l. 28
+- [ ] gloss `bn-2-arbour` · sense · l. 41
+- [ ] gloss `bn-2-smokefall` · coinage · l. 42
 
 ### III
 
+- [ ] `bn-brief-3-1` · commentary · interpretive · ll. 1–9
 - [ ] `bn-disaffection` · place · established · l. 1 · 1 citation to verify
 - [ ] `bn-dim-light` · allusion · interpretive · l. 3 · 1 citation to verify
+- [ ] `bn-brief-3-2` · commentary · interpretive · ll. 10–24
 - [ ] `bn-distraction` · prosody · interpretive · l. 12
 - [ ] `bn-bits-of-paper` · allusion · interpretive · l. 15 · 1 citation to verify
 - [ ] `bn-london-districts` · place · established · l. 22
+- [ ] `bn-brief-3-3` · commentary · interpretive · ll. 25–37
 - [ ] `bn-descend-lower` · source · interpretive · l. 25 · 2 citations to verify
 - [ ] `bn-desiccation` · source · interpretive · l. 30 · 1 citation to verify
 - [ ] `bn-one-way` · crossref · interpretive · l. 33
 - [ ] `bn-metalled-ways` · textual · established · l. 36
+- [ ] gloss `bn-3-disaffection` · sense · l. 1
+- [ ] gloss `bn-3-plenitude` · sense · l. 10
+- [ ] gloss `bn-3-tumid` · sense · l. 14
+- [ ] gloss `bn-3-eructation` · rare · l. 19
+- [ ] gloss `bn-3-torpid` · sense · l. 20
+- [ ] gloss `bn-3-campden` · name · l. 22
+- [ ] gloss `bn-3-primrose` · name · l. 23
+- [ ] gloss `bn-3-twittering` · sense · l. 24
+- [ ] gloss `bn-3-destitution` · sense · l. 29
+- [ ] gloss `bn-3-evacuation` · sense · l. 31
+- [ ] gloss `bn-3-inoperancy` · rare · l. 32
+- [ ] gloss `bn-3-appetency` · technical · l. 36
+- [ ] gloss `bn-3-metalled` · sense · l. 36
 
 ### IV
 
 - [ ] `bn-lyric-iv` · prosody · established · 1 citation to verify
 - [ ] `bn-bell-buried` · theme · interpretive · l. 1
+- [ ] `bn-brief-4-1` · commentary · interpretive · ll. 1–10
 - [ ] `bn-sunflower` · allusion · interpretive · l. 3 · 1 citation to verify
 - [ ] `bn-yew` · theme · interpretive · l. 7
 - [ ] `bn-kingfisher` · theme · interpretive · l. 8 · 1 citation to verify
+- [ ] gloss `bn-4-clematis` · name · l. 3
+- [ ] gloss `bn-4-tendril-and-spray` · sense · l. 4
 
 ### V
 
+- [ ] `bn-brief-5-1` · commentary · interpretive · ll. 1–13
 - [ ] `bn-words-music` · theme · interpretive · l. 1 · 1 citation to verify
 - [ ] `bn-chinese-jar` · allusion · interpretive · l. 6
 - [ ] `bn-violin` · theme · interpretive · l. 8
 - [ ] `bn-end-precedes` · crossref · interpretive · l. 10
+- [ ] `bn-brief-5-2` · commentary · interpretive · ll. 14–21
 - [ ] `bn-words-strain` · theme · interpretive · l. 14
 - [ ] `bn-word-in-desert` · allusion · established · l. 18
 - [ ] `bn-chimera` · allusion · interpretive · l. 21 · 1 citation to verify
+- [ ] `bn-brief-5-3` · commentary · interpretive · ll. 22–31
 - [ ] `bn-ten-stairs` · source · established · l. 23 · 1 citation to verify
 - [ ] `bn-love-unmoving` · theme · interpretive · l. 26 · 2 citations to verify
+- [ ] `bn-brief-5-4` · commentary · interpretive · ll. 32–38
 - [ ] `bn-shaft-sunlight` · crossref · interpretive · l. 32
 - [ ] `bn-hidden-laughter` · crossref · interpretive · l. 34
 - [ ] `bn-quick-now` · crossref · established · l. 36
 - [ ] `bn-waste-sad-time` · theme · interpretive · l. 37
+- [ ] gloss `bn-5-disconsolate` · sense · l. 21
+- [ ] gloss `bn-5-chimera` · name · l. 21
+- [ ] gloss `bn-5-un-being` · sense · l. 31
 
 ## East Coker
 

@@ -6,7 +6,7 @@ import { getCollection, type CollectionEntry } from "astro:content";
 import { loadText } from "./text/load";
 import { resolveAnchor, resolveLemma, type LemmaTarget } from "./anchors/resolve";
 import { CUES } from "../data/cues";
-import { renderSegments, segmentLine, type LineMark } from "./anchors/segment";
+import { escapeHtml, renderSegments, segmentLine, type LineMark } from "./anchors/segment";
 import { toMeta } from "./annotations/schema";
 import { loadGlosses } from "./annotations/glosses";
 import type { AnnotationMeta, Gloss, Line, MovementN, QuartetCode, QuartetText, ResolvedAnchor, TextSource } from "./model";
@@ -199,10 +199,19 @@ export async function buildQuartetView(code: QuartetCode): Promise<QuartetView> 
     }
   }
 
+  // Commentary passages get a pilcrow at their first line (small screens, where there is no margin).
+  const passageMarks = new Map<string, string>();
+  for (const n of notes) {
+    const first = n.resolved.lines[0];
+    if (n.meta.type !== "commentary" || n.resolved.kind !== "range" || !first) continue;
+    const mark = `<a class="anchor passage-mark" href="#n-${n.meta.id}" data-notes="${n.meta.id}" data-level="${n.meta.level}" aria-label="In brief: ${escapeHtml(n.meta.title)}" data-pagefind-ignore>¶</a>`;
+    passageMarks.set(first, (passageMarks.get(first) ?? "") + mark);
+  }
+
   const lineVM = (l: Line): LineVM => ({
     id: l.id,
     n: l.n,
-    html: renderSegments(segmentLine(l.text, marks.get(l.id) ?? [])),
+    html: renderSegments(segmentLine(l.text, marks.get(l.id) ?? [])) + (passageMarks.get(l.id) ?? ""),
     plain: l.text,
     indent: l.indent,
     step: !!l.step,

@@ -907,6 +907,38 @@
   font-size: 0.75rem;
   color: var(--ink-faint);
 }
+/* A commentary passage's pilcrow: small screens only (wide screens have the margin). */
+.passage-mark {
+  display: inline-block;
+  min-width: 24px;
+  min-height: 24px;
+  margin-left: 0.3em;
+  text-align: center;
+  font-family: var(--font-display-stack);
+  font-size: 0.9em;
+  line-height: 1;
+  color: var(--rubric);
+  text-decoration: none !important;
+  text-indent: 0;
+  vertical-align: 0.05em;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.passage-mark:not([href]),
+:root[data-density="clean"] .passage-mark {
+  display: none;
+}
+@media (min-width: 1100px) {
+  .passage-mark {
+    display: none;
+  }
+}
+@media print {
+  .passage-mark {
+    display: none !important;
+  }
+}
+
 /* --------------------------------------------------------- word glosses and the word popover */
 
 /* A glossed word: a faint dotted rule, quieter than a note's underline. */

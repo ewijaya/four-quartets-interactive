@@ -177,8 +177,11 @@ export function initReader(root: HTMLElement): () => void {
     });
   }
 
+  /** The first anchor of a note that is actually rendered (pilcrows are hidden on wide screens). */
+  const shownAnchor = (id: string) => (anchorsFor.get(id) ?? []).find((x) => x.getClientRects().length > 0);
+
   function anchorY(n: NoteInfo, asideTop: number): number {
-    const a = (anchorsFor.get(n.id) ?? [])[0];
+    const a = shownAnchor(n.id);
     if (a) return a.getBoundingClientRect().top - asideTop - 4;
     const first = n.lines[0];
     if (first) {
@@ -288,7 +291,7 @@ export function initReader(root: HTMLElement): () => void {
       const li = toggle.closest<HTMLElement>("li.note")!;
       const id = li.dataset.note!;
       if (openIds.includes(id) && pinned) clearOpen();
-      else openNotes([id], { pin: true, from: (anchorsFor.get(id) ?? [])[0] ?? null, focus: false });
+      else openNotes([id], { pin: true, from: shownAnchor(id) ?? null, focus: false });
       return;
     }
     if (toggle && !WIDE.matches) {
@@ -453,7 +456,7 @@ export function initReader(root: HTMLElement): () => void {
   function focusNote(id: string) {
     const n = notes.get(id);
     if (!n) return;
-    const a = (anchorsFor.get(id) ?? [])[0];
+    const a = shownAnchor(id);
     const target = a ?? (n.lines[0] ? root.querySelector<HTMLElement>(`[data-line="${n.lines[0]}"]`) : null) ?? n.el.closest("section");
     target?.scrollIntoView({ block: "center", behavior: reducedMotion() ? "auto" : "smooth" });
     if (!visible(id)) return;
@@ -556,7 +559,7 @@ export function initReader(root: HTMLElement): () => void {
     target?.scrollIntoView({ behavior: reducedMotion() ? "auto" : "smooth", block: "start" });
   };
   const anchorJump = (dir: 1 | -1) => {
-    const live = anchors.filter((a) => a.hasAttribute("href"));
+    const live = anchors.filter((a) => a.hasAttribute("href") && a.getClientRects().length > 0);
     if (!live.length) return;
     const cur = document.activeElement as HTMLElement;
     let i = live.indexOf(cur);
